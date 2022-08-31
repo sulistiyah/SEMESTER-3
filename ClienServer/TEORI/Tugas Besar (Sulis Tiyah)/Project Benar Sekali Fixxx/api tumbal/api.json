@@ -1,0 +1,383 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "Selamat Datang Mahasiswa. Silahkan Masukan Data Diri Anda ! ! !",
+        "version": "1",
+        "title": "Form Mahasiswa",
+        "contact": {
+            "name": "Sulis Tiyah",
+            "email": "sulistyhm.03@gmail.com",
+            "url":"https://instagram.com/sulistyh_?utm_medium=copy_link"
+        },
+        "license": {
+            "name": "Politeknik Negeri Padang",
+            "url": "https://www.pnp.ac.id/"
+        }
+    },
+    "externalDocs": {
+        "description": "Youtube Politeknik Negeri Padang",
+        "url": "https://youtube.com/channel/UC2MuoZgzxy2E59qLKkcE_Bw"
+    },
+    "schemes": [
+        "http://localhost:4567/"
+    ],
+    "paths": {
+        "/register": {
+            "post": {
+                "security": [
+                    {
+                      "RegisterAuth":[]
+                    }
+                  ],
+                "tags": ["Register"],
+                "summary": "Create New Register  ",
+                "description": "Create A New Register To Database",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "required": true,
+                        "description": "Create New Register",
+                        "schema": {
+                            "$ref": "#/definitions/Register"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success Create Register",
+                        "schema": {
+                            "$ref": "#/definitions/Register"
+                        }
+                    },
+                    "400": {
+                        "description": "Failed CreateRegister"
+                    }
+                }
+            }
+        },
+        "/login": {
+            "post": {
+                "security": [
+                    {
+                      "LoginAuth":[]
+                    }
+                  ],
+                "tags": ["Login"],
+                "summary": "Create New Login  ",
+                "description": "Create A New Login To Database",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "required": true,
+                        "description": "Create New Login",
+                        "schema": {
+                            "$ref": "#/definitions/Login"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success Create Login",
+                        "schema": {
+                            "$ref": "#/definitions/Login"
+                        }
+                    },
+                    "400": {
+                        "description": "Failed Create Login"
+                    }
+                }
+            }
+        },
+        "/form_mahasiswa": {
+            "post": {
+                "security": [
+                    {
+                      "FormMahasiswaAuth":[]
+                    }
+                  ],
+                "tags": ["Form Mahasiswa"],
+                "summary": "Create New Form Mahasiswa  ",
+                "description": "Create A New Form Mahasiswa To Database",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "Create New Form Mahasiswa",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/FormMahasiswa"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success Create Form Mahasiswa",
+                        "schema": {
+                            "$ref": "#/definitions/FormMahasiswa"
+                        }
+                    },
+                    "400": {
+                        "description": "Failed Create Form Mahasiswa"
+                    }
+                }
+            },
+            "get": {
+                "security": [
+                    {
+                      "FormMahasiswaAuth":[]
+                    }
+                  ],
+                "tags": ["Form Mahasiswa"],
+                "summary": "Get All Form Mahasiswa",
+                "description": "Get All Active Form Mahasiswa By Default",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "Get All Form Mahasiswa",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/FormMahasiswa"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success Get All Form Mahasiswa",
+                        "schema": {
+                            "$ref": "#/definitions/FormMahasiswa"
+                        }
+                    },
+                    "404": {
+                        "description": "Failed Get All Form Mahasiswa"
+                    }
+                }
+            }
+        },    
+        "/form_mahasiswa/{no_bp}": {
+            "get": {
+                "security": [
+                    {
+                      "FormMahasiswaAuth":[]
+                    }
+                  ],
+                "tags": ["Form Mahasiswa"],
+                "summary": "Get Form Mahasiswa By No BP",
+                "description": "Get Active Form Mahasiswa By No BP",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "no_bp",
+                        "in": "path",
+                        "description": "Filter Form Mahasiswa By No BP",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success Get Form Mahasiswa By No BP",
+                        "schema": {
+                            "$ref": "#/definitions/FormMahasiswa"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid No BP Supplied"
+                    },
+                    "404": {
+                        "description": "No BP not found"
+                    }
+                }
+            },
+            "put": {
+                "security": [
+                    {
+                      "FormMahasiswaAuth":[]
+                    }
+                  ],
+                "tags": ["Form Mahasiswa"],
+                "summary": "Update Existing Form Mahasiswa",
+                "description": "Update Existing Form Mahasiswa In Database",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "no_bp",
+                        "in": "path",
+                        "description": "Filter Form Mahasiswa By No BP",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "Update Existing Form Mahasiswa In Database",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/FormMahasiswa"
+                        }
+                    }
+                ],
+                "responses": {
+                    "400": {
+                        "description": "Invalid No BP supplied"
+                    },
+                    "404": {
+                        "description": "No BP Not Found"
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                      "FormMahasiswaAuth":[]
+                    }
+                  ],
+                "tags": ["Form Mahasiswa"],
+                "summary": "Delete Existing Form Mahasiswa",
+                "description": "Delete Existing Form Mahasiswa In Database",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "no_bp",
+                        "in": "path",
+                        "description": "Filter Form Mahasiswa By No BP",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "400": {
+                        "description": "Invalid No BP Supplied"
+                    },
+                    "404": {
+                        "description": "No BP Not Found"
+                    }
+                }
+            }
+        }
+    },
+    "securityDefinitions": {
+        "RegisterAuth":{
+            "description": "Authentication For Register",
+            "type": "apiKey",
+            "in": "header",
+            "name": "X-API-Key"
+        },
+          "LoginAuth":{
+            "description": "Authentication For Login",
+            "type": "apiKey",
+            "in": "header",
+            "name": "X-API-Key"
+        },
+          "FormMahasiswaAuth":{
+            "description": "Authentication For Form Mahasiswa",
+            "type": "apiKey",
+            "in": "header",
+            "name": "X-API-Key"
+        },
+          "HasilFormMahasiswaAuth":{
+            "description": "Authentication For Hasil Form Mahasiswa",
+            "type": "apiKey",
+            "in": "header",
+            "name": "X-API-Key"
+        }  
+    },
+    "definitions": {
+        "Register": {
+            "type": "object",
+            "properties": {
+                "nama": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "username": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                },
+                "repassword": {
+                    "type": "string"
+                }
+            }    
+        },
+        "Login": {
+            "type": "object",
+            "properties": {
+                "username": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                }
+            }
+        },
+        "FormMahasiswa": {
+            "type": "object",
+            "properties": {
+                "no_bp" :{
+                    "type":"integer",
+                    "format": "int32"
+                },
+                "nama_lengkap":{
+                    "type":"string"
+                },
+                "jurusan":{
+                    "type":"string"
+                },
+                "prodi":{
+                    "type":"string"
+                },
+                "tempat_tanggal_lahir":{
+                    "type":"string"
+                },
+                "jenis_kelamin":{
+                    "type":"string"
+                },
+                "agama":{
+                    "type":"string"
+                },
+                "no_telp":{
+                    "type":"string"
+                },
+                "alamat":{
+                    "type":"string"
+                }
+            }
+        }
+    }
+}

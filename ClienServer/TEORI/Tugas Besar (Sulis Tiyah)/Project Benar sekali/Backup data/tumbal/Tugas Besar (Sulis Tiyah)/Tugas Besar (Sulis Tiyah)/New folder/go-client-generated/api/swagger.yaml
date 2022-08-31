@@ -1,0 +1,338 @@
+openapi: 3.0.2
+info:
+  title: Hello RESTful API Sutel
+  description: Hello Welcome to 'Sutelllll'
+  contact:
+    name: Sulis Tiyah
+    url: https://instagram.com/sulistyh_?utm_medium=copy_link
+    email: sulistyhm.03@gmail.com
+  license:
+    name: Politeknik Negeri Padang
+    url: https://www.pnp.ac.id/
+  version: "1"
+externalDocs:
+  description: Youtube Sulis Tiyah
+  url: https://youtu.be/a80xb3ZJTQA
+servers:
+- url: "https://{environment}.apipercobaansutel.com"
+  description: Hello Welcome to 'Sutelllll'
+  variables:
+    environment:
+      description: Server Environtment
+      default: dev
+      enum:
+      - dev
+      - qa
+      - prod
+paths:
+  /hello:
+    get:
+      tags:
+      - Hello
+      summary: Get all Hello
+      description: Get all active hello by default
+      parameters:
+      - name: include_done
+        in: query
+        description: Is include done hello
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: boolean
+          nullable: true
+          default: false
+      - name: name
+        in: query
+        description: Filter hello by name
+        required: false
+        style: form
+        explode: true
+        schema:
+          maxLength: 100
+          minLength: 1
+          type: string
+          nullable: true
+        examples:
+          java:
+            description: Example name Java
+            value: Java
+          php:
+            description: Example name PHP
+            value: PHP
+      responses:
+        "200":
+          description: Succes get all Hello
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ArrayHello'
+              examples:
+                success:
+                  description: Example success get all hello
+                  value:
+                  - id: "1"
+                    name: Java
+                    priority: 3
+                    tags:
+                    - Java
+                    - Programming
+                  - id: "2"
+                    name: PHP
+                    priority: 5
+                    tags:
+                    - PHP
+                    - Programming
+      security:
+      - HelloAuth: []
+    post:
+      tags:
+      - Hello
+      summary: Create new hello
+      description: Create new hello to database
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateOrUpdateHello'
+            examples:
+              java:
+                description: Example create hello Java
+                value:
+                  name: Java
+                  priority: 3
+                  tags:
+                  - Java
+                  - Programming
+              php:
+                description: Example create hello PHP
+                value:
+                  name: PHP
+                  priority: 5
+                  tags:
+                  - PHP
+                  - Programming
+        required: true
+      responses:
+        "200":
+          description: Success create hello
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Hello'
+              examples:
+                java:
+                  description: Success create Java hello
+                  value:
+                    id: "1"
+                    name: Java
+                    priority: 3
+                    tags:
+                    - Java
+                    - Programming
+                php:
+                  description: Success create PHP hello
+                  value:
+                    id: "2"
+                    name: PHP
+                    priority: 5
+                    tags:
+                    - PHP
+                    - Programming
+      security:
+      - HelloAuth: []
+  /hello/{helloId}:
+    put:
+      tags:
+      - Hello
+      summary: Update existing hello
+      description: Update existing hello in database
+      parameters:
+      - name: helloId
+        in: path
+        description: Hello id for updated
+        required: true
+        style: simple
+        explode: false
+        schema:
+          maxLength: 100
+          minLength: 1
+          type: string
+        examples:
+          java:
+            description: Sample hello id for Java
+            value: "1"
+          php:
+            description: Sample hello id for PHP
+            value: "2"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateOrUpdateHello'
+            examples:
+              java:
+                description: Example create hello Java
+                value:
+                  name: Java
+                  priority: 3
+                  tags:
+                  - Java
+                  - Programming
+              php:
+                description: Example create hello PHP
+                value:
+                  name: PHP
+                  priority: 5
+                  tags:
+                  - PHP
+                  - Programming
+        required: true
+      responses:
+        "200":
+          description: Success update hello
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Hello'
+              examples:
+                java:
+                  description: Success create Java hello
+                  value:
+                    id: "1"
+                    name: Java
+                    priority: 3
+                    tags:
+                    - Java
+                    - Programming
+                php:
+                  description: Success create PHP hello
+                  value:
+                    id: "2"
+                    name: PHP
+                    priority: 5
+                    tags:
+                    - PHP
+                    - Programming
+      security:
+      - HelloAuth: []
+    delete:
+      tags:
+      - Hello
+      summary: Delete existing hello
+      description: Delete existing hello in database
+      parameters:
+      - name: helloId
+        in: path
+        description: Hello id for updated
+        required: true
+        style: simple
+        explode: false
+        schema:
+          maxLength: 100
+          minLength: 1
+          type: string
+        examples:
+          java:
+            description: Sample hello id for Java
+            value: "1"
+          php:
+            description: Sample hello id for PHP
+            value: "2"
+      responses:
+        "200":
+          description: Success delete hello
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_200'
+              examples:
+                success:
+                  description: Success delete hello
+                  value:
+                    success: true
+        "404":
+          description: Failed delete not found hello
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_200'
+              examples:
+                failed:
+                  description: Failed delete hello
+                  value:
+                    success: false
+      security:
+      - HelloAuth: []
+components:
+  schemas:
+    Hello:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        priority:
+          type: number
+          format: int32
+        tags:
+          type: array
+          items:
+            type: string
+      example:
+        name: name
+        id: id
+        priority: 0.80082819046101150206595775671303272247314453125
+        tags:
+        - tags
+        - tags
+    CreateOrUpdateHello:
+      type: object
+      properties:
+        name:
+          type: string
+        priority:
+          type: number
+          format: int32
+        tags:
+          type: array
+          items:
+            type: string
+    ArrayHello:
+      type: array
+      items:
+        $ref: '#/components/schemas/Hello'
+      x-schema-name: ArrayHello
+    inline_response_200:
+      type: object
+      properties:
+        success:
+          type: boolean
+      example:
+        success: true
+  parameters:
+    HelloId:
+      name: helloId
+      in: path
+      description: Hello id for updated
+      required: true
+      style: simple
+      explode: false
+      schema:
+        maxLength: 100
+        minLength: 1
+        type: string
+      examples:
+        java:
+          description: Sample hello id for Java
+          value: "1"
+        php:
+          description: Sample hello id for PHP
+          value: "2"
+  securitySchemes:
+    HelloAuth:
+      type: apiKey
+      description: Authentication for Hello RESTful API Sutel
+      name: X-API-Key
+      in: header

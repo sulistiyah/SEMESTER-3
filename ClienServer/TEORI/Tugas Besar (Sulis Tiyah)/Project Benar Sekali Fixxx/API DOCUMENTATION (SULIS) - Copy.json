@@ -1,0 +1,2479 @@
+{
+  "openapi": "3.0.2",
+    "info":{
+      "title": "Form Mahasiswa",
+      "version": "1",
+      "description": "Selamat Datang Mahasiswa. Silahkan Masukan Data Diri Anda ! ! !",
+      "contact": {
+          "name": "Sulis Tiyah",
+          "email": "sulistyhm.03@gmail.com",
+          "url":"https://instagram.com/sulistyh_?utm_medium=copy_link"
+      },
+      "license": {
+          "name": "Politeknik Negeri Padang",
+          "url": "https://www.pnp.ac.id/"
+      }
+  },
+  "servers": [
+    {
+      "description": "Form Mahasiswa",
+      "url": "http://{environment}.localhost:4567",
+      "variables": {
+        "environment":{
+          "description": "Server Environtment",
+          "default": "dev",
+          "enum": [
+            "dev",
+            "qa",
+            "prod"
+          ]
+        }
+      }
+    }
+  ],
+  "externalDocs": {
+    "description": "Youtube Politeknik Negeri Padang",
+    "url": "https://youtube.com/channel/UC2MuoZgzxy2E59qLKkcE_Bw"
+  },
+  "schemes": [
+    "https",
+    "http"
+  ],
+  "paths": {
+    "/register":{
+      "post": {
+        "security": [
+          {
+            "RegisterAuth":[]
+          }
+        ],
+        "tags": ["Register"],
+        "summary": "Create New Register",
+        "description": "Create New Register To Database",
+        "parameters": [
+          {
+              "name": "body",
+              "in": "body",
+              "required": true,
+              "schema": {
+                "$ref": "#/components/schemas/Register"
+              }
+          }
+        ],
+        "responses": {
+          "200" :{
+            "description": "Success Create Register"
+          }  
+        }  
+      }
+    },
+    "/login": {
+      "post": {
+        "security": [
+          {
+            "LoginAuth":[]
+          }
+        ],
+        "tags": ["Login"],
+        "summary": "Create New Login",
+        "description": "Create New Login To Database",
+        "requestBody":{
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema":{
+                "$ref": "#/components/schemas/Login"                       
+              },
+              "examples": {
+                "username" :{
+                  "description": "Example Create Login - Username",
+                  "value":{
+                    "name": "Username",
+                    "priority": 20,
+                    "tags": [
+                      "Username",
+                      "Password"
+                    ]
+                  }
+                },
+                "password" :{
+                  "description": "Example Create Login - Password",
+                  "value":{
+                    "name": "Password",
+                    "priority": 20,
+                    "tags": [
+                      "Username",
+                      "Password"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200" :{
+            "description": "Success Create Login",
+            "content": {
+              "application/json":{
+                "schema":{
+                  "$ref": "#/components/schemas/Login"
+                },
+                "examples": {
+                  "username" :{
+                    "description": "Success Create Username - Login",
+                    "value":{
+                      "id" : "1",
+                      "name": "Username",
+                      "priority": 20,
+                      "tags": [
+                        "Username",
+                        "Password"
+                      ]
+                    }
+                  },
+                  "password" :{
+                    "description": "Success Create Password - Login",
+                    "value":{
+                      "id": "2",
+                      "name": "Password",
+                      "priority": 20,
+                      "tags": [
+                        "Username",
+                        "Password"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }  
+    }, 
+    "/form_mahasiswa": {
+      "post": {
+        "security": [
+          {
+            "FormMahasiswaAuth":[]
+          }
+        ],
+        "tags": ["Form Mahasiswa"],
+        "summary": "Create New Form Mahasiswa",
+        "description": "Create New Form Mahasiswa To Database",
+        "requestBody":{
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema":{
+                "$ref": "#/components/schemas/FormMahasiswa"              
+              },
+              "examples": {
+                "no_bp" :{
+                  "description": "Example Create Form Mahasiswa - No BP",
+                  "value":{
+                    "name": "No BP",
+                      "priority": 15,
+                      "tags": [
+                        "No BP",
+                        "Nama Lengkap",
+                        "Jurusan",
+                        "Prodi",
+                        "Tempat Tanggal Lahir",
+                        "Jenis Kelamin",
+                        "Agama",
+                        "No Telp",
+                        "Alamat"
+                    ]
+                  }
+                },
+                "nama_lengkap" :{
+                  "description": "Example Create Form Mahasiswa - Nama Lengkap",
+                  "value":{
+                    "name": "Nama Lengkap",
+                      "priority": 30,
+                      "tags": [
+                        "No BP",
+                        "Nama Lengkap",
+                        "Jurusan",
+                        "Prodi",
+                        "Tempat Tanggal Lahir",
+                        "Jenis Kelamin",
+                        "Agama",
+                        "No Telp",
+                        "Alamat"
+                    ]
+                  }
+                },
+                "jurusan" :{
+                  "description": "Example Create Form Mahasiswa - Jurusan",
+                  "value":{
+                    "name": "Jurusan",
+                      "priority": 30,
+                      "tags": [
+                        "No BP",
+                        "Nama Lengkap",
+                        "Jurusan",
+                        "Prodi",
+                        "Tempat Tanggal Lahir",
+                        "Jenis Kelamin",
+                        "Agama",
+                        "No Telp",
+                        "Alamat"
+                    ]
+                  }
+                },
+                "prodi" :{
+                  "description": "Example Create Form Mahasiswa - Prodi",
+                  "value":{
+                    "name": "Prodi",
+                      "priority": 30,
+                      "tags": [
+                        "No BP",
+                        "Nama Lengkap",
+                        "Jurusan",
+                        "Prodi",
+                        "Tempat Tanggal Lahir",
+                        "Jenis Kelamin",
+                        "Agama",
+                        "No Telp",
+                        "Alamat"
+                    ]
+                  }
+                },
+                "tempat_tanggal_lahir" :{
+                  "description": "Example Create Form Mahasiswa - Tempat Tanggal Lahir",
+                  "value":{
+                    "name": "Tempat Tanggal Lahir",
+                      "priority": 35,
+                      "tags": [
+                        "No BP",
+                        "Nama Lengkap",
+                        "Jurusan",
+                        "Prodi",
+                        "Tempat Tanggal Lahir",
+                        "Jenis Kelamin",
+                        "Agama",
+                        "No Telp",
+                        "Alamat"
+                    ]
+                  }
+                },
+                "jenis_kelamin" :{
+                  "description": "Example Create Form Mahasiswa - Jenis Kelamin",
+                  "value":{
+                    "name": "Jenis Kelamin",
+                      "priority": 20,
+                      "tags": [
+                        "No BP",
+                        "Nama Lengkap",
+                        "Jurusan",
+                        "Prodi",
+                        "Tempat Tanggal Lahir",
+                        "Jenis Kelamin",
+                        "Agama",
+                        "No Telp",
+                        "Alamat"
+                    ]
+                  }
+                },
+                "agama" :{
+                  "description": "Example Create Form Mahasiswa - Agama",
+                  "value":{
+                    "name": "Agama",
+                      "priority": 25,
+                      "tags": [
+                        "No BP",
+                        "Nama Lengkap",
+                        "Jurusan",
+                        "Prodi",
+                        "Tempat Tanggal Lahir",
+                        "Jenis Kelamin",
+                        "Agama",
+                        "No Telp",
+                        "Alamat"
+                    ]
+                  }
+                },
+                "no_telp" :{
+                  "description": "Example Create Form Mahasiswa - No Telp",
+                  "value":{
+                    "name": "No Telp",
+                      "priority": 15,
+                      "tags": [
+                        "No BP",
+                        "Nama Lengkap",
+                        "Jurusan",
+                        "Prodi",
+                        "Tempat Tanggal Lahir",
+                        "Jenis Kelamin",
+                        "Agama",
+                        "No Telp",
+                        "Alamat"
+                    ]
+                  }
+                },
+                "alamat" :{
+                  "description": "Example Create Form Mahasiswa - Alamat",
+                  "value":{
+                    "name": "Alamat",
+                      "priority": 50,
+                      "tags": [
+                        "No BP",
+                        "Nama Lengkap",
+                        "Jurusan",
+                        "Prodi",
+                        "Tempat Tanggal Lahir",
+                        "Jenis Kelamin",
+                        "Agama",
+                        "No Telp",
+                        "Alamat"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200" :{
+            "description": "Success Create Form Mahasiswa",
+            "content": {
+              "application/json":{
+                "schema":{
+                  "$ref": "#/components/schemas/FormMahasiswa"
+                },
+                "examples": {
+                  "no_bp" :{
+                    "description": "Example Create Form Mahasiswa - No BP",
+                    "value":{
+                      "name": "No BP",
+                        "priority": 15,
+                        "tags": [
+                          "No BP",
+                          "Nama Lengkap",
+                          "Jurusan",
+                          "Prodi",
+                          "Tempat Tanggal Lahir",
+                          "Jenis Kelamin",
+                          "Agama",
+                          "No Telp",
+                          "Alamat"
+                      ]
+                    }
+                  },
+                  "nama_lengkap" :{
+                    "description": "Example Create Form Mahasiswa - Nama Lengkap",
+                    "value":{
+                      "name": "Nama Lengkap",
+                        "priority": 30,
+                        "tags": [
+                          "No BP",
+                          "Nama Lengkap",
+                          "Jurusan",
+                          "Prodi",
+                          "Tempat Tanggal Lahir",
+                          "Jenis Kelamin",
+                          "Agama",
+                          "No Telp",
+                          "Alamat"
+                      ]
+                    }
+                  },
+                  "jurusan" :{
+                    "description": "Example Create Form Mahasiswa - Jurusan",
+                    "value":{
+                      "name": "Jurusan",
+                        "priority": 30,
+                        "tags": [
+                          "No BP",
+                          "Nama Lengkap",
+                          "Jurusan",
+                          "Prodi",
+                          "Tempat Tanggal Lahir",
+                          "Jenis Kelamin",
+                          "Agama",
+                          "No Telp",
+                          "Alamat"
+                      ]
+                    }
+                  },
+                  "prodi" :{
+                    "description": "Example Create Form Mahasiswa - Prodi",
+                    "value":{
+                      "name": "Prodi",
+                        "priority": 30,
+                        "tags": [
+                          "No BP",
+                          "Nama Lengkap",
+                          "Jurusan",
+                          "Prodi",
+                          "Tempat Tanggal Lahir",
+                          "Jenis Kelamin",
+                          "Agama",
+                          "No Telp",
+                          "Alamat"
+                      ]
+                    }
+                  },
+                  "tempat_tanggal_lahir" :{
+                    "description": "Example Create Form Mahasiswa - Tempat Tanggal Lahir",
+                    "value":{
+                      "name": "Tempat Tanggal Lahir",
+                        "priority": 35,
+                        "tags": [
+                          "No BP",
+                          "Nama Lengkap",
+                          "Jurusan",
+                          "Prodi",
+                          "Tempat Tanggal Lahir",
+                          "Jenis Kelamin",
+                          "Agama",
+                          "No Telp",
+                          "Alamat"
+                      ]
+                    }
+                  },
+                  "jenis_kelamin" :{
+                    "description": "Example Create Form Mahasiswa - Jenis Kelamin",
+                    "value":{
+                      "name": "Jenis Kelamin",
+                        "priority": 20,
+                        "tags": [
+                          "No BP",
+                          "Nama Lengkap",
+                          "Jurusan",
+                          "Prodi",
+                          "Tempat Tanggal Lahir",
+                          "Jenis Kelamin",
+                          "Agama",
+                          "No Telp",
+                          "Alamat"
+                      ]
+                    }
+                  },
+                  "agama" :{
+                    "description": "Example Create Form Mahasiswa - Agama",
+                    "value":{
+                      "name": "Agama",
+                        "priority": 25,
+                        "tags": [
+                          "No BP",
+                          "Nama Lengkap",
+                          "Jurusan",
+                          "Prodi",
+                          "Tempat Tanggal Lahir",
+                          "Jenis Kelamin",
+                          "Agama",
+                          "No Telp",
+                          "Alamat"
+                      ]
+                    }
+                  },
+                  "no_telp" :{
+                    "description": "Example Create Form Mahasiswa - No Telp",
+                    "value":{
+                      "name": "No Telp",
+                        "priority": 15,
+                        "tags": [
+                          "No BP",
+                          "Nama Lengkap",
+                          "Jurusan",
+                          "Prodi",
+                          "Tempat Tanggal Lahir",
+                          "Jenis Kelamin",
+                          "Agama",
+                          "No Telp",
+                          "Alamat"
+                      ]
+                    }
+                  },
+                  "alamat" :{
+                    "description": "Example Create Form Mahasiswa - Alamat",
+                    "value":{
+                      "name": "Alamat",
+                        "priority": 50,
+                        "tags": [
+                          "No BP",
+                          "Nama Lengkap",
+                          "Jurusan",
+                          "Prodi",
+                          "Tempat Tanggal Lahir",
+                          "Jenis Kelamin",
+                          "Agama",
+                          "No Telp",
+                          "Alamat"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "security": [
+          {
+            "FormMahasiswaAuth":[]
+          }
+        ],
+        "tags": ["Form Mahasiswa"],
+        "summary": "Get All Form Mahasiswa",
+        "description": "Get All Active Form Mahasiswa By Default",
+        "parameters": [
+          {
+            "name": "include_done",
+            "in": "query",
+            "required": false,
+            "description": "Is include done Form mahasiswa",
+            "schema":{
+              "type": "boolean",
+              "nullable": true,
+              "default": false
+            }
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "required": false,
+            "description": "Filter Form Mahasiswa By Name",
+            "schema":{
+              "type": "string",
+              "nullable": true,
+              "minLength": 1,
+              "maxLength": 100
+            },
+            "examples": {
+              "no_bp":{
+                "description": "Example Name - No Bp",
+                "value": "No Bp"
+              },
+              "nama_lengkap":{
+                "description": "Example Name - Nama Lengkap",
+                "value": "Nama Lengkap"
+              },
+              "jurusan":{
+                "description": "Example Name - Jurusan",
+                "value": "Jurusan"
+              },
+              "prodi":{
+                "description": "Example Name - Prodi",
+                "value": "Prodi"
+              },
+              "tempat_tanggal_lahir":{
+                "description": "Example Name - Tempat Tanggal Lahir",
+                "value": "Tempat Tanggal Lahir"
+              },
+              "jenis_kelamin":{
+                "description": "Example Name - Jenis Kelamin",
+                "value": "Jenis Kelamin"
+              },
+              "agama":{
+                "description": "Example Name - Agama",
+                "value": "Agama"
+              },
+              "no_telp":{
+                "description": "Example Name - No Telp",
+                "value": "No Telp"
+              },
+              "alamat":{
+                "description": "Example Name - Alamat",
+                "value": "Alamat"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200":{
+            "description": "Succes Get Form Mahasiswa",
+            "content": {
+              "application/json":{
+                "schema":{
+                  "$ref": "#/components/schemas/FormMahasiswa"
+                },
+                "examples": {
+                  "success":{
+                    "description": "Example Success Get All Form Mahasiswa",
+                    "value":[
+                      {
+                        "name": "No BP",
+                        "priority": 15,
+                        "tags": [
+                          "No BP",
+                          "Nama Lengkap",
+                          "Jurusan",
+                          "Prodi",
+                          "Tempat Tanggal Lahir",
+                          "Jenis Kelamin",
+                          "Agama",
+                          "No Telp",
+                          "Alamat"
+                        ]
+                      },
+                      {
+                        "name": "Nama Lengkap",
+                        "priority": 30,
+                        "tags": [
+                          "No BP",
+                          "Nama Lengkap",
+                          "Jurusan",
+                          "Prodi",
+                          "Tempat Tanggal Lahir",
+                          "Jenis Kelamin",
+                          "Agama",
+                          "No Telp",
+                          "Alamat"
+                        ]
+                      },
+                      {
+                        "name": "Jurusan",
+                        "priority": 30,
+                        "tags": [
+                          "No BP",
+                          "Nama Lengkap",
+                          "Jurusan",
+                          "Prodi",
+                          "Tempat Tanggal Lahir",
+                          "Jenis Kelamin",
+                          "Agama",
+                          "No Telp",
+                          "Alamat"
+                        ]
+                      },
+                      {
+                        "name": "Prodi",
+                        "priority": 30,
+                        "tags": [
+                          "No BP",
+                          "Nama Lengkap",
+                          "Jurusan",
+                          "Prodi",
+                          "Tempat Tanggal Lahir",
+                          "Jenis Kelamin",
+                          "Agama",
+                          "No Telp",
+                          "Alamat"
+                        ]
+                      },
+                      {
+                        "name": "Tempat Tanggal Lahir",
+                        "priority": 35,
+                        "tags": [
+                          "No BP",
+                          "Nama Lengkap",
+                          "Jurusan",
+                          "Prodi",
+                          "Tempat Tanggal Lahir",
+                          "Jenis Kelamin",
+                          "Agama",
+                          "No Telp",
+                          "Alamat"
+                        ]
+                      },
+                      {
+                        "name": "Jenis Kelamin",
+                        "priority": 20,
+                        "tags": [
+                          "No BP",
+                          "Nama Lengkap",
+                          "Jurusan",
+                          "Prodi",
+                          "Tempat Tanggal Lahir",
+                          "Jenis Kelamin",
+                          "Agama",
+                          "No Telp",
+                          "Alamat"
+                        ]
+                      },
+                      {
+                        "name": "Agama",
+                        "priority": 25,
+                        "tags": [
+                          "No BP",
+                          "Nama Lengkap",
+                          "Jurusan",
+                          "Prodi",
+                          "Tempat Tanggal Lahir",
+                          "Jenis Kelamin",
+                          "Agama",
+                          "No Telp",
+                          "Alamat"
+                        ]
+                      },
+                      {
+                        "name": "No Telp",
+                        "priority": 15,
+                        "tags": [
+                          "No BP",
+                          "Nama Lengkap",
+                          "Jurusan",
+                          "Prodi",
+                          "Tempat Tanggal Lahir",
+                          "Jenis Kelamin",
+                          "Agama",
+                          "No Telp",
+                          "Alamat"
+                        ]
+                      },
+                      {
+                        "name": "Alamat",
+                        "priority": 50,
+                        "tags": [
+                          "No BP",
+                          "Nama Lengkap",
+                          "Jurusan",
+                          "Prodi",
+                          "Tempat Tanggal Lahir",
+                          "Jenis Kelamin",
+                          "Agama",
+                          "No Telp",
+                          "Alamat"
+                        ]
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },  
+    "/form_mahasiswa/:no_bp":{
+      "get": {
+        "security": [
+          {
+            "FormMahasiswaAuth":[]
+          }
+        ],
+        "tags": ["Form Mahasiswa"],
+        "summary": "Get Existing Form Mahasiswa",
+        "description": "Get Active Form Mahasiswa By No BP",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/FormMahasiswaGet-No_BP"
+          }
+        ],
+        "requestBody":{
+          "required": true,
+          "content": {
+            "application/json":{
+              "schema":{
+                "$ref": "#/components/schemas/FormMahasiswaParams"
+              },
+              "examples": {
+                "no_bp" :{
+                  "description": "Example Get Form Mahasiswa - No BP",
+                  "value":{
+                    "name": "No BP",
+                    "priority": 15,
+                    "tags": [
+                      "No BP",
+                      "Nama Lengkap",
+                      "Jurusan",
+                      "Prodi",
+                      "Tempat Tanggal Lahir",
+                      "Jenis Kelamin",
+                      "Agama",
+                      "No Telp",
+                      "Alamat"
+                    ]
+                  }
+                },
+                "nama_lengkap" :{
+                  "description": "Example Get Form Mahasiswa - Nama Lengkap",
+                  "value":{
+                    "name": "Nama Lengkap",
+                    "priority": 30,
+                    "tags": [
+                      "No BP",
+                      "Nama Lengkap",
+                      "Jurusan",
+                      "Prodi",
+                      "Tempat Tanggal Lahir",
+                      "Jenis Kelamin",
+                      "Agama",
+                      "No Telp",
+                      "Alamat"
+                    ]
+                  }
+                },
+                "jurusan" :{
+                  "description": "Example Get Form Mahasiswa - Jurusan",
+                  "value":{
+                    "name": "Jurusan",
+                    "priority": 30,
+                    "tags": [
+                      "No BP",
+                      "Nama Lengkap",
+                      "Jurusan",
+                      "Prodi",
+                      "Tempat Tanggal Lahir",
+                      "Jenis Kelamin",
+                      "Agama",
+                      "No Telp",
+                      "Alamat"
+                    ]
+                  }
+                },
+                "prodi" :{
+                  "description": "Example Get Form Mahasiswa - Prodi",
+                  "value":{
+                    "name": "Prodi",
+                    "priority": 30,
+                    "tags": [
+                      "No BP",
+                      "Nama Lengkap",
+                      "Jurusan",
+                      "Prodi",
+                      "Tempat Tanggal Lahir",
+                      "Jenis Kelamin",
+                      "Agama",
+                      "No Telp",
+                      "Alamat"
+                    ]
+                  }
+                },
+                "tempat_tanggal_lahir" :{
+                  "description": "Example Get Form Mahasiswa - Tempat Tanggal Lahir",
+                  "value":{
+                    "name": "Tempat Tanggal Lahir",
+                    "priority": 35,
+                    "tags": [
+                      "No BP",
+                      "Nama Lengkap",
+                      "Jurusan",
+                      "Prodi",
+                      "Tempat Tanggal Lahir",
+                      "Jenis Kelamin",
+                      "Agama",
+                      "No Telp",
+                      "Alamat"
+                    ]
+                  }
+                },
+                "jenis_kelamin" :{
+                  "description": "Example Get Form Mahasiswa - Jenis Kelamin",
+                  "value":{
+                    "name": "Jenis Kelamin",
+                    "priority": 20,
+                    "tags": [
+                      "No BP",
+                      "Nama Lengkap",
+                      "Jurusan",
+                      "Prodi",
+                      "Tempat Tanggal Lahir",
+                      "Jenis Kelamin",
+                      "Agama",
+                      "No Telp",
+                      "Alamat"
+                    ]
+                  }
+                },
+                "agama" :{
+                  "description": "Example Get Form Mahasiswa - Agama",
+                  "value":{
+                    "name": "Agama",
+                    "priority": 25,
+                    "tags": [
+                      "No BP",
+                      "Nama Lengkap",
+                      "Jurusan",
+                      "Prodi",
+                      "Tempat Tanggal Lahir",
+                      "Jenis Kelamin",
+                      "Agama",
+                      "No Telp",
+                      "Alamat"
+                    ]
+                  }
+                },
+                "no_telp" :{
+                  "description": "Example Get Form Mahasiswa - No Telp",
+                  "value":{
+                    "name": "No Telp",
+                    "priority": 15,
+                    "tags": [
+                      "No BP",
+                      "Nama Lengkap",
+                      "Jurusan",
+                      "Prodi",
+                      "Tempat Tanggal Lahir",
+                      "Jenis Kelamin",
+                      "Agama",
+                      "No Telp",
+                      "Alamat"
+                    ]
+                  }
+                },
+                "alamat" :{
+                  "description": "Example Get Form Mahasiswa - Alamat",
+                  "value":{
+                    "name": "Alamat",
+                    "priority": 50,
+                    "tags": [
+                      "No BP",
+                      "Nama Lengkap",
+                      "Jurusan",
+                      "Prodi",
+                      "Tempat Tanggal Lahir",
+                      "Jenis Kelamin",
+                      "Agama",
+                      "No Telp",
+                      "Alamat"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200" :{
+            "description": "Success Get Form Mahasiswa",
+            "content": {
+              "application/json":{
+                "schema":{
+                  "$ref": "#/components/schemas/FormMahasiswaParams"
+                },
+                "examples": {
+                  "no_bp" :{
+                    "description": "Success Get Form Mahasiswa - No BP",
+                    "value":{
+                      "name": "No BP",
+                      "priority": 15,
+                      "tags": [
+                        "No BP",
+                        "Nama Lengkap",
+                        "Jurusan",
+                        "Prodi",
+                        "Tempat Tanggal Lahir",
+                        "Jenis Kelamin",
+                        "Agama",
+                        "No Telp",
+                        "Alamat"
+                      ]
+                    }
+                  },
+                  "nama_lengkap" :{
+                    "description": "Success Get Form Mahasiswa - Nama Lengkap",
+                    "value":{
+                      "name": "Nama Lengkap",
+                      "priority": 30,
+                      "tags": [
+                        "No BP",
+                        "Nama Lengkap",
+                        "Jurusan",
+                        "Prodi",
+                        "Tempat Tanggal Lahir",
+                        "Jenis Kelamin",
+                        "Agama",
+                        "No Telp",
+                        "Alamat"
+                      ]
+                    }
+                  },
+                  "jurusan" :{
+                    "description": "Success Get Form Mahasiswa - Jurusan",
+                    "value":{
+                      "name": "Jurusan",
+                      "priority": 30,
+                      "tags": [
+                        "No BP",
+                        "Nama Lengkap",
+                        "Jurusan",
+                        "Prodi",
+                        "Tempat Tanggal Lahir",
+                        "Jenis Kelamin",
+                        "Agama",
+                        "No Telp",
+                        "Alamat"
+                      ]
+                    }
+                  },
+                  "prodi" :{
+                    "description": "Success Get Form Mahasiswa - Prodi",
+                    "value":{
+                      "name": "Prodi",
+                      "priority": 30,
+                      "tags": [
+                        "No BP",
+                        "Nama Lengkap",
+                        "Jurusan",
+                        "Prodi",
+                        "Tempat Tanggal Lahir",
+                        "Jenis Kelamin",
+                        "Agama",
+                        "No Telp",
+                        "Alamat"
+                      ]
+                    }
+                  },
+                  "tempat_tanggal_lahir" :{
+                    "description": "Success Get Form Mahasiswa - Tempat Tanggal Lahir",
+                    "value":{
+                      "name": "Tempat Tanggal Lahir",
+                      "priority": 35,
+                      "tags": [
+                        "No BP",
+                        "Nama Lengkap",
+                        "Jurusan",
+                        "Prodi",
+                        "Tempat Tanggal Lahir",
+                        "Jenis Kelamin",
+                        "Agama",
+                        "No Telp",
+                        "Alamat"
+                      ]
+                    }
+                  },
+                  "jenis_kelamin" :{
+                    "description": "Success Get Form Mahasiswa - Jenis Kelamin",
+                    "value":{
+                      "name": "Jenis Kelamin",
+                      "priority": 20,
+                      "tags": [
+                        "No BP",
+                        "Nama Lengkap",
+                        "Jurusan",
+                        "Prodi",
+                        "Tempat Tanggal Lahir",
+                        "Jenis Kelamin",
+                        "Agama",
+                        "No Telp",
+                        "Alamat"
+                      ]
+                    }
+                  },
+                  "agama" :{
+                    "description": "Success Get  Form Mahasiswa - Agama",
+                    "value":{
+                      "name": "Agama",
+                      "priority": 25,
+                      "tags": [
+                        "No BP",
+                        "Nama Lengkap",
+                        "Jurusan",
+                        "Prodi",
+                        "Tempat Tanggal Lahir",
+                        "Jenis Kelamin",
+                        "Agama",
+                        "No Telp",
+                        "Alamat"
+                      ]
+                    }
+                  },
+                  "no_telp" :{
+                    "description": "Success Get Form Mahasiswa - No Telp",
+                    "value":{
+                      "name": "No Telp",
+                      "priority": 15,
+                      "tags": [
+                        "No BP",
+                        "Nama Lengkap",
+                        "Jurusan",
+                        "Prodi",
+                        "Tempat Tanggal Lahir",
+                        "Jenis Kelamin",
+                        "Agama",
+                        "No Telp",
+                        "Alamat"
+                      ]
+                    }
+                  },
+                  "alamat" :{
+                    "description": "Success Get Form Mahasiswa - Alamat",
+                    "value":{
+                      "name": "Alamat",
+                      "priority": 50,
+                      "tags": [
+                        "No BP",
+                        "Nama Lengkap",
+                        "Jurusan",
+                        "Prodi",
+                        "Tempat Tanggal Lahir",
+                        "Jenis Kelamin",
+                        "Agama",
+                        "No Telp",
+                        "Alamat"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "security": [
+          {
+            "FormMahasiswaAuth":[]
+          }
+        ],
+        "tags": ["Form Mahasiswa"],
+        "summary": "Update Existing Form Mahasiswa",
+        "description": "Update Existing Form Mahasiswa In Database",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/FormMahasiswaUpdate-No_BP"
+          }
+        ],
+        "requestBody":{
+          "required": true,
+          "content": {
+            "application/json":{
+              "schema":{
+                "$ref":"#/components/schemas/FormMahasiswaParams"
+              },
+              "examples": {
+                "no_bp" :{
+                  "description": "Example Create Form Mahasiswa - No BP",
+                  "value":{
+                    "name": "No BP",
+                    "priority": 15,
+                    "tags": [
+                      "No BP",
+                      "Nama Lengkap",
+                      "Jurusan",
+                      "Prodi",
+                      "Tempat Tanggal Lahir",
+                      "Jenis Kelamin",
+                      "Agama",
+                      "No Telp",
+                      "Alamat"
+                    ]
+                  }
+                },
+                "nama_lengkap" :{
+                  "description": "Example Create Form Mahasiswa - Nama Lengkap",
+                  "value":{
+                    "name": "Nama Lengkap",
+                    "priority": 30,
+                    "tags": [
+                      "No BP",
+                      "Nama Lengkap",
+                      "Jurusan",
+                      "Prodi",
+                      "Tempat Tanggal Lahir",
+                      "Jenis Kelamin",
+                      "Agama",
+                      "No Telp",
+                      "Alamat"
+                    ]
+                  }
+                },
+                "jurusan" :{
+                  "description": "Example Create Form Mahasiswa - Jurusan",
+                  "value":{
+                    "name": "Jurusan",
+                    "priority": 30,
+                    "tags": [
+                      "No BP",
+                      "Nama Lengkap",
+                      "Jurusan",
+                      "Prodi",
+                      "Tempat Tanggal Lahir",
+                      "Jenis Kelamin",
+                      "Agama",
+                      "No Telp",
+                      "Alamat"
+                    ]
+                  }
+                },
+                "prodi" :{
+                  "description": "Example Create Form Mahasiswa - Prodi",
+                  "value":{
+                    "name": "Prodi",
+                    "priority": 30,
+                    "tags": [
+                      "No BP",
+                      "Nama Lengkap",
+                      "Jurusan",
+                      "Prodi",
+                      "Tempat Tanggal Lahir",
+                      "Jenis Kelamin",
+                      "Agama",
+                      "No Telp",
+                      "Alamat"
+                    ]
+                  }
+                },
+                "tempat_tanggal_lahir" :{
+                  "description": "Example Create Form Mahasiswa - Tempat Tanggal Lahir",
+                  "value":{
+                    "name": "Tempat Tanggal Lahir",
+                    "priority": 35,
+                    "tags": [
+                      "No BP",
+                      "Nama Lengkap",
+                      "Jurusan",
+                      "Prodi",
+                      "Tempat Tanggal Lahir",
+                      "Jenis Kelamin",
+                      "Agama",
+                      "No Telp",
+                      "Alamat"
+                    ]
+                  }
+                },
+                "jenis_kelamin" :{
+                  "description": "Example Create Form Mahasiswa - Jenis Kelamin",
+                  "value":{
+                    "name": "Jenis Kelamin",
+                    "priority": 20,
+                    "tags": [
+                      "No BP",
+                      "Nama Lengkap",
+                      "Jurusan",
+                      "Prodi",
+                      "Tempat Tanggal Lahir",
+                      "Jenis Kelamin",
+                      "Agama",
+                      "No Telp",
+                      "Alamat"
+                    ]
+                  }
+                },
+                "agama" :{
+                  "description": "Example Create Form Mahasiswa - Agama",
+                  "value":{
+                    "name": "Agama",
+                    "priority": 25,
+                    "tags": [
+                      "No BP",
+                      "Nama Lengkap",
+                      "Jurusan",
+                      "Prodi",
+                      "Tempat Tanggal Lahir",
+                      "Jenis Kelamin",
+                      "Agama",
+                      "No Telp",
+                      "Alamat"
+                    ]
+                  }
+                },
+                "no_telp" :{
+                  "description": "Example Create Form Mahasiswa - No Telp",
+                  "value":{
+                    "name": "No Telp",
+                    "priority": 15,
+                    "tags": [
+                      "No BP",
+                      "Nama Lengkap",
+                      "Jurusan",
+                      "Prodi",
+                      "Tempat Tanggal Lahir",
+                      "Jenis Kelamin",
+                      "Agama",
+                      "No Telp",
+                      "Alamat"
+                    ]
+                  }
+                },
+                "alamat" :{
+                  "description": "Example Create Form Mahasiswa - Alamat",
+                  "value":{
+                    "name": "Alamat",
+                    "priority": 50,
+                    "tags": [
+                      "No BP",
+                      "Nama Lengkap",
+                      "Jurusan",
+                      "Prodi",
+                      "Tempat Tanggal Lahir",
+                      "Jenis Kelamin",
+                      "Agama",
+                      "No Telp",
+                      "Alamat"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200" :{
+            "description": "Success Update Form Mahasiswa",
+            "content": {
+              "application/json":{
+                "schema":{
+                  "$ref":"#/components/schemas/FormMahasiswaParams"            
+                },
+                "examples": {
+                  "no_bp" :{
+                    "description": "Success Update No BP - Form Mahasiswa",
+                    "value":{
+                      "name": "No BP",
+                      "priority": 15,
+                      "tags": [
+                        "No BP",
+                        "Nama Lengkap",
+                        "Jurusan",
+                        "Prodi",
+                        "Tempat Tanggal Lahir",
+                        "Jenis Kelamin",
+                        "Agama",
+                        "No Telp",
+                        "Alamat"
+                      ]
+                    }
+                  },
+                  "nama_lengkap" :{
+                    "description": "Success Update Nama Lengkap - Form Mahasiswa",
+                    "value":{
+                      "name": "Nama Lengkap",
+                      "priority": 30,
+                      "tags": [
+                        "No BP",
+                        "Nama Lengkap",
+                        "Jurusan",
+                        "Prodi",
+                        "Tempat Tanggal Lahir",
+                        "Jenis Kelamin",
+                        "Agama",
+                        "No Telp",
+                        "Alamat"
+                      ]
+                    }
+                  },
+                  "jurusan" :{
+                    "description": "Success Update Jurusan - Form Mahasiswa",
+                    "value":{
+                      "name": "Jurusan",
+                      "priority": 30,
+                      "tags": [
+                        "No BP",
+                        "Nama Lengkap",
+                        "Jurusan",
+                        "Prodi",
+                        "Tempat Tanggal Lahir",
+                        "Jenis Kelamin",
+                        "Agama",
+                        "No Telp",
+                        "Alamat"
+                      ]
+                    }
+                  },
+                  "prodi" :{
+                    "description": "Success Update Prodi - Form Mahasiswa",
+                    "value":{
+                      "name": "Prodi",
+                      "priority": 30,
+                      "tags": [
+                        "No BP",
+                        "Nama Lengkap",
+                        "Jurusan",
+                        "Prodi",
+                        "Tempat Tanggal Lahir",
+                        "Jenis Kelamin",
+                        "Agama",
+                        "No Telp",
+                        "Alamat"
+                      ]
+                    }
+                  },
+                  "tempat_tanggal_lahir" :{
+                    "description": "Success Update Tempat Tanggal Lahir - Form Mahasiswa",
+                    "value":{
+                      "name": "Tempat Tanggal Lahir",
+                      "priority": 35,
+                      "tags": [
+                        "No BP",
+                        "Nama Lengkap",
+                        "Jurusan",
+                        "Prodi",
+                        "Tempat Tanggal Lahir",
+                        "Jenis Kelamin",
+                        "Agama",
+                        "No Telp",
+                        "Alamat"
+                      ]
+                    }
+                  },
+                  "jenis_kelamin" :{
+                    "description": "Success Update Jenis Kelamin - Form Mahasiswa",
+                    "value":{
+                      "name": "Jenis Kelamin",
+                      "priority": 20,
+                      "tags": [
+                        "No BP",
+                        "Nama Lengkap",
+                        "Jurusan",
+                        "Prodi",
+                        "Tempat Tanggal Lahir",
+                        "Jenis Kelamin",
+                        "Agama",
+                        "No Telp",
+                        "Alamat"
+                      ]
+                    }
+                  },
+                  "agama" :{
+                    "description": "Success Update Agama - Form Mahasiswa",
+                    "value":{
+                      "name": "Agama",
+                      "priority": 25,
+                      "tags": [
+                        "No BP",
+                        "Nama Lengkap",
+                        "Jurusan",
+                        "Prodi",
+                        "Tempat Tanggal Lahir",
+                        "Jenis Kelamin",
+                        "Agama",
+                        "No Telp",
+                        "Alamat"
+                      ]
+                    }
+                  },
+                  "no_telp" :{
+                    "description": "Success Update No Telp - Form Mahasiswa",
+                    "value":{
+                      "name": "No Telp",
+                      "priority": 15,
+                      "tags": [
+                        "No BP",
+                        "Nama Lengkap",
+                        "Jurusan",
+                        "Prodi",
+                        "Tempat Tanggal Lahir",
+                        "Jenis Kelamin",
+                        "Agama",
+                        "No Telp",
+                        "Alamat"
+                      ]
+                    }
+                  },
+                  "alamat" :{
+                    "description": "Success Update Alamat - Form Mahasiswa",
+                    "value":{
+                      "name": "Alamat",
+                      "priority": 50,
+                      "tags": [
+                        "No BP",
+                        "Nama Lengkap",
+                        "Jurusan",
+                        "Prodi",
+                        "Tempat Tanggal Lahir",
+                        "Jenis Kelamin",
+                        "Agama",
+                        "No Telp",
+                        "Alamat"
+                      ]
+                    }
+                  }
+                }  
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "security": [
+          {
+            "FormMahasiswaAuth":[]
+          }
+        ],
+        "tags": ["Form Mahasiswa"],
+        "summary": "Delete Existing Form Mahasiswa",
+        "description": "Delete Existing Form Mahasiswa In Database",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/FormMahasiswaDelete-No_BP"
+          }
+        ],
+        "responses": {
+          "200" : {
+            "description":"Success Delete Form Mahasiswa",
+            "content":{
+              "application/json":{
+                "schema":{
+                  "type": "object",
+                  "properties":{
+                    "success":{
+                      "type":"boolean"
+                    }
+                  }
+                },
+                "examples": {
+                  "success" : {
+                    "description": "Success Delete Form Mahasiswa",
+                    "value": {
+                      "success": true
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404" : {
+            "description":"Failed Delete Not Found Form Mahasiswa",
+            "content":{
+              "application/json":{
+                "schema":{
+                  "type": "object",
+                  "properties":{
+                    "success":{
+                      "type":"boolean"
+                    }
+                  }
+                },
+                "examples": {
+                  "failed" : {
+                    "description": "Failed Delete Form Mahasiswa",
+                    "value": {
+                      "success": false
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/hasil_form_mahasiswa": {
+      "get": {
+        "security": [
+          {
+            "HasilFormMahasiswaAuth":[]
+          }
+        ],
+        "tags": ["Hasil Form Mahasiswa"],
+        "summary": "Get All Hasil Form Mahasiswa",
+        "description": "Get All Active Hasil Form Mahasiswa By Default",
+        "parameters": [
+          {
+            "name": "include_done",
+            "in": "query",
+            "required": false,
+            "description": "Is include done Hasil Form mahasiswa",
+            "schema":{
+              "type": "boolean",
+              "nullable": true,
+              "default": false
+            }
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "required": false,
+            "description": "Filter Hasil Form Mahasiswa By Name",
+            "schema":{
+              "type": "string",
+              "nullable": true,
+              "minLength": 1,
+              "maxLength": 100
+            },
+            "examples": {
+              "no_bp":{
+                "description": "Example Name - No Bp",
+                "value": "No Bp"
+              },
+              "nama_lengkap":{
+                "description": "Example Name - Nama Lengkap",
+                "value": "Nama Lengkap"
+              },
+              "jurusan":{
+                "description": "Example Name - Jurusan",
+                "value": "Jurusan"
+              },
+              "prodi":{
+                "description": "Example Name - Prodi",
+                "value": "Prodi"
+              },
+              "tempat_tanggal_lahir":{
+                "description": "Example Name - Tempat Tanggal Lahir",
+                "value": "Tempat Tanggal Lahir"
+              },
+              "jenis_kelamin":{
+                "description": "Example Name - Jenis Kelamin",
+                "value": "Jenis Kelamin"
+              },
+              "agama":{
+                "description": "Example Name - Agama",
+                "value": "Agama"
+              },
+              "no_telp":{
+                "description": "Example Name - No Telp",
+                "value": "No Telp"
+              },
+              "alamat":{
+                "description": "Example Name - Alamat",
+                "value": "Alamat"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200":{
+            "description": "Succes Get Hasil Form Mahasiswa",
+            "content": {
+              "application/json":{
+                "schema":{
+                  "$ref": "#/components/schemas/HasilFormMahasiswa"
+                },
+                "examples": {
+                  "success":{
+                    "description": "Example Success Get All Hasil Form Mahasiswa",
+                    "value":[
+                      {
+                        "name": "No BP",
+                        "priority": 15,
+                        "tags": [
+                          "No BP",
+                          "Nama Lengkap",
+                          "Jurusan",
+                          "Prodi",
+                          "Tempat Tanggal Lahir",
+                          "Jenis Kelamin",
+                          "Agama",
+                          "No Telp",
+                          "Alamat"
+                        ]
+                      },
+                      {
+                        "name": "Nama Lengkap",
+                        "priority": 30,
+                        "tags": [
+                          "No BP",
+                          "Nama Lengkap",
+                          "Jurusan",
+                          "Prodi",
+                          "Tempat Tanggal Lahir",
+                          "Jenis Kelamin",
+                          "Agama",
+                          "No Telp",
+                          "Alamat"
+                        ]
+                      },
+                      {
+                        "name": "Jurusan",
+                        "priority": 30,
+                        "tags": [
+                          "No BP",
+                          "Nama Lengkap",
+                          "Jurusan",
+                          "Prodi",
+                          "Tempat Tanggal Lahir",
+                          "Jenis Kelamin",
+                          "Agama",
+                          "No Telp",
+                          "Alamat"
+                        ]
+                      },
+                      {
+                        "name": "Prodi",
+                        "priority": 30,
+                        "tags": [
+                          "No BP",
+                          "Nama Lengkap",
+                          "Jurusan",
+                          "Prodi",
+                          "Tempat Tanggal Lahir",
+                          "Jenis Kelamin",
+                          "Agama",
+                          "No Telp",
+                          "Alamat"
+                        ]
+                      },
+                      {
+                        "name": "Tempat Tanggal Lahir",
+                        "priority": 35,
+                        "tags": [
+                          "No BP",
+                          "Nama Lengkap",
+                          "Jurusan",
+                          "Prodi",
+                          "Tempat Tanggal Lahir",
+                          "Jenis Kelamin",
+                          "Agama",
+                          "No Telp",
+                          "Alamat"
+                        ]
+                      },
+                      {
+                        "name": "Jenis Kelamin",
+                        "priority": 20,
+                        "tags": [
+                          "No BP",
+                          "Nama Lengkap",
+                          "Jurusan",
+                          "Prodi",
+                          "Tempat Tanggal Lahir",
+                          "Jenis Kelamin",
+                          "Agama",
+                          "No Telp",
+                          "Alamat"
+                        ]
+                      },
+                      {
+                        "name": "Agama",
+                        "priority": 25,
+                        "tags": [
+                          "No BP",
+                          "Nama Lengkap",
+                          "Jurusan",
+                          "Prodi",
+                          "Tempat Tanggal Lahir",
+                          "Jenis Kelamin",
+                          "Agama",
+                          "No Telp",
+                          "Alamat"
+                        ]
+                      },
+                      {
+                        "name": "No Telp",
+                        "priority": 15,
+                        "tags": [
+                          "No BP",
+                          "Nama Lengkap",
+                          "Jurusan",
+                          "Prodi",
+                          "Tempat Tanggal Lahir",
+                          "Jenis Kelamin",
+                          "Agama",
+                          "No Telp",
+                          "Alamat"
+                        ]
+                      },
+                      {
+                        "name": "Alamat",
+                        "priority": 50,
+                        "tags": [
+                          "No BP",
+                          "Nama Lengkap",
+                          "Jurusan",
+                          "Prodi",
+                          "Tempat Tanggal Lahir",
+                          "Jenis Kelamin",
+                          "Agama",
+                          "No Telp",
+                          "Alamat"
+                        ]
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/hasil_form_mahasiswa/:no_bp":{
+      "get": {
+        "security": [
+          {
+            "HasilFormMahasiswaAuth":[]
+          }
+        ],
+        "tags": ["Hasil Form Mahasiswa"],
+        "summary": "Get Existing Hasil Form Mahasiswa",
+        "description": "Get Active Hasil Form Mahasiswa By No BP",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/HasilFormMahasiswaGet-No_BP"
+          }
+        ],
+        "requestBody":{
+          "required": true,
+          "content": {
+            "application/json":{
+              "schema":{
+                "$ref": "#/components/schemas/HasilFormMahasiswaParams"
+              },
+              "examples": {
+                "no_bp" :{
+                  "description": "Example Get Hasil Form Mahasiswa - No BP",
+                  "value":{
+                    "name": "No BP",
+                    "priority": 15,
+                    "tags": [
+                      "No BP",
+                      "Nama Lengkap",
+                      "Jurusan",
+                      "Prodi",
+                      "Tempat Tanggal Lahir",
+                      "Jenis Kelamin",
+                      "Agama",
+                      "No Telp",
+                      "Alamat"
+                    ]
+                  }
+                },
+                "nama_lengkap" :{
+                  "description": "Example Get Hasil Form Mahasiswa - Nama Lengkap",
+                  "value":{
+                    "name": "Nama Lengkap",
+                    "priority": 30,
+                    "tags": [
+                      "No BP",
+                      "Nama Lengkap",
+                      "Jurusan",
+                      "Prodi",
+                      "Tempat Tanggal Lahir",
+                      "Jenis Kelamin",
+                      "Agama",
+                      "No Telp",
+                      "Alamat"
+                    ]
+                  }
+                },
+                "jurusan" :{
+                  "description": "Example Get Hasil Form Mahasiswa - Jurusan",
+                  "value":{
+                    "name": "Jurusan",
+                    "priority": 30,
+                    "tags": [
+                      "No BP",
+                      "Nama Lengkap",
+                      "Jurusan",
+                      "Prodi",
+                      "Tempat Tanggal Lahir",
+                      "Jenis Kelamin",
+                      "Agama",
+                      "No Telp",
+                      "Alamat"
+                    ]
+                  }
+                },
+                "prodi" :{
+                  "description": "Example Get Hasil Form Mahasiswa - Prodi",
+                  "value":{
+                    "name": "Prodi",
+                    "priority": 30,
+                    "tags": [
+                      "No BP",
+                      "Nama Lengkap",
+                      "Jurusan",
+                      "Prodi",
+                      "Tempat Tanggal Lahir",
+                      "Jenis Kelamin",
+                      "Agama",
+                      "No Telp",
+                      "Alamat"
+                    ]
+                  }
+                },
+                "tempat_tanggal_lahir" :{
+                  "description": "Example Get Hasil Form Mahasiswa - Tempat Tanggal Lahir",
+                  "value":{
+                    "name": "Tempat Tanggal Lahir",
+                    "priority": 35,
+                    "tags": [
+                      "No BP",
+                      "Nama Lengkap",
+                      "Jurusan",
+                      "Prodi",
+                      "Tempat Tanggal Lahir",
+                      "Jenis Kelamin",
+                      "Agama",
+                      "No Telp",
+                      "Alamat"
+                    ]
+                  }
+                },
+                "jenis_kelamin" :{
+                  "description": "Example Get Hasil Form Mahasiswa - Jenis Kelamin",
+                  "value":{
+                    "name": "Jenis Kelamin",
+                    "priority": 20,
+                    "tags": [
+                      "No BP",
+                      "Nama Lengkap",
+                      "Jurusan",
+                      "Prodi",
+                      "Tempat Tanggal Lahir",
+                      "Jenis Kelamin",
+                      "Agama",
+                      "No Telp",
+                      "Alamat"
+                    ]
+                  }
+                },
+                "agama" :{
+                  "description": "Example Get Hasil Form Mahasiswa - Agama",
+                  "value":{
+                    "name": "Agama",
+                    "priority": 25,
+                    "tags": [
+                      "No BP",
+                      "Nama Lengkap",
+                      "Jurusan",
+                      "Prodi",
+                      "Tempat Tanggal Lahir",
+                      "Jenis Kelamin",
+                      "Agama",
+                      "No Telp",
+                      "Alamat"
+                    ]
+                  }
+                },
+                "no_telp" :{
+                  "description": "Example Get Hasil Form Mahasiswa - No Telp",
+                  "value":{
+                    "name": "No Telp",
+                    "priority": 15,
+                    "tags": [
+                      "No BP",
+                      "Nama Lengkap",
+                      "Jurusan",
+                      "Prodi",
+                      "Tempat Tanggal Lahir",
+                      "Jenis Kelamin",
+                      "Agama",
+                      "No Telp",
+                      "Alamat"
+                    ]
+                  }
+                },
+                "alamat" :{
+                  "description": "Example Get Hasil Form Mahasiswa - Alamat",
+                  "value":{
+                    "name": "Alamat",
+                    "priority": 50,
+                    "tags": [
+                      "No BP",
+                      "Nama Lengkap",
+                      "Jurusan",
+                      "Prodi",
+                      "Tempat Tanggal Lahir",
+                      "Jenis Kelamin",
+                      "Agama",
+                      "No Telp",
+                      "Alamat"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200" :{
+            "description": "Success Get Hasil Form Mahasiswa",
+            "content": {
+              "application/json":{
+                "schema":{
+                  "$ref": "#/components/schemas/HasilFormMahasiswaParams"
+                },
+                "examples": {
+                  "no_bp" :{
+                    "description": "Success Get Hasil Form Mahasiswa - No BP",
+                    "value":{
+                      "name": "No BP",
+                      "priority": 15,
+                      "tags": [
+                        "No BP",
+                        "Nama Lengkap",
+                        "Jurusan",
+                        "Prodi",
+                        "Tempat Tanggal Lahir",
+                        "Jenis Kelamin",
+                        "Agama",
+                        "No Telp",
+                        "Alamat"
+                      ]
+                    }
+                  },
+                  "nama_lengkap" :{
+                    "description": "Success Get Hasil Form Mahasiswa - Nama Lengkap",
+                    "value":{
+                      "name": "Nama Lengkap",
+                      "priority": 30,
+                      "tags": [
+                        "No BP",
+                        "Nama Lengkap",
+                        "Jurusan",
+                        "Prodi",
+                        "Tempat Tanggal Lahir",
+                        "Jenis Kelamin",
+                        "Agama",
+                        "No Telp",
+                        "Alamat"
+                      ]
+                    }
+                  },
+                  "jurusan" :{
+                    "description": "Success Get Hasil Form Mahasiswa - Jurusan",
+                    "value":{
+                      "name": "Jurusan",
+                      "priority": 30,
+                      "tags": [
+                        "No BP",
+                        "Nama Lengkap",
+                        "Jurusan",
+                        "Prodi",
+                        "Tempat Tanggal Lahir",
+                        "Jenis Kelamin",
+                        "Agama",
+                        "No Telp",
+                        "Alamat"
+                      ]
+                    }
+                  },
+                  "prodi" :{
+                    "description": "Success Get Hasil Form Mahasiswa - Prodi",
+                    "value":{
+                      "name": "Prodi",
+                      "priority": 30,
+                      "tags": [
+                        "No BP",
+                        "Nama Lengkap",
+                        "Jurusan",
+                        "Prodi",
+                        "Tempat Tanggal Lahir",
+                        "Jenis Kelamin",
+                        "Agama",
+                        "No Telp",
+                        "Alamat"
+                      ]
+                    }
+                  },
+                  "tempat_tanggal_lahir" :{
+                    "description": "Success Get Hasil Form Mahasiswa - Tempat Tanggal Lahir",
+                    "value":{
+                      "name": "Tempat Tanggal Lahir",
+                      "priority": 35,
+                      "tags": [
+                        "No BP",
+                        "Nama Lengkap",
+                        "Jurusan",
+                        "Prodi",
+                        "Tempat Tanggal Lahir",
+                        "Jenis Kelamin",
+                        "Agama",
+                        "No Telp",
+                        "Alamat"
+                      ]
+                    }
+                  },
+                  "jenis_kelamin" :{
+                    "description": "Success Get Hasil Form Mahasiswa - Jenis Kelamin",
+                    "value":{
+                      "name": "Jenis Kelamin",
+                      "priority": 20,
+                      "tags": [
+                        "No BP",
+                        "Nama Lengkap",
+                        "Jurusan",
+                        "Prodi",
+                        "Tempat Tanggal Lahir",
+                        "Jenis Kelamin",
+                        "Agama",
+                        "No Telp",
+                        "Alamat"
+                      ]
+                    }
+                  },
+                  "agama" :{
+                    "description": "Success Get Hasil  Form Mahasiswa - Agama",
+                    "value":{
+                      "name": "Agama",
+                      "priority": 25,
+                      "tags": [
+                        "No BP",
+                        "Nama Lengkap",
+                        "Jurusan",
+                        "Prodi",
+                        "Tempat Tanggal Lahir",
+                        "Jenis Kelamin",
+                        "Agama",
+                        "No Telp",
+                        "Alamat"
+                      ]
+                    }
+                  },
+                  "no_telp" :{
+                    "description": "Success Get Hasil Form Mahasiswa - No Telp",
+                    "value":{
+                      "name": "No Telp",
+                      "priority": 15,
+                      "tags": [
+                        "No BP",
+                        "Nama Lengkap",
+                        "Jurusan",
+                        "Prodi",
+                        "Tempat Tanggal Lahir",
+                        "Jenis Kelamin",
+                        "Agama",
+                        "No Telp",
+                        "Alamat"
+                      ]
+                    }
+                  },
+                  "alamat" :{
+                    "description": "Success Get Hasil Form Mahasiswa - Alamat",
+                    "value":{
+                      "name": "Alamat",
+                      "priority": 50,
+                      "tags": [
+                        "No BP",
+                        "Nama Lengkap",
+                        "Jurusan",
+                        "Prodi",
+                        "Tempat Tanggal Lahir",
+                        "Jenis Kelamin",
+                        "Agama",
+                        "No Telp",
+                        "Alamat"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }  
+  },
+  "components": {
+    "securitySchemes": {
+      "RegisterAuth":{
+        "description": "Authentication For Register",
+        "type": "apiKey",
+        "in": "header",
+        "name": "X-API-Key"
+      },
+      "LoginAuth":{
+        "description": "Authentication For Login",
+        "type": "apiKey",
+        "in": "header",
+        "name": "X-API-Key"
+      },
+      "FormMahasiswaAuth":{
+        "description": "Authentication For Form Mahasiswa",
+        "type": "apiKey",
+        "in": "header",
+        "name": "X-API-Key"
+      },
+      "HasilFormMahasiswaAuth":{
+        "description": "Authentication For Hasil Form Mahasiswa",
+        "type": "apiKey",
+        "in": "header",
+        "name": "X-API-Key"
+      }
+    },
+    "parameters": {
+      "FormMahasiswaGet-No_BP":{
+        "name": "no_bp",
+        "in": "path",
+        "required": true,
+        "description": "Form Mahasiswa - No BP For Get",
+        "schema":{
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 100
+        },
+        "examples": {
+          "no_bp" :{
+            "description": "Sample Form Mahasiswa - No BP For No BP",
+            "value": "1"
+          },
+          "nama_lengkap" :{
+            "description": "Sample Form Mahasiswa - No BP For Nama Lengkap",
+            "value": "2"
+          },
+          "jurusan" :{
+            "description": "Sample Form Mahasiswa - No BP For Jurusan",
+            "value": "3"
+          },
+          "prodi" :{
+            "description": "Sample Form Mahasiswa - No BP For Prodi",
+            "value": "4"
+          },
+          "tempat_tanggal_lahir" :{
+            "description": "Sample Form Mahasiswa - No BP For Tempat Tanggal Lahir",
+            "value": "5"
+          },
+          "jenis_kelamin" :{
+            "description": "Sample Form Mahasiswa - No BP For Jenis Kelamin",
+            "value": "6"
+          },
+          "agama" :{
+            "description": "Sample Form Mahasiswa - No BP For Agama",
+            "value": "7"
+          },
+          "no_telp" :{
+            "description": "Sample Form Mahasiswa - No BP For No Telp",
+            "value": "8"
+          },
+          "alamat" :{
+            "description": "Sample Form Mahasiswa - No BP For Alamat",
+            "value": "9"
+          }
+        }
+      },
+      "FormMahasiswaUpdate-No_BP":{
+        "name": "no_bp",
+        "in": "path",
+        "required": true,
+        "description": "Form Mahasiswa - No BP For Updated",
+        "schema":{
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 100
+        },
+        "examples": {
+          "no_bp" :{
+            "description": "Sample Form Mahasiswa - No BP For No BP",
+            "value": "1"
+          },
+          "nama_lengkap" :{
+            "description": "Sample Form Mahasiswa - No BP For Nama Lengkap",
+            "value": "2"
+          },
+          "jurusan" :{
+            "description": "Sample Form Mahasiswa - No BP For Jurusan",
+            "value": "3"
+          },
+          "prodi" :{
+            "description": "Sample Form Mahasiswa - No BP For Prodi",
+            "value": "4"
+          },
+          "tempat_tanggal_lahir" :{
+            "description": "Sample Form Mahasiswa - No BP For Tempat Tanggal Lahir",
+            "value": "5"
+          },
+          "jenis_kelamin" :{
+            "description": "Sample Form Mahasiswa - No BP For Jenis Kelamin",
+            "value": "6"
+          },
+          "agama" :{
+            "description": "Sample Form Mahasiswa - No BP For Agama",
+            "value": "7"
+          },
+          "no_telp" :{
+            "description": "Sample Form Mahasiswa - No BP For No Telp",
+            "value": "8"
+          },
+          "alamat" :{
+            "description": "Sample Form Mahasiswa - No BP For Alamat",
+            "value": "9"
+          }
+        }
+      },
+      "FormMahasiswaDelete-No_BP":{
+        "name": "no_bp",
+        "in": "path",
+        "required": true,
+        "description": "Form Mahasiswa - No BP For Delete",
+        "schema":{
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 100
+        },
+        "examples": {
+          "no_bp" :{
+            "description": "Sample Form Mahasiswa - No BP For No BP",
+            "value": "1"
+          },
+          "nama_lengkap" :{
+            "description": "Sample Form Mahasiswa - No BP For Nama Lengkap",
+            "value": "2"
+          },
+          "jurusan" :{
+            "description": "Sample Form Mahasiswa - No BP For Jurusan",
+            "value": "3"
+          },
+          "prodi" :{
+            "description": "Sample Form Mahasiswa - No BP For Prodi",
+            "value": "4"
+          },
+          "tempat_tanggal_lahir" :{
+            "description": "Sample Form Mahasiswa - No BP For Tempat Tanggal Lahir",
+            "value": "5"
+          },
+          "jenis_kelamin" :{
+            "description": "Sample Form Mahasiswa - No BP For Jenis Kelamin",
+            "value": "6"
+          },
+          "agama" :{
+            "description": "Sample Form Mahasiswa - No BP For Agama",
+            "value": "7"
+          },
+          "no_telp" :{
+            "description": "Sample Form Mahasiswa - No BP For No Telp",
+            "value": "8"
+          },
+          "alamat" :{
+            "description": "Sample Form Mahasiswa - No BP For Alamat",
+            "value": "9"
+          }
+        }
+      },
+      "HasilFormMahasiswaGet-No_BP":{
+        "name": "no_bp",
+        "in": "path",
+        "required": true,
+        "description": "Hasil Form Mahasiswa - No BP For Get",
+        "schema":{
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 100
+        },
+        "examples": {
+          "no_bp" :{
+            "description": "Sample Hasil Form Mahasiswa - No BP For No BP",
+            "value": "1"
+          },
+          "nama_lengkap" :{
+            "description": "Sample Hasil Form Mahasiswa - No BP For Nama Lengkap",
+            "value": "2"
+          },
+          "jurusan" :{
+            "description": "Sample Hasil Form Mahasiswa - No BP For Jurusan",
+            "value": "3"
+          },
+          "prodi" :{
+            "description": "Sample Hasil Form Mahasiswa - No BP For Prodi",
+            "value": "4"
+          },
+          "tempat_tanggal_lahir" :{
+            "description": "Sample Hasil Form Mahasiswa - No BP For Tempat Tanggal Lahir",
+            "value": "5"
+          },
+          "jenis_kelamin" :{
+            "description": "Sample Hasil Form Mahasiswa - No BP For Jenis Kelamin",
+            "value": "6"
+          },
+          "agama" :{
+            "description": "Sample Hasil Form Mahasiswa - No BP For Agama",
+            "value": "7"
+          },
+          "no_telp" :{
+            "description": "Sample Hasil Form Mahasiswa - No BP For No Telp",
+            "value": "8"
+          },
+          "alamat" :{
+            "description": "Sample Hasil Form Mahasiswa - No BP For Alamat",
+            "value": "9"
+          }
+        }
+      }
+    },
+    "schemas": {
+      "Register": {
+        "type": "object",
+        "properties": {
+            "nama": {
+                "type": "string"
+            },
+            "email": {
+                "type": "string"
+            },
+            "username": {
+                "type": "string"
+            },
+            "password": {
+                "type": "string"
+            },
+            "re_password": {
+              "type": "string"
+          }
+        }
+      },
+      "Login":{
+        "type": "object",
+        "properties": {
+          "name":{
+            "type": "string"
+          },
+          "priority":{
+            "type": "number",
+            "format": "int32"
+          },
+          "tags":{
+            "type": "array",
+            "items":{
+              "type": "string"
+            }
+          }
+        }
+      },
+      "FormMahasiswa":{
+        "type": "object",
+        "properties": {
+          "name":{
+            "type": "string"
+          },
+          "priority":{
+            "type": "number",
+            "format": "int64"
+          },
+          "tags":{
+            "type": "array",
+            "items":{
+              "type": "string"
+            }
+          }
+        }
+      },
+      "FormMahasiswaParams":{
+        "type": "object",
+        "properties": {
+          "id":{
+            "type": "string"
+          },
+          "name":{
+            "type": "string"
+          },
+          "priority":{
+            "type": "number",
+            "format": "int64"
+          },
+          "tags":{
+            "type": "array",
+            "items":{
+              "type": "string"
+            }
+          }
+        }
+      },
+      "HasilFormMahasiswa":{
+        "type": "object",
+        "properties": {
+          "name":{
+            "type": "string"
+          },
+          "priority":{
+            "type": "number",
+            "format": "int64"
+          },
+          "tags":{
+            "type": "array",
+            "items":{
+              "type": "string"
+            }
+          }
+        }
+      },
+      "HasilFormMahasiswaParams":{
+        "type": "object",
+        "properties": {
+          "id":{
+            "type": "string"
+          },
+          "name":{
+            "type": "string"
+          },
+          "priority":{
+            "type": "number",
+            "format": "int64"
+          },
+          "tags":{
+            "type": "array",
+            "items":{
+              "type": "string"
+            }
+          }
+        }
+      }
+    }
+  }
+}

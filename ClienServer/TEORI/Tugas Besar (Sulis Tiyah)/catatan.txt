@@ -1,0 +1,85 @@
+
+Tahapan membuat RESTful API
+
+Businnes Flow ==> UI/UX Screen ==> API Documentation ==> Develop RESTful API
+
+
+Catatan:
+Buat Restful API dengan Kasus Tentukan sendiri. Alur pembuatan nya bedasarkan diagram diatas
+
+Gunakan video sebelumnya sebagai referensi. Waktu pembuatan sampai ujian UAS.
+
+Untuk nilai UAS diambil berdasarkan 4 komponen diagran diatas dengan cara presentasi masing-masing mahasiswa.
+
+Upload hasil dan laporan lemajuan project nya dalam bentuk RAR
+
+
+
+Businnes Flow
+..Menentukan apa saja akan dibuat dan apa saja yang akan dibutuhkan
+
+Contoh: Shoopping Cart
+
+1. Customer menambahkan barang kekeranjang, bisa lebih dari satu barang
+2. Customer membuka halaman keranjang, bisa mengubah data quantity barang
+3. Customer memasukan alamat pengiriman
+4. Cstomer menekan tombol order untuk membuat order 
+
+
+UI/EX Screen
+product Detail (add to cart) ==> Shopping Cart (update quantity, tekan tombol cek out maka akan ke shipping address) ==> Shipping Address (pengisian data alamat) ==> Order Detail ( detail dari prduct yang telah dioerder)
+
+
+API Documentation:
+
+Prduct Detail:
+  # GET/product/{productId}
+  # POST/carts
+
+
+Shopping Cart:
+  # GET/carts
+  # PATCH/carts/products
+  # PATCH/carts/products/{productId}
+  # DELETE/carts/products/{productId}
+
+
+Shipping Address:
+  # GET/addresses
+  # POST/addresses
+  # PUT/carts/addresses
+  # POST/orders
+
+
+Order Detail:
+  # GET/orders/{orderId}
+
+---Lanjut Koding-----
+
+
+DEVELOP RESTful API
+
+
+
+Businnes Flow
+SUTEL'S CELL
+1. Menambahkan product ke dalam keranjang, dan bisa lebih dari satu barang
+2. 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,88 @@
+spark db
+
+===================================DAFTAR========================================
+
+	    get("/daftar", (request, response) -> {
+                response.status(200);
+                response.type("application/json");
+                return new Gson().toJson(new StandardResponse(StatusResponse.SUCCESS, new Gson().toJsonTree(daftarService.getDaftar())));
+            });
+            
+            get("/daftar:username", (request, response) -> {
+                response.type("application/json");
+                return new Gson().toJson(
+                        new StandardResponse(StatusResponse.SUCCESS,
+                                new Gson().toJsonTree(
+                                        daftarService.getDaftar(request.params(":username"))
+                                )
+                        )
+                );
+            });
+            
+            put("/daftar/:username", (request, response) -> {
+                response.type("application/json");
+                Daftar toEdit = new Gson().fromJson(request.body(), Daftar.class);
+                Daftar editDaftar = daftarService.editDaftar(toEdit);
+                if (editDaftar != null) {
+                    return new Gson().toJson(
+                            new StandardResponse(StatusResponse.SUCCESS,
+                                    new Gson().toJsonTree(editDaftar)));
+                } else {
+                    return new Gson().toJson(
+                            new StandardResponse(StatusResponse.ERROR,
+                                    new Gson().toJson("Daftar not found or error in edit")));
+                }
+            });
+
+            delete("/daftar/:username", (request, response) -> {
+                response.type("application/json");
+                daftarService.deletedDaftar(request.params(":username"));
+                return new Gson().toJson(new StandardResponse(StatusResponse.SUCCESS, "Data daftar deleted"));
+            });
+
+
+
+======================LOGIN========================================
+
+
+	    get("/login", (request, response) -> {
+                response.status(200);
+                response.type("application/json");
+                return new Gson().toJson(new StandardResponse(StatusResponse.SUCCESS, new Gson().toJsonTree(loginService.getLogin())));
+            });
+            
+            get("/login:username", (request, response) -> {
+                response.type("application/json");
+                return new Gson().toJson(
+                        new StandardResponse(StatusResponse.SUCCESS,
+                                new Gson().toJsonTree(
+                                        loginService.getLohin(request.params(":username"))
+                                )
+                        )
+                );
+            });
+            
+            put("/login/:username", (request, response) -> {
+                response.type("application/json");
+                Login toEdit = new Gson().fromJson(request.body(), Login.class);
+                Login editLogin = loginService.editLogin(toEdit);
+                if (editLogin != null) {
+                    return new Gson().toJson(
+                            new StandardResponse(StatusResponse.SUCCESS,
+                                    new Gson().toJsonTree(editLogin)));
+                } else {
+                    return new Gson().toJson(
+                            new StandardResponse(StatusResponse.ERROR,
+                                    new Gson().toJson("Login not found or error in edit")));
+                }
+            });
+
+            delete("/login/:username", (request, response) -> {
+                response.type("application/json");
+                loginService.deletedLogin(request.params(":username"));
+                return new Gson().toJson(new StandardResponse(StatusResponse.SUCCESS, "Data login deleted"));
+            });
+
+
+
+

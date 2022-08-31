@@ -1,0 +1,80 @@
+"get": {
+        "security": [
+          {
+            "LoginAuth":[]
+          }
+        ],
+        "tags": ["Login"],
+        "summary": "Get all Hello",
+        "description": "Get all active hello by default",
+        "parameters": [
+          {
+            "name": "include_done",
+            "in": "query",
+            "required": false,
+            "description": "Is include done hello",
+            "schema":{
+              "type": "boolean",
+              "nullable": true,
+              "default": false
+            }
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "required": false,
+            "description": "Filter hello by name",
+            "schema":{
+              "type": "string",
+              "nullable": true,
+              "minLength": 1,
+              "maxLength": 100
+            },
+            "examples": {
+              "java":{
+                "description": "Example name Java",
+                "value": "Java"
+              },
+              "php":{
+                "description": "Example name PHP",
+                "value": "PHP"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200":{
+            "description": "Succes get all Hello",
+            "content": {
+              "application/json":{
+                "schema":{
+                  "$ref": "#/components/schemas/ArrayHello"
+                },
+                "examples": {
+                  "success":{
+                    "description": "Example success get all hello",
+                    "value":[
+                      {
+                        "id" : "1",
+                        "name" : "Java",
+                        "priority" : 3,
+                        "tags" : [
+                          "Java", "Programming"
+                        ]
+                      },
+                      {
+                        "id" : "2",
+                        "name" : "PHP",
+                        "priority" : 5,
+                        "tags" : [
+                          "PHP", "Programming"
+                        ]
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      },

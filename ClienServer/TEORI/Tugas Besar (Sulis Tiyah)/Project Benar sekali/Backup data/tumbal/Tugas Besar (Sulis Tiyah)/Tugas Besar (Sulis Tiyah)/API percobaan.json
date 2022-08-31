@@ -1,0 +1,437 @@
+{
+  "openapi": "3.0.2",
+    "info":{
+      "title": "Hello RESTful API Sutel",
+      "version": "1",
+      "description": "Hello Welcome to 'Sutelllll'",
+      "contact": {
+          "name": "Sulis Tiyah",
+          "email": "sulistyhm.03@gmail.com",
+          "url":"https://instagram.com/sulistyh_?utm_medium=copy_link"
+      },
+      "license": {
+          "name": "Politeknik Negeri Padang",
+          "url": "https://www.pnp.ac.id/"
+      }
+  },
+  "servers": [
+    {
+      "description": "Hello Welcome to 'Sutelllll'",
+      "url": "https://{environment}.apipercobaansutel.com",
+      "variables": {
+        "environment":{
+          "description": "Server Environtment",
+          "default": "dev",
+          "enum": [
+            "dev",
+            "qa",
+            "prod"
+          ]
+        }
+      }
+    }
+  ],
+  "externalDocs": {
+    "description": "Youtube Sulis Tiyah",
+    "url": "https://youtu.be/a80xb3ZJTQA"
+  },
+  "paths": {
+    "/hello": {
+      "get": {
+        "security": [
+          {
+            "HelloAuth":[]
+          }
+        ],
+        "tags": ["Hello"],
+        "summary": "Get all Hello",
+        "description": "Get all active hello by default",
+        "parameters": [
+          {
+            "name": "include_done",
+            "in": "query",
+            "required": false,
+            "description": "Is include done hello",
+            "schema":{
+              "type": "boolean",
+              "nullable": true,
+              "default": false
+            }
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "required": false,
+            "description": "Filter hello by name",
+            "schema":{
+              "type": "string",
+              "nullable": true,
+              "minLength": 1,
+              "maxLength": 100
+            },
+            "examples": {
+              "java":{
+                "description": "Example name Java",
+                "value": "Java"
+              },
+              "php":{
+                "description": "Example name PHP",
+                "value": "PHP"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200":{
+            "description": "Succes get all Hello",
+            "content": {
+              "application/json":{
+                "schema":{
+                  "$ref": "#/components/schemas/ArrayHello"
+                },
+                "examples": {
+                  "success":{
+                    "description": "Example success get all hello",
+                    "value":[
+                      {
+                        "id" : "1",
+                        "name" : "Java",
+                        "priority" : 3,
+                        "tags" : [
+                          "Java", "Programming"
+                        ]
+                      },
+                      {
+                        "id" : "2",
+                        "name" : "PHP",
+                        "priority" : 5,
+                        "tags" : [
+                          "PHP", "Programming"
+                        ]
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "security": [
+          {
+            "HelloAuth":[]
+          }
+        ],
+        "tags": ["Hello"],
+        "summary": "Create new hello",
+        "description": "Create new hello to database",
+        "requestBody":{
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema":{
+                "$ref": "#/components/schemas/CreateOrUpdateHello"              
+              },
+              "examples": {
+                "java" :{
+                  "description": "Example create hello Java",
+                  "value":{
+                    "name": "Java",
+                    "priority": 3,
+                    "tags": [
+                      "Java",
+                      "Programming"
+                    ]
+                  }
+                },
+                "php" :{
+                  "description": "Example create hello PHP",
+                  "value":{
+                    "name": "PHP",
+                    "priority": 5,
+                    "tags": [
+                      "PHP",
+                      "Programming"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200" :{
+            "description": "Success create hello",
+            "content": {
+              "application/json":{
+                "schema":{
+                  "$ref": "#/components/schemas/Hello"
+                },
+                "examples": {
+                  "java" :{
+                    "description": "Success create Java hello",
+                    "value":{
+                      "id" : "1",
+                      "name": "Java",
+                      "priority": 3,
+                      "tags": [
+                        "Java",
+                        "Programming"
+                      ]
+                    }
+                  },
+                  "php" :{
+                    "description": "Success create PHP hello",
+                    "value":{
+                      "id": "2",
+                      "name": "PHP",
+                      "priority": 5,
+                      "tags": [
+                        "PHP",
+                        "Programming"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/hello/{helloId}":{
+      "put": {
+        "security": [
+          {
+            "HelloAuth":[]
+          }
+        ],
+        "tags": ["Hello"],
+        "summary": "Update existing hello",
+        "description": "Update existing hello in database",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/HelloId"
+          }
+        ],
+        "requestBody":{
+          "required": true,
+          "content": {
+            "application/json":{
+              "schema":{
+                "$ref":"#/components/schemas/CreateOrUpdateHello"
+              },
+              "examples": {
+                "java" :{
+                  "description": "Example create hello Java",
+                  "value":{
+                    "name": "Java",
+                    "priority": 3,
+                    "tags": [
+                      "Java",
+                      "Programming"
+                    ]
+                  }
+                },
+                "php" :{
+                  "description": "Example create hello PHP",
+                  "value":{
+                    "name": "PHP",
+                    "priority": 5,
+                    "tags": [
+                      "PHP",
+                      "Programming"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200" :{
+            "description": "Success update hello",
+            "content": {
+              "application/json":{
+                "schema":{
+                  "$ref": "#/components/schemas/Hello"
+            
+                },
+                "examples": {
+                  "java" :{
+                    "description": "Success create Java hello",
+                    "value":{
+                      "id" : "1",
+                      "name": "Java",
+                      "priority": 3,
+                      "tags": [
+                        "Java",
+                        "Programming"
+                      ]
+                    }
+                  },
+                  "php" :{
+                    "description": "Success create PHP hello",
+                    "value":{
+                      "id": "2",
+                      "name": "PHP",
+                      "priority": 5,
+                      "tags": [
+                        "PHP",
+                        "Programming"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "security": [
+          {
+            "HelloAuth":[]
+          }
+        ],
+        "tags": ["Hello"],
+        "summary": "Delete existing hello",
+        "description": "Delete existing hello in database",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/HelloId"
+          }
+        ],
+        "responses": {
+          "200" : {
+            "description":"Success delete hello",
+            "content":{
+              "application/json":{
+                "schema":{
+                  "type": "object",
+                  "properties":{
+                    "success":{
+                      "type":"boolean"
+                    }
+                  }
+                },
+                "examples": {
+                  "success" : {
+                    "description": "Success delete hello",
+                    "value": {
+                      "success": true
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404" : {
+            "description":"Failed delete not found hello",
+            "content":{
+              "application/json":{
+                "schema":{
+                  "type": "object",
+                  "properties":{
+                    "success":{
+                      "type":"boolean"
+                    }
+                  }
+                },
+                "examples": {
+                  "failed" : {
+                    "description": "Failed delete hello",
+                    "value": {
+                      "success": false
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "HelloAuth":{
+        "description": "Authentication for Hello RESTful API Sutel",
+        "type": "apiKey",
+        "in": "header",
+        "name": "X-API-Key"
+      }
+    },
+    "parameters": {
+      "HelloId":{
+        "name": "helloId",
+        "in": "path",
+        "required": true,
+        "description": "Hello id for updated",
+        "schema":{
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 100
+        },
+        "examples": {
+          "java" :{
+            "description": "Sample hello id for Java",
+            "value": "1"
+          },
+          "php" :{
+            "description": "Sample hello id for PHP",
+            "value": "2"
+          }
+        }
+      }
+    },
+    "schemas": {
+      "Hello":{
+        "type": "object",
+        "properties": {
+          "id":{
+            "type": "string"
+          },
+          "name":{
+            "type": "string"
+          },
+          "priority":{
+            "type": "number",
+            "format": "int32"
+          },
+          "tags":{
+            "type": "array",
+            "items":{
+              "type": "string"
+            }
+          }
+        }
+      },
+      "CreateOrUpdateHello":{
+        "type": "object",
+        "properties": {
+          "name":{
+            "type": "string"
+          },
+          "priority":{
+            "type": "number",
+            "format": "int32"
+          },
+          "tags":{
+            "type": "array",
+            "items":{
+              "type": "string"
+            }
+          }
+        }
+      },
+      "ArrayHello":{
+        "type": "array",
+        "items":{
+          "$ref": "#/components/schemas/Hello"
+        }
+      }
+    }
+  }
+}
