@@ -1,0 +1,632 @@
+15 Desember 2021
+
+JENIS-JENIS
+===========
+	1. INNER JOIN
+	2. OUTER JOIN
+		Full Outer Join
+		Right Outer Join
+		Left Outer Join
+	3. Self Join
+ 	4. Cross Join
+
+
+INNER JOIN
+STruktur 1: FROM....WHERE
+	SELECT field1,field2,namatabel.field3
+	FROM tabel1,tabel2,tabel3
+	WHERE tabel1.fieldRealasi=tabel2.fieldRelasi AND
+		tabel2.fieldRealasi=tabel3.fieldRelasi
+
+
+
+Struktur 2: JOIN - ON
+2 tabel:
+	SELECT field1,field2,namatabel.field3
+	FROM tabel1 JOIN tabel2 ON tabel1.fieldRealasi=tabel2.fieldRelasi;
+
+3 tabel:
+	SELECT field1,field2,namatabel.field3
+	FROM tabel1 JOIN tabel2 
+	ON tabel1.fieldRealasi=tabel2.fieldRelasi
+	JOIN tabel3
+	tabel2.fieldRealasi=tabel3.fieldRelasi;
+
+atau
+	SELECT field1,field2,namatabel.field3
+	FROM tabel1 JOIN tabel2 JOIN tabel3
+	ON tabel1.fieldRealasi=tabel2.fieldRelasi AND
+	tabel2.fieldRealasi=tabel3.fieldRelasi;
+
+
+Struktur 3:
+
+	SELECT field1,field2,namatabel.field3
+	FROM tabel1 JOIN tabel2 USING(fieldrelasi);
+
+	
+	SELECT field1,field2,namatabel.field3
+	FROM tabel1 JOIN tabel2 USING(fieldrelasi)
+	JOIN tabel3 USING(fieldrelasi);
+
+======================================================
+OUTER JOIN
+
+1. Left Outer Join
+....Mengambil seluruh data pada tabel sebelah kiri dari JOIN baik yang berelasi dengan tabel kanan maupun tidak
+
+Struktur 1:
+	SELECT field1,field2
+	FROM tabel1 LEFT OUTER JOIN tabel2
+	ON tabel1.fieldrelasi - tabel2.fieldrelasi;
+
+	SELECT field1,field2
+	FROM tabel1 LEFT JOIN tabel2
+	ON tabel1.fieldrelasi - tabel2.fieldrelasi;
+
+atau kalau fieldrelasi memiliki nama yang sama dikedua tabel, bisa digunakan:
+
+	SELECT field1, field2
+	FROM tabel1 LEFT OUTER JOIN tabel 2 USING(fieldrelasi);
+
+	SELECT field1, field2
+	FROM tabel1 LEFT JOIN tabel 2 USING(fieldrelasi);
+
+CONTOH:
+	Tampilkan data tgl transaksi, namabarang, jumlah, harga untuk seluruh barang baik yang sudah terjual maupun tidak.
+
+	SELECT tgl,tbrg.kdbrg,nmbrg,jml,hrg
+	FROM tbrg LEFT JOIN ttrans
+	ON tbrg.kdbrg = ttrans.kdbrg;
+
+	SELECT tgl,tbrg.kdbrg,nmbrg,jml,hrg
+	FROM tbrg LEFT JOIN ttrans USING(kdbrg);
+	
+	SELECT tgl,ttrans.kdbrg,nmbrg,jml,hrg
+	FROM tbrg LEFT JOIN ttrans
+	ON tbrg.kdbrg = ttrans.kdbrg;
+
+SELECT tgl,tbrg.kdbrg,nmbrg,jml,hrg
+    -> FROM tbrg LEFT JOIN ttrans
+    -> ON tbrg.kdbrg = ttrans.kdbrg;
++------------+-------+-------------------------+------+--------+
+| tgl        | kdbrg | nmbrg                   | jml  | hrg    |
++------------+-------+-------------------------+------+--------+
+| 2008-09-01 | B001  | Komputer Pentium 4      |    5 | 750000 |
+| 2008-09-02 | B001  | Komputer Pentium 4      |   20 | 750000 |
+| 2008-10-01 | B001  | Komputer Pentium 4      |   10 | 750000 |
+| 2008-10-10 | B001  | Komputer Pentium 4      |    5 | 175000 |
+| 2007-01-10 | B001  | Komputer Pentium 4      |    5 | 750000 |
+| 2006-02-06 | B001  | Komputer Pentium 4      |   12 | 750000 |
+| 2005-03-01 | B001  | Komputer Pentium 4      |   10 | 750000 |
+| 2006-05-31 | B001  | Komputer Pentium 4      |   40 | 750000 |
+| 2008-09-01 | B002  | Notebook ASUS 12 Inch   |    5 | 175000 |
+| 2008-09-01 | B002  | Notebook ASUS 12 Inch   |    5 | 175000 |
+| 2008-09-01 | B002  | Notebook ASUS 12 Inch   |   15 | 175000 |
+| 2008-09-02 | B002  | Notebook ASUS 12 Inch   |   20 | 175000 |
+| 2008-09-03 | B002  | Notebook ASUS 12 Inch   |   30 | 225000 |
+| 2007-01-10 | B002  | Notebook ASUS 12 Inch   |    1 | 175000 |
+| 2008-09-01 | B003  | Disket                  |   20 |  25000 |
+| 2007-01-10 | B003  | Disket                  |    3 |  25000 |
+| 2008-09-02 | B004  | Hardisk Ext WD 500GB    |   10 | 220000 |
+| 2005-03-01 | B004  | Hardisk Ext WD 500GB    |   15 | 220000 |
+| 2008-09-01 | B005  | Flasdisk Kingston 8GB   |   10 |  50000 |
+| 2008-09-03 | B005  | Flasdisk Kingston 8GB   |   30 |  50000 |
+| NULL       | B006  | Monitor Samsung 15 Inch | NULL |   NULL |
+| NULL       | B007  | Mouse Wireless Logitech | NULL |   NULL |
++------------+-------+-------------------------+------+--------+
+22 rows in set (0.012 sec)
+
+
+SELECT tgl,tbrg.kdbrg,nmbrg,jml,hrg
+    -> FROM tbrg LEFT JOIN ttrans USING(kdbrg);
++------------+-------+-------------------------+------+--------+
+| tgl        | kdbrg | nmbrg                   | jml  | hrg    |
++------------+-------+-------------------------+------+--------+
+| 2008-09-01 | B001  | Komputer Pentium 4      |    5 | 750000 |
+| 2008-09-02 | B001  | Komputer Pentium 4      |   20 | 750000 |
+| 2008-10-01 | B001  | Komputer Pentium 4      |   10 | 750000 |
+| 2008-10-10 | B001  | Komputer Pentium 4      |    5 | 175000 |
+| 2007-01-10 | B001  | Komputer Pentium 4      |    5 | 750000 |
+| 2006-02-06 | B001  | Komputer Pentium 4      |   12 | 750000 |
+| 2005-03-01 | B001  | Komputer Pentium 4      |   10 | 750000 |
+| 2006-05-31 | B001  | Komputer Pentium 4      |   40 | 750000 |
+| 2008-09-01 | B002  | Notebook ASUS 12 Inch   |    5 | 175000 |
+| 2008-09-01 | B002  | Notebook ASUS 12 Inch   |    5 | 175000 |
+| 2008-09-01 | B002  | Notebook ASUS 12 Inch   |   15 | 175000 |
+| 2008-09-02 | B002  | Notebook ASUS 12 Inch   |   20 | 175000 |
+| 2008-09-03 | B002  | Notebook ASUS 12 Inch   |   30 | 225000 |
+| 2007-01-10 | B002  | Notebook ASUS 12 Inch   |    1 | 175000 |
+| 2008-09-01 | B003  | Disket                  |   20 |  25000 |
+| 2007-01-10 | B003  | Disket                  |    3 |  25000 |
+| 2008-09-02 | B004  | Hardisk Ext WD 500GB    |   10 | 220000 |
+| 2005-03-01 | B004  | Hardisk Ext WD 500GB    |   15 | 220000 |
+| 2008-09-01 | B005  | Flasdisk Kingston 8GB   |   10 |  50000 |
+| 2008-09-03 | B005  | Flasdisk Kingston 8GB   |   30 |  50000 |
+| NULL       | B006  | Monitor Samsung 15 Inch | NULL |   NULL |
+| NULL       | B007  | Mouse Wireless Logitech | NULL |   NULL |
++------------+-------+-------------------------+------+--------+
+22 rows in set (0.002 sec)
+
+
+MariaDB [dbpenjualan]> SELECT tgl,ttrans.kdbrg,nmbrg,jml,hrg
+    -> FROM tbrg LEFT JOIN ttrans
+    -> ON tbrg.kdbrg = ttrans.kdbrg;
++------------+-------+-------------------------+------+--------+
+| tgl        | kdbrg | nmbrg                   | jml  | hrg    |
++------------+-------+-------------------------+------+--------+
+| 2008-09-01 | B001  | Komputer Pentium 4      |    5 | 750000 |
+| 2008-09-02 | B001  | Komputer Pentium 4      |   20 | 750000 |
+| 2008-10-01 | B001  | Komputer Pentium 4      |   10 | 750000 |
+| 2008-10-10 | B001  | Komputer Pentium 4      |    5 | 175000 |
+| 2007-01-10 | B001  | Komputer Pentium 4      |    5 | 750000 |
+| 2006-02-06 | B001  | Komputer Pentium 4      |   12 | 750000 |
+| 2005-03-01 | B001  | Komputer Pentium 4      |   10 | 750000 |
+| 2006-05-31 | B001  | Komputer Pentium 4      |   40 | 750000 |
+| 2008-09-01 | B002  | Notebook ASUS 12 Inch   |    5 | 175000 |
+| 2008-09-01 | B002  | Notebook ASUS 12 Inch   |    5 | 175000 |
+| 2008-09-01 | B002  | Notebook ASUS 12 Inch   |   15 | 175000 |
+| 2008-09-02 | B002  | Notebook ASUS 12 Inch   |   20 | 175000 |
+| 2008-09-03 | B002  | Notebook ASUS 12 Inch   |   30 | 225000 |
+| 2007-01-10 | B002  | Notebook ASUS 12 Inch   |    1 | 175000 |
+| 2008-09-01 | B003  | Disket                  |   20 |  25000 |
+| 2007-01-10 | B003  | Disket                  |    3 |  25000 |
+| 2008-09-02 | B004  | Hardisk Ext WD 500GB    |   10 | 220000 |
+| 2005-03-01 | B004  | Hardisk Ext WD 500GB    |   15 | 220000 |
+| 2008-09-01 | B005  | Flasdisk Kingston 8GB   |   10 |  50000 |
+| 2008-09-03 | B005  | Flasdisk Kingston 8GB   |   30 |  50000 |
+| NULL       | NULL  | Monitor Samsung 15 Inch | NULL |   NULL |
+| NULL       | NULL  | Mouse Wireless Logitech | NULL |   NULL |
++------------+-------+-------------------------+------+--------+
+22 rows in set (0.001 sec)
+
+
+=================================================================================
+
+
+2. Right Outer Join
+....Mengambil seluruh data pada tabel sebelah kanan dari JOIN baik yang berelasi dengan tabel kiri maupun tidak
+
+Struktur 1:
+	SELECT field1,field2
+	FROM tabel1 RIGHT OUTER JOIN tabel2
+	ON tabel1.fieldrelasi - tabel2.fieldrelasi;
+
+	SELECT field1,field2
+	FROM tabel1 RIGHT JOIN tabel2
+	ON tabel1.fieldrelasi - tabel2.fieldrelasi;
+
+atau kalau fieldrelasi memiliki nama yang sama dikedua tabel, bisa digunakan:
+
+	SELECT field1, field2
+	FROM tabel1 RIGHT OUTER JOIN tabel 2 USING(fieldrelasi);
+
+	SELECT field1, field2
+	FROM tabel1 RIGHT JOIN tabel 2 USING(fieldrelasi);
+
+
+CONTOH:
+	Tampilkan data tgl transaksi, namabarang, jumlah, harga untuk seluruh barang baik yang sudah terjual maupun tidak.
+
+
+	SELECT tgl,ttrans.kdbrg,nmbrg,jml,hrg
+	FROM ttrans RIGHT JOIN tbrg
+	ON tbrg.kdbrg = ttrans.kdbrg;
+
+	SELECT tgl,tbrg.kdbrg,nmbrg,jml,hrg
+	FROM ttrans RIGHT JOIN tbrg USING(kdbrg);
+
+
+CONTOH:
+DBJUAL
+	Tampilkan seluruh namapelanggan beserta alamat dan tanggal transaksi untuk pelanggan yang pernah maupun belum bertransaksi
+
+	SELECT nmlgn,ttrans.kdlgn,almlgn,tgl
+	FROM tpelanggan LEFT JOIN ttrans
+	ON tpelanggan.kdlgn = ttrans.kdlgn;
+
+
+	SELECT nmlgn,ttrans.kdlgn,almlgn,tgl
+	FROM ttrans RIGHT JOIN tpelanggan
+	ON tpelanggan.kdlgn = ttrans.kdlgn;
+
+SELECT nmlgn,ttrans.kdlgn,almlgn,tgl
+    -> FROM tpelanggan LEFT JOIN ttrans
+    -> ON tpelanggan.kdlgn = ttrans.kdlgn;
++--------------+-------+-----------------+------------+
+| nmlgn        | kdlgn | almlgn          | tgl        |
++--------------+-------+-----------------+------------+
+| Galaxy Media | P001  | Birugo          | 2008-09-01 |
+| Galaxy Media | P001  | Birugo          | 2008-09-01 |
+| Galaxy Media | P001  | Birugo          | 2008-09-01 |
+| Galaxy Media | P001  | Birugo          | 2008-09-01 |
+| Galaxy Media | P001  | Birugo          | 2006-05-31 |
+| Gamatechno   | P002  | Anduring        | 2008-09-01 |
+| Gamatechno   | P002  | Anduring        | 2008-09-01 |
+| Gamatechno   | P002  | Anduring        | 2008-09-02 |
+| Gamatechno   | P002  | Anduring        | 2008-09-02 |
+| Gamatechno   | P002  | Anduring        | 2008-10-10 |
+| Gamatechno   | P002  | Anduring        | 2005-03-01 |
+| Gamatechno   | P002  | Anduring        | 2005-03-01 |
+| Citra Mozaic | P003  | Jl. Veteran     | 2008-09-02 |
+| Citra Mozaic | P003  | Jl. Veteran     | 2008-09-03 |
+| Citra Mozaic | P003  | Jl. Veteran     | 2008-09-03 |
+| Citra Mozaic | P003  | Jl. Veteran     | 2008-10-01 |
+| Citra Mozaic | P003  | Jl. Veteran     | 2007-01-10 |
+| Citra Mozaic | P003  | Jl. Veteran     | 2007-01-10 |
+| Citra Mozaic | P003  | Jl. Veteran     | 2007-01-10 |
+| JJ ENT       | P004  | Khatib Sulaiman | 2006-02-06 |
+| Green Media  | NULL  | Jambu Air       | NULL       |
+| Tk. Intan    | NULL  | Jl.S.Hatta      | NULL       |
+| Onexindo     | NULL  | Pauh            | NULL       |
+| Rudi         | NULL  | NULL            | NULL       |
+| Citra        | NULL  | NULL            | NULL       |
+| Anwar        | NULL  | NULL            | NULL       |
+| Raffi        | NULL  | NULL            | NULL       |
+| Citra        | NULL  | NULL            | NULL       |
+| NULL         | NULL  | Padang          | NULL       |
++--------------+-------+-----------------+------------+
+29 rows in set (0.010 sec)
+
+SELECT nmlgn,ttrans.kdlgn,almlgn,tgl
+    -> FROM ttrans RIGHT JOIN tpelanggan
+    -> ON tpelanggan.kdlgn = ttrans.kdlgn;
++--------------+-------+-----------------+------------+
+| nmlgn        | kdlgn | almlgn          | tgl        |
++--------------+-------+-----------------+------------+
+| Galaxy Media | P001  | Birugo          | 2008-09-01 |
+| Galaxy Media | P001  | Birugo          | 2008-09-01 |
+| Galaxy Media | P001  | Birugo          | 2008-09-01 |
+| Galaxy Media | P001  | Birugo          | 2008-09-01 |
+| Galaxy Media | P001  | Birugo          | 2006-05-31 |
+| Gamatechno   | P002  | Anduring        | 2008-09-01 |
+| Gamatechno   | P002  | Anduring        | 2008-09-01 |
+| Gamatechno   | P002  | Anduring        | 2008-09-02 |
+| Gamatechno   | P002  | Anduring        | 2008-09-02 |
+| Gamatechno   | P002  | Anduring        | 2008-10-10 |
+| Gamatechno   | P002  | Anduring        | 2005-03-01 |
+| Gamatechno   | P002  | Anduring        | 2005-03-01 |
+| Citra Mozaic | P003  | Jl. Veteran     | 2008-09-02 |
+| Citra Mozaic | P003  | Jl. Veteran     | 2008-09-03 |
+| Citra Mozaic | P003  | Jl. Veteran     | 2008-09-03 |
+| Citra Mozaic | P003  | Jl. Veteran     | 2008-10-01 |
+| Citra Mozaic | P003  | Jl. Veteran     | 2007-01-10 |
+| Citra Mozaic | P003  | Jl. Veteran     | 2007-01-10 |
+| Citra Mozaic | P003  | Jl. Veteran     | 2007-01-10 |
+| JJ ENT       | P004  | Khatib Sulaiman | 2006-02-06 |
+| Green Media  | NULL  | Jambu Air       | NULL       |
+| Tk. Intan    | NULL  | Jl.S.Hatta      | NULL       |
+| Onexindo     | NULL  | Pauh            | NULL       |
+| Rudi         | NULL  | NULL            | NULL       |
+| Citra        | NULL  | NULL            | NULL       |
+| Anwar        | NULL  | NULL            | NULL       |
+| Raffi        | NULL  | NULL            | NULL       |
+| Citra        | NULL  | NULL            | NULL       |
+| NULL         | NULL  | Padang          | NULL       |
++--------------+-------+-----------------+------------+
+29 rows in set (0.001 sec)
+
+
+CLASSICMODELS
+	Tampilkan customerNumber,namalengkap customer(gabungan contactfirstname, contactlastname), ordernumber dan status untuk semua customer baik yang pernah order ataupun tidak. uutkan dari ordernumber desc.
+
+<<<<<<<<<<<<<<<<LEFT JOIN ON>>>>>>>>>>>>>>>>>>>>>>
+
+	SELECT customers.customerNumber, CONCAT(contactFirstName,' ',contactLastName) AS 'FullName', orderNumber, status
+	FROM customers LEFT JOIN orders
+	ON customers.customerNumber = orders.customerNumber
+	WHERE customers.customerNumber > 400
+	ORDER BY orderNumber DESC;
+
+<<<<<<<<<<<<<<<<LEFT JOIN USING>>>>>>>>>>>>>>>>>>>>>>
+
+	SELECT customers.customerNumber, CONCAT(contactFirstName,' ',contactLastName) AS 'FullName', orderNumber, status
+	FROM customers LEFT JOIN orders USING(customerNumber)
+	WHERE customers.customerNumber > 400
+	ORDER BY orderNumber DESC;
+
+<<<<<<<<<<<<<<<<RIGHT JOIN ON>>>>>>>>>>>>>>>>>>>>>>
+
+	SELECT customers.customerNumber, CONCAT(contactFirstName,' ',contactLastName) AS 'FullName', orderNumber, status
+	FROM  orders RIGHT JOIN customers
+	ON customers.customerNumber = orders.customerNumber
+	WHERE customers.customerNumber > 400
+	ORDER BY orderNumber DESC;
+
+<<<<<<<<<<<<<<<<RIGHT JOIN USING>>>>>>>>>>>>>>>>>>>>>>
+
+	SELECT customers.customerNumber, CONCAT(contactFirstName,' ',contactLastName) AS 'FullName', orderNumber, status
+	FROM orders RIGHT JOIN customers USING(customerNumber)
+	WHERE customers.customerNumber > 400
+	ORDER BY orderNumber DESC;
+
+
+==================================================================
+3. LEFT JOIN WITHOUT INTERSECTION
+......Menampilkan data dari tabel sebelah kiri yang tidak berelasi dengan tabel sebelah kanan,(data trb tidak ditemukan ditabel sebelah kanan
+
+Struktur :
+	SELECT field1,field2
+	FROM tabel1 LEFT OUTER JOIN tabel2
+	ON tabel1.fieldrelasi = tabel2.fieldrelasi
+	WHERE tabel2.fieldrelasi IS NULL;
+
+	SELECT field1,field2
+	FROM tabel1 LEFT JOIN tabel2
+	ON tabel1.fieldrelasi = tabel2.fieldrelasi
+	WHERE tabel2.fieldrelasi IS NULL;
+
+atau kalau fieldrelasi memiliki nama yang sama dikedua tabel, bisa digunakan:
+
+	SELECT field1, field2
+	FROM tabel1 LEFT OUTER JOIN tabel 2 USING(fieldrelasi)
+	WHERE tabel2.fieldrelasi IS NULL;
+
+	SELECT field1, field2
+	FROM tabel1 LEFT JOIN tabel 2 USING(fieldrelasi)
+	WHERE tabel2.fieldrelasi IS NULL;
+
+
+
+============================================================================================
+
+4. RIGHT JOIN WITHOUT INTERSECTION
+......Menampilkan data dari tabel sebelah kana yang tidak berelasi dengan tabel sebelah kiri,(data trb tidak ditemukan ditabel sebelah kiri)
+
+Struktur 1:
+	SELECT field1,field2
+	FROM tabel1 RIGHT OUTER JOIN tabel2
+	ON tabel1.fieldrelasi = tabel2.fieldrelasi
+	WHERE tabel1.fieldrelasi IS NULL;
+
+	SELECT field1,field2
+	FROM tabel1 RIGHT JOIN tabel2
+	ON tabel1.fieldrelasi = tabel2.fieldrelasi
+	WHERE tabel1.fieldrelasi IS NULL;
+
+atau kalau fieldrelasi memiliki nama yang sama dikedua tabel, bisa digunakan:
+
+	SELECT field1, field2
+	FROM tabel1 RIGHT OUTER JOIN tabel 2 USING(fieldrelasi)
+	WHERE tabel1.fieldrelasi IS NULL;
+
+	SELECT field1, field2
+	FROM tabel1 RIGHT JOIN tabel 2 USING(fieldrelasi)
+	WHERE tabel1.fieldrelasi IS NULL;
+
+
+CONTOH:
+DBJUAL:
+	Tampilkan data barang (kode barang , nama barang, nonota) yang tidak laku
+
+LEFT
+	SELECT tbrg.kdbrg,nmbrg
+	FROM tbrg LEFT JOIN ttrans
+	ON tbrg.kdbrg = ttrans.kdbrg
+	WHERE ttrans.kdbrg IS NULL; 
+
+	SELECT tbrg.kdbrg,nmbrg
+	FROM tbrg LEFT JOIN ttrans USING(kdbrg)
+	WHERE ttrans.kdbrg IS NULL;
+
+RIGHT
+
+	SELECT tbrg.kdbrg,nmbrg
+	FROM ttrans RIGHT JOIN tbrg
+	ON tbrg.kdbrg = ttrans.kdbrg
+	WHERE ttrans.kdbrg IS NULL;
+
+	SELECT tbrg.kdbrg,nmbrg
+	FROM ttrans RIGHT JOIN tbrg USING(kdbrg)
+	WHERE ttrans.kdbrg IS NULL;
+
+
+2. Tampilkan data pelanggan yang tidak pernah melakukan pembelian (nama, alamat, dan no tlp)
+LEFT
+	SELECT tpelanggan.kdlgn,nmlgn, almlgn, telp
+	FROM tpelanggan LEFT JOIN ttrans
+	ON tpelanggan.kdlgn = ttrans.kdlgn
+	WHERE ttrans.kdlgn IS NULL; 
+
+	SELECT tpelanggan.kdlgn,nmlgn, almlgn, telp
+	FROM tpelanggan LEFT JOIN ttrans USING(kdlgn)
+	WHERE ttrans.kdlgn IS NULL; 
+
+RIGHT
+
+ 	SELECT tpelanggan.kdlgn,nmlgn, almlgn, telp
+     	FROM ttrans RIGHT JOIN tpelanggan
+    	ON tpelanggan.kdlgn = ttrans.kdlgn
+     	WHERE ttrans.kdlgn IS NULL;
+
+	SELECT tpelanggan.kdlgn,nmlgn, almlgn, telp
+	FROM ttrans RIGHT JOIN tpelanggan USING(kdlgn)
+	WHERE ttrans.kdlgn IS NULL; 
+
+
+CLASSICMODELS
+	Tampilkan nama lengkap employee beserta employeenumber, jobtitle yang tidak pernah melayani transaksi penjualan customers
+
+LEFT
+	SELECT CONCAT(firstName,' ',lastName) AS 'FullName', employees.employeeNumber, jobTitle 
+	FROM employees LEFT JOIN customers
+	ON employees.employeeNumber = customers.salesRepEmployeeNumber
+	WHERE customers.salesRepEmployeeNumber IS NULL; 
+
+
+RIGHT
+
+ 	SELECT CONCAT(firstName,' ',lastName) AS 'FullName', employees.employeeNumber, jobTitle 
+	FROM  customers RIGHT JOIN  employees
+	ON employees.employeeNumber = customers.salesRepEmployeeNumber
+	WHERE customers.salesRepEmployeeNumber IS NULL; 
+
+==================================================
+
+5. SELF  JOIN
+....Join yang merelasikan tabel dengan dirinya sendiri
+
+Jenis relasi
+	unary derajat 1
+	binary derajat 2
+	ternarr derajat 3
+
+cara ==>> tabel dianggap / dialiaskan sebagai 2 tabel berbeda
+
+CONTOH: 
+	Tampilkan nama lengkap karyawan beserta nama lengkap manager
+
+	SELECT CONCAT(k.firstName,' ',k.lastName) nama_karyawan,
+	CONCAT(m.firstName,' ',m.lastName) nama_manager
+	FROM employees k JOIN employees m
+	ON k.reportsTo = m.employeeNumber;
+
+
+SOAL:
+1. Tampilkan nama karyawan dan jontitle yang tidak memiliki manager(tidak memberikan laporan kesiapa-siapa)
+
+LEFT
+	SELECT CONCAT(k.firstName,' ',k.lastName) nama_karyawan, 
+	CONCAT(m.firstName,' ',m.lastName) nama_manager, k.jobTitle
+	FROM employees k LEFT JOIN employees m
+	ON k.reportsTo = m.employeeNumber;
+
+	SELECT CONCAT(k.firstName,' ',k.lastName) nama_karyawan, k.jobTitle
+	FROM employees k LEFT JOIN employees m
+	ON k.reportsTo = m.employeeNumber
+	WHERE m.employeeNumber IS NULL;
+
+RIGHT
+	SELECT CONCAT(k.firstName,' ',k.lastName) nama_karyawan, 
+	CONCAT(m.firstName,' ',m.lastName) nama_manager, k.jobTitle
+	FROM employees m RIGHT JOIN employees k
+	ON k.reportsTo = m.employeeNumber;
+
+	SELECT CONCAT(k.firstName,' ',k.lastName) nama_karyawan, k.jobTitle
+	FROM employees k LEFT JOIN employees m
+	ON k.reportsTo = m.employeeNumber
+	WHERE m.employeeNumber IS NULL;
+
+==========================================================================
+SOAL:
+1. Adakah office yang tidak memiliki karyawan?
+2. adakah karyawan yang tidak berkerja dalam sebuah kantor/office?
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

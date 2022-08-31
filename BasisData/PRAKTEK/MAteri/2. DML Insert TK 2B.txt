@@ -1,0 +1,402 @@
+
+
+
+DDL --> Data Definition Language
+
+1. Membuat database baru
+2. Membuat tabel baru
+3. Merubah struktur tabel (ALTER TABLE)
+4. Merubah nama tabel dan menghapus tabel
+5. Menghapus database
+
+Primary Key
+-----------
+--> Mengidentifikasi setiap baris didalam sebuah tabel. Kolom/field yang dijadikan sbg PK harus unik.
+
+Contoh : Tabel Mahasiswa
+no_bp
+nama
+alamat
+tgl_lahir
+
+6. Membuat primary key pada sebuah tabel
+----------------------------------------
+
+Pada tabel barang :
+kdbrg --> kodebarang
+nmbrg --> namabarang
+satuan
+
+a. Mendefinisikan PK diawal saat pembuatan tabel.
+
+Struktur1 :
+
+CREATE TABLE namatabel
+(
+   namafield1 tipedata(constraint),
+   namafield2 tipedata(constraint),
+   ................
+   primary key(namafield1)
+);
+
+Struktur2 :
+
+CREATE TABLE namatabel
+(
+   namafield1 tipedata(constraint) primary key,
+   namafield2 tipedata(constraint),
+   ................
+);
+
+Contoh :
+
+Buatlah tabel tbrg pada database dbpenjualan dengan field :
+
+kdbrg --> varchar(5) primary key
+nmbrg --> varchar(25)
+satuan --> varchar(15)
+
+cara 1:
+CREATE TABLE tbrg
+(
+   kdbrg varchar(5),
+   nmbrg varchar(25),
+   satuan varchar(15),
+   primary key(kdbrg)
+);
+
+cara 2:
+CREATE TABLE tbrg2
+(
+   kdbrg varchar(5) primary key,
+   nmbrg varchar(25),
+   satuan varchar(15)
+);
+
+PK --> NO (NOT NULL)
+Selain PK --> YES (NULL)
+
+NULL != NOL (0)
+
+b. Melakukan perubahan pada tabel yang sudah ada
+(ALTER TABLE)
+
+Contoh :
+Buatlah sebuah tabel baru dengan nama tpelanggan, dengan field:
+
+kdlgn --> varchar(5)
+nmlgn --> varchar(25)
+almlgn --> varchar(50)
+kota --> varchar(25)
+kdpos --> varchar(5)
+notelp --> varchar(12)
+
+Struktur :
+
+ALTER TABLE namatabel
+ADD primary key(namafield);
+
+ALTER TABLE tpelanggan
+ADD primary key(kdlgn);
+
+DESC tpelanggan;
+
+c. Mengubah sebuah field menjadi NOT NULL (harus diisi)
+
+Contoh : ubahlah field nmlgn menjadi NOT NULL
+
+ALTER TABLE tpelanggan
+CHANGE nmlgn nmlgn varchar(25) NOT NULL;
+
+d. Menghilangkan primary key dari sebuah tabel
+
+Struktur :
+
+ALTER TABLE namatabel
+DROP primary key;
+
+Contoh :
+Hilangkan PK dari tabel tpelanggan
+
+ALTER TABLE tpelanggan
+DROP primary key;
+
+DESC tpelanggan;
+
+Membuat tabel dengan PK lebih dari satu (composite PK)
+
+CREATE TABLE tbrg
+(
+   kdbrg varchar(5),
+   nmbrg varchar(25),
+   satuan varchar(15),
+   primary key(kdbrg, nmbrg)
+);
+
+DML --> Data Manipulation Language
+==================================
+--> Bahasa SQL yang digunakan untuk melakukan memanipulasi data.
+Contoh : INSERT, UPDATE, DELETE, SELECT
+
+1. Perintah untuk menampilkan semua nilai/record dalam sebuah tabel
+
+SELECT * FROM namatabel;
+
+2. INSERT
+--> Perintah yang digunakan untuk menginputkan nilai dalam sebuah tabel
+
+a. Mengisi seluruh field/kolom dalam sebuah tabel
+
+Struktur:
+
+INSERT INTO namatabel
+VALUES (nilai1, nilai2, .....);
+
+Catatan :
+- Pastikan banyaknya nilai yang diinputkan sesuai dengan banyaknya kolom didalam tabel.
+- Untuk kolom dengan tipe primary key, pastikan nilainya adalah unik (belum pernah diinputkan).
+- Nilai dengan tipe karakter(char, varchar) ditulis dengan tanda petik. Contoh : 'Meri'
+- Nilai dengan tipe numerik(int, bigint) tidak perlu ditulis dengan tanda petik. Contoh : 1250
+- Nilai dengan tipe NULL (boleh kosong), dituliskan dengan NULL tanpa tanda petik.
+
+Contoh1 :
+Inputkan data barang dengan kode B001 dan nama barang adalah Laptop Acer, satuan Unit.
+
+INSERT INTO tbrg
+VALUES('B001','Laptop Acer','Unit');
+
+SELECT * FROM tbrg;
+
+Contoh2 :
+Inputkan data barang dengan kode B001 nama barang adalah Mouse Logitech dan satuan adalah Pieces.
+
+Duplicate entry --> karena kode barangnya sama.
+
+Contoh3 :
+Inputkan data barang dengan kode B002. nama barang adalah Monitor LG, tidak ada nilai satuan
+
+INSERT INTO tbrg
+VALUES ('B002','Monitor LG',NULL);
+
+NULL --> tidak dalam tanda petik
+jika ditulis 'NULL' --> bernilai tulisan NULL
+
+b. Mengisi beberapa baris sekaligus
+
+INSERT INTO namatabel VALUES
+(nilai1, nilai2, .....),
+(nilai1, nilai2, .....),
+.....;
+
+Contoh :
+Isikan data sbb:
+Kode barang B003, nama barang Flashdisk HP, satuan buah
+Kode barang B004, nama barang keyboard LG, satuan pieces
+Kode barang B005, nama barang Mouse ECO, satuan box
+
+c. Mengisikan data ke beberapa kolom/field
+
+INSERT INTO namatabel(namafield1, namafield2)
+VALUES (nilaifield1, nilaifield2),
+       (nilaifield1, nilaifield2),
+       ...............;
+
+Yang diisikan hanya 2 kolom saja dan pastikan nilai PK ada, kecuali jika PK diseting auto increment.
+
+Contoh1 :
+Isikan hanya kode dan nama barang saja untuk barang dengan kode B007 dan nama barang adalah Headshet JBL.
+Kode B008 nama barang adalah CMOS Battery.
+
+INSERT INTO tbrg(kdbrg, nmbrg)
+VALUES
+      ('B007','Headshet JBL'),
+      ('B008','CMOS Battery');
+
+Contoh2 :
+Isikan kdlgn, nama pelanggan dan kota saja, dengan data sbb :
+kdlgn P001, nama Raisa, Kota Jakarta
+kdlgn P002, nama Rossa, kota tidak ada isinya.
+
+d. INSERT... SET
+--> bentuk lain dari insert. Disini nilai untuk setiap kolom diisikan satu persatu.
+
+INSERT INTO namatabel
+SET namafield1 = nilai1,
+    namafield2 = nilai2,
+    ......;
+
+Contoh :
+Isikan kode barang B010, nama barang adalah speaker Logitech dan satuan adalah unit.
+
+INSERT INTO tbrg
+SET kdbrg = 'B010',
+    nmbrg = 'Speaker Logitech',
+    satuan = 'Unit';
+
+Membuat tabel yang mengandung nilai auto increment dan nilai default
+auto increment --> melakukan penambahan data secara otomatis. Contoh jika kdbrg diseting auto increment, maka akan menjad 1, 2, 3, ....
+default --> membuat data memiliki nilai default.
+Contoh misalnya tanggal diseting date default 20210922
+Artinya : ketika tanggal ini tidak isi, maka secara otomatis sistem akan mengisikan data 20210922
+
+Buatlah sebuah tabel tkaryawan dengan komposisi :
+kode int auto_increment primary key
+nama_kary varchar(30) not null
+kota varchar(30) default 'Padang'
+tanggal date default 20210922
+
+e. Mengisi tabel dengan tipe data auto increment
+
+Contoh1 :
+Masukkan data ke tabel tkaryawan dengan data sbb;
+kode null
+nama Budi
+kota Bukittinggi
+tanggal 1 September 2021
+
+INSERT INTO tkaryawan
+VALUES(NULL,'Budi','Bukittinggi','2021-09-01');
+
+Contoh2 :
+kode tidak diisi
+nama susi
+kota bandung
+tanggal 2 September 2021
+
+INSERT INTO tkaryawan (nama_kary, kota, tanggal)
+VALUES('Susi','Bandung','2021-09-02');
+
+f. Mengisi data dengan nilai default
+
+Contoh :
+Masukkan data berikut
+kode NULL
+nama Joko
+field yang lain adalah nilai default
+
+INSERT INTO tkaryawan
+VALUES(NULL, 'Joko', default, default);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

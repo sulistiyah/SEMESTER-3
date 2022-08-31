@@ -1,0 +1,40 @@
+8.  
+SELECT country,max(quantityordered) 'Jumlah Order Terbanyak'  
+FROM customers JOIN orders USING(customernumber)  
+JOIN orderdetails USING(ordernumber)  
+GROUP BY country  
+limit 10; 
+ 
+10. 
+SELECT customername,customernumber  
+FROM customers LEFT JOIN orders USING(customernumber)  
+WHERE orders.ordernumber is NULL;  
+
+7. 
+SELECT UPPER(CONCAT(contactFirstName,' ',contactLastName)) as FullName, City, State, Country,  
+CASE state  
+WHEN 'NV' THEN 'Nevada'  
+WHEN 'NY' THEN 'New York'  
+WHEN 'CA' THEN 'California'  
+ELSE 'Others'  
+END as Keterangan FROM customers  
+WHERE country='USA' order by FullName 
+LIMIT 15;  
+
+9.  
+SELECT customerName, customerNumber, paymentDate  
+FROM customers LEFT JOIN payments USING(customerNumber) 
+WHERE MONTH(paymentDate)=6 AND YEAR(paymentDate)=2005; 
+ 
+1. 
+SELECT orderDate, UPPER(productName) 'Nama Produk' , quantityOrdered,  
+priceeach, FORMAT(quantityOrdered*priceeach,2) 'Total'  
+FROM orders JOIN orderDetails USING(orderNumber) JOIN  
+products USING(productCode)  
+WHERE orderDate BETWEEN '20030101' AND '20030630'  
+AND quantityOrdered BETWEEN '50' AND '100'AND  
+productLine='classic cars'  
+ORDER BY Total DESC  
+LIMIT 10;
+
+

@@ -1,0 +1,281 @@
+
+
+
+SQL --> Structure Query Language
+1. DDL --> Data Definition Language
+   Bahasa untuk mendefinisikan struktur dalam    database. Yang berhubungan dgn database,    table, user, procedure, dll
+
+2. DML --> Data Manipulation Language
+   Bahasa yang digunakan untuk memanipulasi       data. Insert, Update, Delete, Select.
+
+3. DCL --> Data Control Language
+   User/privilege
+
+Database dbjual :
+1. Tabel tbrg
+2. Tabel tpelanggan
+3. Tabel ttrans
+
+2 buah tabel dari database dbjual
+1. tabel tbrg  --> halaman 105
+2. tabel tpelanggan --> halaman 122
+
+- Isi tabel tbrg dengan data yang ada pada halaman 116
+  - Isi tabel tpelanggan dengan data yang ada pada halaman 123
+
+DML
+---
+A. INSERT
+=========
+1. INSERT INTO namatabel VALUES
+    
+   INSERT INTO tbrg VALUES
+   ('.....','.....','.....'),
+   ('.....','.....','.....'),
+   ...... ;
+
+2. INSERT ... SET
+
+B. UPDATE
+=========
+--> mengubah nilai data pada sebuah tabel
+
+Struktur :
+
+UPDATE namatabel
+SET namafield = nilaibaru
+[WHERE kondisi];
+
+Contoh :
+Ubahlah nilai satuan menjadi unit.
+
+UPDATE tbrg
+SET satuan = 'Unit';
+
+Ubahlah nilai satuan menjadi unit dengan kode barang B001.
+Tabel ?? --> tbrg
+Update ?? --> satuan = unit
+field ?? --> kdbrg = B001
+
+Kondisi
+-------
+--> pernyataan logis (benar atau salah)
+
+UPDATE namatabel
+SET namafield = nilaibaru
+[WHERE kondisi];
+
+Operator dalam kondisi :
+- Operator relasi : <, <=, >, >=, <>/!=
+
+COntoh :
+1. Jadikan satuan menjadi unit untuk barang dengan kode B005.
+
+UPDATE tbrg
+SET satuan = 'Unit'
+WHERE kdbrg = 'B005';
+
+2. Ubah nama barang disket menjadi flashdisk sandisk 
+
+UPDATE tbrg
+SET nmbrg = 'Flashdisk Sandisk'
+WHERE nmbrg = 'Disket';
+
+3. Untuk satuan selain Unit, ubahlah menjadi Box
+
+UPDATE tbrg
+SET satuan = 'Box'
+WHERE satuan <> 'Unit';
+
+atau :
+
+UPDATE tbrg
+SET satuan = 'Box'
+WHERE satuan != 'Unit'
+
+atau :
+
+UPDATE tbrg
+SET satuan = 'Box'
+WHERE NOT(satuan = 'Unit');
+
+- Operator Logika : 
+AND 
+OR
+NOT
+
+Contoh : 
+1. Ubahlah satuan pada tabel barang menjadi Pieces
+Untuk barang dengan kode B001 atau B002.
+
+UPDATE tbrg
+SET satuan = 'Pieces'
+WHERE kdbrg = 'B001' OR kdbrg = 'B002';
+
+C. DELETE
+=========
+--> Perintah untuk menghapus nilai yang ada pada sebuah tabel.
+
+Struktur :
+
+DELETE FROM namatabel
+[WHERE kondisi];
+
+Contoh :
+Hapuslah data barang dengan kode B005
+
+DELETE FROM tbrg
+WHERE kdbrg = 'B005';
+
+D. TRUNCATE
+--> perintah untuk mengosongkan tabel
+
+Struktur :
+TRUNCATE TABLE namatabel;
+
+DELETE FROM namatabel;
+
+DML --> Data Manipulation Language
+
+SELECTION 
+--> Menampilkan semua data/beberapa field dari satu atau lebih tabel dengan kondisi tertentu.
+
+1. Select dengan ekspresi
+--> select ini tidak menggunakan tabel tetapi menggunakan ekspresi sederhana.
+
+Struktur :
+SELECT .... select ekspression;
+
+Contoh :
+
+SELECT 2;
+SELECT 10 + 5;
+SELECT 'Teknologi Informasi';
+SELECT 2*3, 2+3;
+
+2. Select (query) yang berasal dari 1 tabel
+-------------------------------------------
+1. Menampilkan isi seluruh tabel
+   SELECT * FROM namatabel;
+   contoh : SELECT * FROM tpelanggan;
+
+2. Menampilkan hanya beberapa kolom/field yang dibutuhkan
+
+struktur :
+
+SELECT namafield1, namafield2, ....
+FROM namatabel;
+
+Contoh : 
+
+- Tampilkan nama dan alamat pelanggan.
+
+Berasal dari tabel apa? tabel tpelanggan
+Field apa yang ditampilkan? nama, alamat
+Kondisi/kriteria bagaimana? tidak ada kriteria
+
+SELECT nmlgn, almlgn
+FROM tpelanggan;
+
+- Tampilkan nama barang dari tabel barang
+
+3. Menggunakan fungsi alias (AS)
+--> digunakan untuk mengganti tampilan kolom/field
+
+Struktur :
+
+SELECT namafield AS namafieldbaru
+FROM namatabel;
+
+Contoh
+- Tampilkan nama dan alamat pelanggan.
+
+SELECT nmlgn AS nama_pelanggan,
+       almlgn AS 'alamat pelanggan'
+FROM tpelanggan;
+
+jika didalam tanda kutip, maka boleh ada spasi
+jika tidak didalam tanda kutip, boleh menggunakan spasi
+
+SELECT nmlgn nama_pelanggan,
+       almlgn 'alamat pelanggan'
+FROM tpelanggan;
+
+4. Menampilkan isi tabel dengan kondisi/kriteria tertentu
+
+struktur :
+
+SELECT namafield1, namafield2, .....
+FROM namatabel
+[WHERE kondisi];
+
+Macam-macam kondisi :
+- Operator perbandingan : <, <=, >, >=, =, <> atau !=
+
+Contoh :
+1. Tampilkan data barang yang satuannya selain dari unit
+
+SELECT * FROM tbrg
+WHERE satuan != 'Unit';
+
+2. Tampilkan nama pelanggan, alamat dan kota untuk pelanggan yang tinggal di kota Padang
+
+SELECT nmlgn 'nama pelanggan',
+       almlgn alamat,
+       kota
+FROM tpelanggan
+WHERE kota = 'Padang';
+
+5. Menampilkan data secara unik
+
+Struktur : 
+SELECT DISTINCT namafield from namatabel;
+
+Contoh :
+Tampilkan satuan yang ada di tabel barang.
+
+Macam-macam kondisi :
+- Operator perbandingan : <, <=, >, >=, =, <> atau !=
+- Operator logika 
+     AND     &&
+     OR      ||
+     NOT      !
+
+Contoh :
+- Tampilkan data barang dengan kode B001 dan B003.
+
+SELECT * FROM tbrg
+WHERE kdbrg = 'B001' AND kdbrg = 'B003';
+--> empty set karena tidak ada barang yang memiliki kode B001 sekaligus B003
+
+SELECT * FROM tbrg
+WHERE kdbrg = 'B001' OR kdbrg = 'B003';
+
+- Tampilkan data barang yang satuannya unit tetapi bukan barang dengan kode B001
+
+kondisi 1 --> satuan = 'unit'
+kondisi 2 --> kdbrg <> 'B001'
+
+SELECT * FROM tbrg
+WHERE satuan = 'Unit' AND kdbrg <> 'B001';
+
+Laporan dan Tugas dikumpulkan paling lambat Minggu depan :
+1. Buat laporan tentang UPDATE, DELETE dan Query 1 tabel.
+
+FORMAT :
+     DASAR TEORI (JOB/SUMBER LAIN) 
+     DDL 
+         - UPDATE DAN DELETE
+     DML 
+         - Query 1 tabel dengan operator relasi dan            logika
+    ALAT DAN BAHAN
+    LANGKAH KERJA
+    TUGAS DAN PEMBAHASAN
+    REFERENSI
+
+2. Siapkan 3 macam database :
+   Database dbpenjualan : tbrg dan tpelanggan
+   Database perkuliahan : tmhs (hal 113), tdosen (hal 126) dan tkuliah (hal 118)
+   Database disiapkan beserta isinya.
+
+3. Kerjakan tugas hal 113 dan gabungkan dengan laporan

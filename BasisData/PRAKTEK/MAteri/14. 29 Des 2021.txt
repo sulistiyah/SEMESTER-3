@@ -1,0 +1,619 @@
+29 Desember 2021
+
+SUB QUERY / NESTED QUERY
+=========================
+--> query bersarang / ada query didalam sebuah struktur quer
+
+	SELECT
+	FROM
+	WHERE
+	GROUP BY
+	LIMIT
+	HAVING
+	ORDER BY
+	LIMIT
+
+CONTOH:
+  1. Tampilkan data transaksi yang memiliki jumlah diatas jumlah rata-rata
+	-Cari terlebih dahulu rata-rata jumlah = (13.55)
+================
+SELECT AVG(jml)
+FROM ttrans;
+================
+
+SELECT AVG(jml)
+    -> FROM ttrans;
+	+----------+
+	| AVG(jml) |
+	+----------+
+	|  13.5500 |
+	+----------+
+	1 row in set (0.018 sec)
+
+
+	
+	-Data transakasi dengan jumlah diatas rata-rata (13.55) = (8 Transaksi)
+=====================
+SELECT * FROM ttrans
+WHERE jml > 13.55;
+=====================
+
+SELECT * FROM ttrans
+    -> WHERE jml > 13.55;
+	+--------+------------+-------+-------+------+--------+
+	| nonota | tgl        | kdlgn | kdbrg | jml  | hrg    |
+	+--------+------------+-------+-------+------+--------+
+	| T001   | 2008-09-01 | P001  | B003  |   20 |  25000 |
+	| F002   | 2008-09-01 | P002  | B002  |   15 | 175000 |
+	| K001   | 2008-09-02 | P002  | B001  |   20 | 750000 |
+	| K001   | 2008-09-02 | P002  | B002  |   20 | 175000 |
+	| K002   | 2008-09-03 | P003  | B002  |   30 | 225000 |
+	| K002   | 2008-09-03 | P003  | B005  |   30 |  50000 |
+	| F010   | 2005-03-01 | P002  | B004  |   15 | 220000 |
+	| K005   | 2006-05-31 | P001  | B001  |   40 | 750000 |
+	+--------+------------+-------+-------+------+--------+
+	8 rows in set (0.005 sec)
+
+----------------------------------------------------------------------------------------
+
+  2. Tampilkan tgl, nonota, kdbrg, jml, dan hrg untuk barang yang satuannya sama dengan barang dengan kode B002
+
+	-Cari dulu nilai satuan B002 = (Unit)
+=========================
+SELECT satuan FROM tbrg
+WHERE kdbrg = 'B002';
+=========================
+
+SELECT satuan FROM tbrg
+    -> WHERE kdbrg = 'B002';
+	+--------+
+	| satuan |
+	+--------+
+	| Unit   |
+	+--------+
+	1 row in set (0.009 sec)
+
+
+	-Tampilkan tgl,nonota,kdbrg,jml, dan hrg untuk barang yang satuannya unit (14 rows)
+===================================
+SELECT tgl, nonota, kdbrg, jml, hrg
+FROM ttrans JOIN tbrg USING(kdbrg)
+WHERE satuan = 'Unit';
+===================================
+
+SELECT tgl, nonota, kdbrg, jml, hrg
+    -> FROM ttrans JOIN tbrg USING(kdbrg)
+    -> WHERE satuan = 'Unit';
+	+------------+--------+-------+------+--------+
+	| tgl        | nonota | kdbrg | jml  | hrg    |
+	+------------+--------+-------+------+--------+
+	| 2008-09-01 | T001   | B001  |    5 | 750000 |
+	| 2008-09-02 | K001   | B001  |   20 | 750000 |
+	| 2008-10-01 | T004   | B001  |   10 | 750000 |
+	| 2008-10-10 | T011   | B001  |    5 | 175000 |
+	| 2007-01-10 | T004   | B001  |    5 | 750000 |
+	| 2006-02-06 | K003   | B001  |   12 | 750000 |
+	| 2005-03-01 | F010   | B001  |   10 | 750000 |
+	| 2006-05-31 | K005   | B001  |   40 | 750000 |
+	| 2008-09-01 | T001   | B002  |    5 | 175000 |
+	| 2008-09-01 | T001   | B002  |    5 | 175000 |
+	| 2008-09-01 | F002   | B002  |   15 | 175000 |
+	| 2008-09-02 | K001   | B002  |   20 | 175000 |
+	| 2008-09-03 | K002   | B002  |   30 | 225000 |
+	| 2007-01-10 | T004   | B002  |    1 | 175000 |
+	+------------+--------+-------+------+--------+
+	14 rows in set (0.010 sec)
+
+
+#Kedua Soal diatas bisa dijadikan dalam 1 langkah MySQL yaitu dengan menggunakan SUB QUERY / NESTED QUERY, dengan cara meletakkan query penghasil kondisi sebagai bagian dari query utama.
+
+SUB QUERY ==> Bisa berada didalam SELECT, FROM, WHERE.
+
+SUB QUERY dalam klausa WHERE
+----------------------------
+Struktur
+	SELECT field1, field2.....	==> query 1 atau query luar
+	FROM namatabel
+	WHERE field OPERATOR
+		(SELECT namafield	==> query 2 atau query dalam / inner query
+		FROM namatabel
+		WHERE kondisi);
+
+#Hasil dari query dalam akan mempengaruhi untuk query luar
+
+OPERATOR
+	- operator relasi ==>(< <= > >= <> atau != =)
+	- oPERATOR IN dan NOT IN ==>(LIKE, BETWWEN, dll)
+	- operator EXISTS dan NOT EXISTS
+	- operator ANY, SOME, ALL 
+
+
+A. SUBQUERY menggunakan operator Relasi
+	=> operator ini digunkaan jika inner query/subquery menghasilkan nilai tunggal
+
+
+CONTOH:
+  1. Tampilkan data transaksi yang memiliki jumlah diatas jumlah rata-rata
+=================================================================
+SELECT tgl,nonota,kdbrg,jml,hrg
+FROM ttrans JOIN tbrg USING(kdbrg)
+WHERE satuan = (SELECT satuan FROM tbrg WHERE kdbrg = 'B002');
+==================================================================
+
+SELECT tgl,nonota,kdbrg,jml,hrg
+    -> FROM ttrans JOIN tbrg USING(kdbrg)
+    -> WHERE satuan = (SELECT satuan FROM tbrg WHERE kdbrg = 'B002');
+	+------------+--------+-------+------+--------+
+	| tgl        | nonota | kdbrg | jml  | hrg    |
+	+------------+--------+-------+------+--------+
+	| 2008-09-01 | T001   | B001  |    5 | 750000 |
+	| 2008-09-02 | K001   | B001  |   20 | 750000 |
+	| 2008-10-01 | T004   | B001  |   10 | 750000 |
+	| 2008-10-10 | T011   | B001  |    5 | 175000 |
+	| 2007-01-10 | T004   | B001  |    5 | 750000 |
+	| 2006-02-06 | K003   | B001  |   12 | 750000 |
+	| 2005-03-01 | F010   | B001  |   10 | 750000 |
+	| 2006-05-31 | K005   | B001  |   40 | 750000 |
+	| 2008-09-01 | T001   | B002  |    5 | 175000 |
+	| 2008-09-01 | T001   | B002  |    5 | 175000 |
+	| 2008-09-01 | F002   | B002  |   15 | 175000 |
+	| 2008-09-02 | K001   | B002  |   20 | 175000 |
+	| 2008-09-03 | K002   | B002  |   30 | 225000 |
+	| 2007-01-10 | T004   | B002  |    1 | 175000 |
+	+------------+--------+-------+------+--------+
+	14 rows in set (0.006 sec)
+
+  2. Tampilkan tgl, nonota, kdbrg, jml, dan hrg untuk barang yang satuannya sama dengan barang dengan kode B002
+==========================================
+SELECT * FROM ttrans
+WHERE jml > (SELECT AVG(jml) FROM ttrans);
+==========================================
+
+SELECT * FROM ttrans
+    -> WHERE jml > (SELECT AVG(jml) FROM ttrans);
+	+--------+------------+-------+-------+------+--------+
+	| nonota | tgl        | kdlgn | kdbrg | jml  | hrg    |
+	+--------+------------+-------+-------+------+--------+
+	| T001   | 2008-09-01 | P001  | B003  |   20 |  25000 |
+	| F002   | 2008-09-01 | P002  | B002  |   15 | 175000 |
+	| K001   | 2008-09-02 | P002  | B001  |   20 | 750000 |
+	| K001   | 2008-09-02 | P002  | B002  |   20 | 175000 |
+	| K002   | 2008-09-03 | P003  | B002  |   30 | 225000 |
+	| K002   | 2008-09-03 | P003  | B005  |   30 |  50000 |
+	| F010   | 2005-03-01 | P002  | B004  |   15 | 220000 |
+	| K005   | 2006-05-31 | P001  | B001  |   40 | 750000 |
+	+--------+------------+-------+-------+------+--------+
+	8 rows in set (0.002 sec)
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+SOAL:
+DBPERNJUALAN:
+  1. Tampilkan data transaksi yang memiliki harga terendah
+
+SELECT * FROM ttrans
+WHERE hrg = (SELECT MIN(hrg) FROM ttrans);
+
+ SELECT * FROM ttrans
+    -> WHERE hrg = (SELECT MIN(hrg) FROM ttrans);
+	+--------+------------+-------+-------+------+-------+
+	| nonota | tgl        | kdlgn | kdbrg | jml  | hrg   |
+	+--------+------------+-------+-------+------+-------+
+	| T001   | 2008-09-01 | P001  | B003  |   20 | 25000 |
+	| T004   | 2007-01-10 | P003  | B003  |    3 | 25000 |
+	+--------+------------+-------+-------+------+-------+
+	2 rows in set (0.001 sec)
+
+  2. Tampilkan data pelanggan selain kodenya P005 dan berada dikota yang berbeda dengan pelanggan Gamatechno
+
+SELECT * FROM tpelanggan
+WHERE kdlgn <> 'P005' AND kota <> (SELECT kota FROM tpelanggan WHERE nmlgn = 'Gamatechno');
+
+SELECT * FROM tpelanggan
+    -> WHERE kdlgn <> 'P005' AND kota <> (SELECT kota FROM tpelanggan WHERE nmlgn = 'Gamatechno');
++-------+--------------+-------------+----------------+-------+--------------+
+| kdlgn | nmlgn        | almlgn      | kota           | kdpos | telp         |
++-------+--------------+-------------+----------------+-------+--------------+
+| P001  | Galaxy Media | Birugo      | Bukittinggi    | 26111 | 081291313052 |
+| P003  | Citra Mozaic | Jl. Veteran | Padang Panjang | 27401 | 081291313052 |
+| P006  | Tk. Intan    | Jl.S.Hatta  | Bukittinggi    | 26111 | 081291313052 |
+| P010  | Rudi         | NULL        | Solok          | NULL  | NULL         |
++-------+--------------+-------------+----------------+-------+--------------+
+4 rows in set (0.004 sec)
+
+
+DBPERKULIAHAN:
+  3. Tampilkan data mahasiswa (nama,kode,nilai) yang mendapatkan nilai yang sama dengan Darmawan pada saat mengambil matakuliah dengan kode TI111
+
+SELECT kode, nama, nilai FROM t_mahasiswa JOIN t_ambil USING(no_bp) 
+WHERE nilai = (SELECT nilai FROM t_mahasiswa JOIN t_ambil
+USING(no_bp) WHERE nama LIKE '%darmawan%' AND kode IN ('ti111'));
+
+SELECT kode, nama, nilai FROM t_mahasiswa JOIN t_ambil USING(no_bp)
+    ->  WHERE nilai = (SELECT nilai FROM t_mahasiswa JOIN t_ambil
+    -> USING(no_bp) WHERE nama LIKE '%darmawan%' AND kode IN ('ti111'));
+	+-------+----------------+-------+
+	| kode  | nama           | nilai |
+	+-------+----------------+-------+
+	| ti111 | darmawan p     | A     |
+	| ti321 | albinanto      | A     |
+	| ti123 | rizky yulianto | A     |
+	| ti221 | nova kurniawan | A     |
+	| ti331 | andik taufik   | A     |
+	| ti111 | anggun hapsari | A     |
+	+-------+----------------+-------+
+	6 rows in set (0.004 sec)
+
+CARA LAIN ( YANG DIPRAKTEKIN IBU)
+
+SELECT nilai FROM t_mahasiswa JOIn t_ambil USING(no_bp)
+WHERE nama LIKE 'darmawan%' AND kode = 'TI111';
+
+SELECT nilai FROM t_mahasiswa JOIn t_ambil USING(no_bp)
+    -> WHERE nama LIKE 'darmawan%' AND kode = 'TI111';
+	+-------+
+	| nilai |
+	+-------+
+	| A     |
+	+-------+
+	1 row in set (0.001 sec)
+
+SELECT nama, kode, nilai FROM t_mahasiswa JOIN t_ambil USING(no_bp)
+WHERE kode = 'TI111' AND nilai = (SELECT nilai FROM t_mahasiswa JOIN t_ambil USING(no_bp)
+WHERE nama LIKE 'darmawan%' AND kode = 'TI111'); 
+
+SELECT nama, kode, nilai FROM t_mahasiswa JOIN t_ambil USING(no_bp)
+    -> WHERE kode = 'TI111' AND nilai = (SELECT nilai FROM t_mahasiswa JOIN t_ambil USING(no_bp)
+    -> WHERE nama LIKE 'darmawan%' AND kode = 'TI111');
+	+----------------+-------+-------+
+	| nama           | kode  | nilai |
+	+----------------+-------+-------+
+	| darmawan p     | ti111 | A     |
+	| anggun hapsari | ti111 | A     |
+	+----------------+-------+-------+
+	2 rows in set (0.001 sec)
+
+
+  4. Tampilkan nama dosen yang usianya lebih muda dari rila mandala
+
+SELECT * FROM t_dosen
+WHERE timestampdiff(year, tgl_lahir, now()) < (SELECT timestampdiff(year, tgl_lahir, now()) FROM t_dosen WHERE nama LIKE '%rila mandala%');
+
+SELECT * FROM t_dosen
+    -> WHERE timestampdiff(year, tgl_lahir, now()) < (SELECT timestampdiff(year, tgl_lahir, now()) FROM t_dosen WHERE nama LIKE '%rila mandala%');
+	+-----------+---------------+------------+--------------------------+
+	| nip       | nama          | tgl_lahir  | alamat                   |
+	+-----------+---------------+------------+--------------------------+
+	| 132012069 | rinaldi munir | 1966-04-12 | jl.soekarno hatta no 131 |
+	| 132041073 | reza satria   | 1970-11-21 | jl.buah batu no 42       |
+	+-----------+---------------+------------+--------------------------+
+	2 rows in set (0.003 sec)
+
+
+SELECT *, timestampdiff(year, tgl_lahir, now()) umur FROM t_dosen
+WHERE timestampdiff(year, tgl_lahir, now()) < (SELECT timestampdiff(year, tgl_lahir, now()) FROM t_dosen WHERE nama LIKE '%rila mandala%');
+
+SELECT *, timestampdiff(year, tgl_lahir, now()) umur FROM t_dosen
+    -> WHERE timestampdiff(year, tgl_lahir, now()) < (SELECT timestampdiff(year, tgl_lahir, now()) FROM t_dosen WHERE nama LIKE '%rila mandala%');
++-----------+---------------+------------+--------------------------+------+
+| nip       | nama          | tgl_lahir  | alamat                   | umur |
++-----------+---------------+------------+--------------------------+------+
+| 132012069 | rinaldi munir | 1966-04-12 | jl.soekarno hatta no 131 |   55 |
+| 132041073 | reza satria   | 1970-11-21 | jl.buah batu no 42       |   51 |
++-----------+---------------+------------+--------------------------+------+
+2 rows in set (0.001 sec)
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+B. SUBQUERY menggunakan operator INT dan NOT IN
+	=> operator ini digunakan jika inner query/subquery mengembalikan lebih dari sebuah nilai.
+
+Contoh:
+  Tampilkan data mahasiswa yang mendapatkan nilai yang sama dengan nilai darmawan
+
+SELECT nama, kode, nilai FROM t_mahasiswa JOIN t_ambil USING(no_bp)
+WHERE nilai = (SELECT nilai FROM t_mahasiswa JOIN t_ambil USING(no_bp)
+WHERE nama LIKE 'darmawan%'); 
+
+# kode di atas error karena subquery menghasilkan lebih dari sebuah nilai, sehingga tidak bisa digunakan operator relasi
+
+SELECT distinct nilai FROM t_mahasiswa JOIN t_ambil USING(no_bp)
+WHERE nama like 'darmawan%';
+
+  SELECT distinct nilai FROM t_mahasiswa JOIN t_ambil USING(no_bp)
+    -> WHERE nama like 'darmawan%';
++-------+
+| nilai |
++-------+
+| A     |
+| B     |
+| C     |
++-------+
+3 rows in set (0.001 sec)
+
+ #Karena subquery menghasilkan lebih dari sebuah nilai => IN dan NOT IN
+
+Contoh:
+  1. Tampilkan data mahasiswa yang mendapatkan nilai yang sama dengan nilai darmawan
+
+SELECT nama, kode, nilai FROM t_mahasiswa JOIN t_ambil USING(no_bp)
+WHERE nilai IN (SELECT nilai FROM t_mahasiswa JOIN t_ambil USING(no_bp)
+WHERE nama LIKE 'darmawan%'); 
+
+ SELECT nama, kode, nilai FROM t_mahasiswa JOIN t_ambil USING(no_bp)
+    -> WHERE nilai IN (SELECT nilai FROM t_mahasiswa JOIN t_ambil USING(no_bp)
+    -> WHERE nama LIKE 'darmawan%');
++----------------+-------+-------+
+| nama           | kode  | nilai |
++----------------+-------+-------+
+| darmawan p     | ti111 | A     |
+| darmawan p     | ti211 | B     |
+| darmawan p     | ti321 | C     |
+| darmawan p     | ti331 | C     |
+| albinanto      | ti111 | B     |
+| albinanto      | ti211 | C     |
+| albinanto      | ti321 | A     |
+| rizky yulianto | ti111 | C     |
+| rizky yulianto | ti123 | A     |
+| rizky yulianto | ti211 | B     |
+| rizky yulianto | ti331 | B     |
+| nova kurniawan | ti123 | B     |
+| nova kurniawan | ti221 | A     |
+| nova kurniawan | ti211 | B     |
+| gama melisa    | ti111 | B     |
+| gama melisa    | ti123 | B     |
+| gama melisa    | ti211 | C     |
+| andik taufik   | ti211 | C     |
+| andik taufik   | ti321 | B     |
+| andik taufik   | ti331 | A     |
+| anggun hapsari | ti111 | A     |
+| anggun hapsari | ti221 | B     |
+| anggun hapsari | ti211 | B     |
+| anggun hapsari | ti321 | C     |
++----------------+-------+-------+
+24 rows in set (0.001 sec)
+
+
+  2. Tampilkan data mahasiswa yang mendapatkan nilai yang tidak sama dengan nilai dermawan
+
+
+SELECT nama, kode, nilai FROM t_mahasiswa JOIN t_ambil USING(no_bp)
+WHERE nilai NOT IN (SELECT nilai FROM t_mahasiswa JOIN t_ambil USING(no_bp)
+WHERE nama LIKE 'darmawan%'); 
+
+
+SELECT nama, kode, nilai FROM t_mahasiswa JOIN t_ambil USING(no_bp)
+    -> WHERE nilai NOT IN (SELECT nilai FROM t_mahasiswa JOIN t_ambil USING(no_bp)
+    -> WHERE nama LIKE 'darmawan%');
+	+----------------+-------+-------+
+	| nama           | kode  | nilai |
+	+----------------+-------+-------+
+	| albinanto      | ti221 | D     |
+	| nova kurniawan | ti111 | E     |
+	| gama melisa    | ti221 | E     |
+	| andik taufik   | ti111 | D     |
+	+----------------+-------+-------+
+	4 rows in set (0.005 sec)
+
+==========================================================================================
+
+SOAL:
+CLASSICMODELS
+  1. Tampilkan nama lengkap employee yang berkerja satu kantor dengan employee bernama Peter Marsh
+
+SELECT officeCode, CONCAT(firstName,' ',lastName) nama_karyawan
+FROM employees
+WHERE officeCode = (SELECT officeCode FROM employees
+WHERE CONCAT(firstName,' ',lastName) ='Peter Marsh');
+
+ SELECT officeCode, CONCAT(firstName,' ',lastName) nama_karyawan
+    -> FROM employees
+    -> WHERE officeCode = (SELECT officeCode FROM employees
+    -> WHERE CONCAT(firstName,' ',lastName) ='Peter Marsh');
+	+------------+-------------------+
+	| officeCode | nama_karyawan     |
+	+------------+-------------------+
+	| 6          | William Patterson |
+	| 6          | Andy Fixter       |
+	| 6          | Peter Marsh       |
+	| 6          | Tom King          |
+	+------------+-------------------+
+	4 rows in set (0.002 sec)
+
+
+
+  2. Tampilkan nama produk, quantityOdered, priceEach, total(quantityoOrdered*priceeach) yang memiliki quantityordered antara 60-70 dan total diatas rata-rata total keseluruhan. Tampilkan terurut dari total tertinggi.
+
+
+SELECT productName, quantityOrdered, priceEach, quantityOrdered * priceEach total
+FROM products JOIN orderdetails USING(productCode)
+WHERE quantityOrdered BETWEEN 60-70 AND quantityOrdered * priceEach > (SELECT AVG(quantityOrdered*priceEach) FROM orderdetails) ORDER BY total DESC;
+
+DARI IBU
+SELECT productName, quantityOrdered, priceEach, quantityOrdered*priceEach as total
+FROM products JOIN orderdetails USING(productCode)
+WHERE quantityOrdered BETWEEN 60-70 AND quantityOrdered*priceEach > (SELECT 
+
+
+SELECT productName, quantityOrdered,priceEach, quantityOrdered * priceEach AS total
+FROM products JOIN orderDetails USING (productCode)
+WHERE quantityOrdered BETWEEN 60 AND 70
+AND quantityOrdered * priceEach > (SELECT avg(quantityOrdered*priceEach) FROM orderDetails)
+ORDER BY total DESC;
+
+
+ SELECT productName, quantityOrdered,priceEach, quantityOrdered * priceEach AS total
+    -> FROM products JOIN orderDetails USING (productCode)
+    -> WHERE quantityOrdered BETWEEN 60 AND 70
+    -> AND quantityOrdered * priceEach > (SELECT avg(quantityOrdered*priceEach) FROM orderDetails)
+    -> ORDER BY total DESC;
++---------------------------------------+-----------------+-----------+----------+
+| productName                           | quantityOrdered | priceEach | total    |
++---------------------------------------+-----------------+-----------+----------+
+| 2003 Harley-Davidson Eagle Drag Bike  |              66 |    174.29 | 11503.14 |
+| 1968 Ford Mustang                     |              64 |    163.44 | 10460.16 |
+| 1992 Ferrari 360 Spider red           |              60 |    157.49 |  9449.40 |
+| 1972 Alfa Romeo GTA                   |              64 |    134.64 |  8616.96 |
+| 2002 Suzuki XREO                      |              66 |    122.00 |  8052.00 |
+| 1956 Porsche 356A Coupe               |              70 |    112.34 |  7863.80 |
+| 1962 Volkswagen Microbus              |              70 |    109.90 |  7693.00 |
+| 1948 Porsche Type 356 Roadster        |              65 |    117.26 |  7621.90 |
+| 1993 Mazda RX-7                       |              61 |    124.56 |  7598.16 |
+| 1937 Lincoln Berline                  |              65 |     99.66 |  6477.90 |
+| 1969 Harley Davidson Ultimate Chopper |              66 |     79.43 |  5242.38 |
+| 1932 Alfa Romeo 8C2300 Spider Sport   |              66 |     73.62 |  4858.92 |
+| 1948 Porsche 356-A Roadster           |              61 |     72.38 |  4415.18 |
+| 1912 Ford Model T Delivery Wagon      |              60 |     72.58 |  4354.80 |
+| 1957 Ford Thunderbird                 |              66 |     64.14 |  4233.24 |
+| 1928 Ford Phaeton Deluxe              |              62 |     62.60 |  3881.20 |
+| Corsair F4U ( Bird Cage)              |              64 |     59.37 |  3799.68 |
+| 1970 Chevy Chevelle SS 454            |              60 |     60.26 |  3615.60 |
++---------------------------------------+-----------------+-----------+----------+
+18 rows in set (0.008 sec)
+
+
+  3. Tampilkan data order berupa ordernumber, orderdate, requireddate dan status yang terjadi selama tahun 2005 yang status ordernya tidak sama dengan status yang pernah terjadi pada bulan May 2005
+
+SELECT orderNumber, orderDate, requiredDate, status
+FROM orders
+WHERE YEAR(orderDate) = 2005 AND status NOT IN (SELECT status FROM orders
+WHERE orderDate BETWEEN '20050501' AND '20050531');
+======================================================================================
+Mencari IPK
+  Tampilkan IPK yang diperoleh masing-masing mahasiswa. Urutkan dari IPK tertinggi.
+
+
+SELECT nama,kode,sks, nilai
+FROM t_mahasiswa JOIN t_ambil USING(no_bp) JOIN t_kuliah USING(kode)
+WHERE nama='albinanto';
+
+ SELECT nama,kode,sks, nilai
+    -> FROM t_mahasiswa JOIN t_ambil USING(no_bp) JOIN t_kuliah USING(kode)
+    -> WHERE nama='albinanto';
+	+-----------+-------+------+-------+
+	| nama      | kode  | sks  | nilai |
+	+-----------+-------+------+-------+
+	| albinanto | ti111 |    2 | B     |
+	| albinanto | ti211 |    3 | C     |
+	| albinanto | ti221 |    2 | D     |
+	| albinanto | ti321 |    1 | A     |
+	+-----------+-------+------+-------+
+	4 rows in set (0.002 sec)
+
+
+A=4
+B=3
+C=2
+D=1
+E=0
+
+SELECT SUM THEN
+SUM SKS
+
+
+SELECT SUM(sks*CASE nilai WHEN A THEN 4, Nilai
+), AS 'IPK'
+
+
+
+
+
+
+
+
+
+SELECT DISTINCT customerName, productName
+FROM customers JOIN orders USING(customerNumber)
+JOIN orderDetails USING(orderNumber)
+JOIN products USING(productCode)
+WHERE productName IN (SELECT productName FROM customers JOIN orders 
+USING(customerNumber) JOIN orderDetails USING(orderNumber)
+JOIN products USING(productCode)
+WHERE customerName LIKE '%toys%')
+ORDER BY customerName LIMIT 20;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

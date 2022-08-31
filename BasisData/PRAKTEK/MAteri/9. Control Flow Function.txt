@@ -1,0 +1,312 @@
+
+
+
+CONTROL FLOW FUNCTION
+---------------------
+--> Jika.... Maka....
+Ada pemilihan didalam MySQL
+
+Ada 4 jenis :
+1. IF
+2. CASE
+3. IFNULL
+4. NULLIF
+
+A. FUNGSI IF
+------------
+Format :
+
+IF(kondisi_logika, ekspresi1, ekspresi2);
+
+Kondisi_logika --> kondisi yang akan dilakukan pengujian, bisa berupa nilai yang ada didalam sebuah tabel, kondisi ini bisa dinilai TRUE atau FALSE.
+
+ekspresi1 --> aksi yang akan dilakukan jika kondisi TRUE
+ekspresi2 --> aksi yang akan dilakukan jika kondisi FALSE
+
+Contoh :
+SELECT IF(1=2, 0, 1);
+SELECT IF(1<2, 1, 0);
+
+Contoh pada database dbjual :
+1. Jika ongkos kirim seorang pelanggan dikategorikan berdasarkan jarak lokasi tempat tinggal dengan toko yang berada di Padang. Jika pelanggan berada di Padang maka bebas ongkos kirim. Namun jika diluar Padang akan dikenai ongkos kirim. Tampilkan seluruh data pelanggan beserta keterangan apakah bebas ongkos kirim atau tidak.
+
+kondisi_logika --> kota=Padang ??
+Ekspresi1 --> Jika TRUE --> Bebas Ongkir
+Ekspresi2 --> Jika FALSE --> Dikenai Ongkir
+
+SELECT * , IF(kota='Padang','Bebas Ongkir','Dikenai Ongkir') AS keterangan
+FROM tpelanggan;
+
+2. Tampilkan nonota, tgl, kdbrg, jml, hrg, total_hrg(jml*hrg) dan kuota transaksi. Dengan ketentuan : tulis kuota 1 jika jumlah minimal barang adalah 15 dan selebihnya tulis kuota 2.
+
+SELECT --> nonota, tgl, kdbrg, jml, hrg, jml*hrg AS total_hrg, kuota transaksi (IF)
+kondisi_logia --> jumlah barang minimal 15 ?
+ekspresi1 --> Jika TRUE --> Kuota 1
+ekspresi2 --> Jika FALSE --> kuota 2
+
+Fungsi IF untuk banyak kondisi (multi kasus)
+============================================
+
+Format :
+
+IF (kondisi_logika1, ekspresi1, IF(kondisi_logika2, ekspresi2, IF(kondisi_logika3, ekspresi3, ekspresi4)))
+
+4 kemungkinan kondisi_logika --> ada 3 IF
+ekspresi1 --> dilakukan jika kondisi_logika1 bernilai TRUE
+ekspresi2 --> dilakukan jika kondisi_logika1 bernilai FALSE dan kondisi_logika2 bernilai                TRUE
+ekspresi3 --> dilakukan jika kondisi_logika1, kondisi_logika2 bernilai FALSE dan               kondisi_logika3 bernilai TRUE
+ekspresi4 --> dilakukan jika kondisi_logika1, 2 dan 3 bernilai FALSE dan kondisi_logika4               bernilai TRUE
+
+Contoh :
+1. Tampilkan semua data transaksi, dan kuota transaksi dengan ketentuan, jika jumlah barang maksimum 5 maka dikategorikan sebagai partai kecil. Jika jumlah barang 6-10 maka dikategorikan sebagai partai menengah. Dan jika jumlah barang lebih dari 10, maka dikategorikan sebagai partai besar.
+
+kondisi_logika1 --> jml <= 5
+kondisi_logika2 --> jml >=6 and jml<=10
+
+ekspresi1 --> Jika TRUE --> Partai Kecil
+ekspresi2 --> Jika FALSE --> Partai Menengah
+ekspresi3 --> Jika FALSE --> Partai Besar
+
+Cara1:
+
+SELECT *, IF(jml<=5,'Partai Kecil',IF(jml>=6 AND jml<=10,'Partai Menengah',
+          'Partai Besar')) AS kuota_transaksi
+FROM ttrans;
+
+Cara2:
+SELECT *, IF(jml<=5,'Partai Kecil',IF(jml<=10,'Partai Menengah',
+          'Partai Besar')) AS kuota_transaksi
+FROM ttrans;
+
+2. Toko memberikan aturan diskon bertingkat dengan ketentuan sbb:
+- Jika jumlah barang dibawah 10, diskon 5%
+- Jika jumlah barang 10 - 20, diskon 10%
+- Jika jumlah diatas 20, diskon 20%
+
+Diskon diberikan dari total harga keseluruhan.
+Tampilkan tanggal transaksi, kode pelanggan, jml, hrg, total(jml*hrg), besaran diskon, total bayar setelah dikurangi diskon. 
+Urutkan dari transaksi dengan pembayaran tertinggi.
+
+3. Buat query yang menampilkan data ambil(db perkuliahan) kemudian terjemahkan nilai huruf sbb:
+  A=4, B=3, C=2, D=1, E=0
+
+4. tampilkan data t_kuliah, tambahkan kolom keterangan semester yang berisikan ganjil atau genap.
+
+5. Dari database classicmodels, tampilkan 15 full name kontak customers yang tinggal di USA berupa huruf kapital (gabungan firstname dan lastname), city dan state customers dan penjelasan dari state dengan ketentuan :
+           NV = Nevada
+           CA = California
+           NY = New York
+Selain ketiga state itu berikan keterangan 'others'. Urutkan berdasarkan full name
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+CONTROL FLOW FUNCTION
+---------------------
+--> Jika.... Maka....
+Ada pemilihan didalam MySQL
+
+Ada 4 jenis :
+1. IF
+2. CASE
+3. IFNULL
+4. NULLIF
+
+A. FUNGSI IF
+------------
+Format :
+
+IF(kondisi_logika, ekspresi1, ekspresi2);
+
+Kondisi_logika --> kondisi yang akan dilakukan pengujian, bisa berupa nilai yang ada didalam sebuah tabel, kondisi ini bisa dinilai TRUE atau FALSE.
+
+ekspresi1 --> aksi yang akan dilakukan jika kondisi TRUE
+ekspresi2 --> aksi yang akan dilakukan jika kondisi FALSE
+
+Contoh :
+SELECT IF(1=2, 0, 1);
+SELECT IF(1<2, 1, 0);
+
+Contoh pada database dbjual :
+1. Jika ongkos kirim seorang pelanggan dikategorikan berdasarkan jarak lokasi tempat tinggal dengan toko yang berada di Padang. Jika pelanggan berada di Padang maka bebas ongkos kirim. Namun jika diluar Padang akan dikenai ongkos kirim. Tampilkan seluruh data pelanggan beserta keterangan apakah bebas ongkos kirim atau tidak.
+
+kondisi_logika --> kota=Padang ??
+Ekspresi1 --> Jika TRUE --> Bebas Ongkir
+Ekspresi2 --> Jika FALSE --> Dikenai Ongkir
+
+SELECT * , IF(kota='Padang','Bebas Ongkir','Dikenai Ongkir') AS keterangan
+FROM tpelanggan;
+
+2. Tampilkan nonota, tgl, kdbrg, jml, hrg, total_hrg(jml*hrg) dan kuota transaksi. Dengan ketentuan : tulis kuota 1 jika jumlah minimal barang adalah 15 dan selebihnya tulis kuota 2.
+
+SELECT --> nonota, tgl, kdbrg, jml, hrg, jml*hrg AS total_hrg, kuota transaksi (IF)
+kondisi_logia --> jumlah barang minimal 15 ?
+ekspresi1 --> Jika TRUE --> Kuota 1
+ekspresi2 --> Jika FALSE --> kuota 2
+
+Fungsi IF untuk banyak kondisi (multi kasus)
+============================================
+
+Format :
+
+IF (kondisi_logika1, ekspresi1, IF(kondisi_logika2, ekspresi2, IF(kondisi_logika3, ekspresi3, ekspresi4)))
+
+4 kemungkinan kondisi_logika --> ada 3 IF
+ekspresi1 --> dilakukan jika kondisi_logika1 bernilai TRUE
+ekspresi2 --> dilakukan jika kondisi_logika1 bernilai FALSE dan kondisi_logika2 bernilai                TRUE
+ekspresi3 --> dilakukan jika kondisi_logika1, kondisi_logika2 bernilai FALSE dan               kondisi_logika3 bernilai TRUE
+ekspresi4 --> dilakukan jika kondisi_logika1, 2 dan 3 bernilai FALSE dan kondisi_logika4               bernilai TRUE
+
+Contoh :
+1. Tampilkan semua data transaksi, dan kuota transaksi dengan ketentuan, jika jumlah barang maksimum 5 maka dikategorikan sebagai partai kecil. Jika jumlah barang 6-10 maka dikategorikan sebagai partai menengah. Dan jika jumlah barang lebih dari 10, maka dikategorikan sebagai partai besar.
+
+kondisi_logika1 --> jml <= 5
+kondisi_logika2 --> jml >=6 and jml<=10
+
+ekspresi1 --> Jika TRUE --> Partai Kecil
+ekspresi2 --> Jika FALSE --> Partai Menengah
+ekspresi3 --> Jika FALSE --> Partai Besar
+
+Cara1:
+
+SELECT *, IF(jml<=5,'Partai Kecil',IF(jml>=6 AND jml<=10,'Partai Menengah',
+          'Partai Besar')) AS kuota_transaksi
+FROM ttrans;
+
+Cara2:
+SELECT *, IF(jml<=5,'Partai Kecil',IF(jml<=10,'Partai Menengah',
+          'Partai Besar')) AS kuota_transaksi
+FROM ttrans;
+
+2. Toko memberikan aturan diskon bertingkat dengan ketentuan sbb:
+- Jika jumlah barang dibawah 10, diskon 5%
+- Jika jumlah barang 10 - 20, diskon 10%
+- Jika jumlah diatas 20, diskon 20%
+
+Diskon diberikan dari total harga keseluruhan.
+Tampilkan tanggal transaksi, kode pelanggan, jml, hrg, total(jml*hrg), besaran diskon, total bayar setelah dikurangi diskon. 
+Urutkan dari transaksi dengan pembayaran tertinggi.
+
+3. Buat query yang menampilkan data ambil(db perkuliahan) kemudian terjemahkan nilai huruf sbb:
+  A=4, B=3, C=2, D=1, E=0
+
+4. tampilkan data t_kuliah, tambahkan kolom keterangan semester yang berisikan ganjil atau genap.
+
+5. Dari database classicmodels, tampilkan 15 full name kontak customers yang tinggal di USA berupa huruf kapital (gabungan firstname dan lastname), city dan state customers dan penjelasan dari state dengan ketentuan :
+           NV = Nevada
+           CA = California
+           NY = New York
+Selain ketiga state itu berikan keterangan 'others'. Urutkan berdasarkan full name
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

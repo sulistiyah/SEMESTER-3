@@ -1,0 +1,763 @@
+
+
+Tanggal 17 November 2021
+
+fungsi di mysql;
+
+ada 2 jenis fungsi:
+1.fungsi bawaan dri program /aplikasi
+2. ... yang didefinisakn oleh programer
+
+1. numerik yang digunakan untuk mnegolah data angka, tipe: integer, decimal, float, double, ddl
+	ex: ceil/ceiling,flooe,round,truncate,mod,sqrt,dll
+
+fungsi bawaan sql;
+1, numerik
+2. string
+3. date/time
+4. comparison
+5. control floe function
+5. aaggregate
+
+==========================================================================================
+2. fungsi sting
+.....dugunakan untuk manifulasi data string.
+
+Tipe data : char, varchar, text, dll
+
+
+JEnis"
+A. UCASE()  atau UPPER()
+.......mengubah tampilan string menjadi huruf besar.
+
+contoh:
+		SELECT UCASE('Selamat pagi PNP');
+
+ SELECT UCASE('Selamat pagi PNP');
++---------------------------+
+| UCASE('Selamat pagi PNP') |
++---------------------------+
+| SELAMAT PAGI PNP          |
++---------------------------+
+1 row in set (0.004 sec)
+
+]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]
+
+		SELECT UPPER('Teknik Komputer');
+
+SELECT UPPER('Teknik Komputer');
++--------------------------+
+| UPPER('Teknik Komputer') |
++--------------------------+
+| TEKNIK KOMPUTER          |
++--------------------------+
+1 row in set (0.000 sec)
+
+]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]
+
+=============================================================================================
+
+B. LCASE() atau LOWER()
+.......mengubah tampilan string menjadi huruf kecil.
+
+
+
+		SELECT LCASE('Selamat Pagi PNP');
+
+SELECT LCASE('Selamat Pagi PNP');
++---------------------------+
+| LCASE('Selamat Pagi PNP') |
++---------------------------+
+| selamat pagi pnp          |
++---------------------------+
+1 row in set (0.004 sec)
+
+]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]
+
+		SELECT LOWER('Teknik Komputer');
+
+SELECT LOWER('Teknik Komputer');
++--------------------------+
+| LOWER('Teknik Komputer') |
++--------------------------+
+| teknik komputer          |
++--------------------------+
+1 row in set (0.000 sec)
+
+]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]
+
+#.....Tampilkan nama pelanggan dengan huruf kapital dan alamat dengan huruf kecil dari tpelanggan di database dbjual.
+	
+#......select UCASE(nmlgn) AS nama, LCASE(almlgn) AS alamat from tpelanggan;
+
+ select UCASE(nmlgn) AS nama, LCASE(almlgn) AS alamat from tpelanggan;
++--------------+-----------------+
+| nama         | alamat          |
++--------------+-----------------+
+| GALAXY MEDIA | birugo          |
+| GAMATECHNO   | anduring        |
+| CITRA MOZAIC | jl. veteran     |
+| JJ ENT       | khatib sulaiman |
+| GREEN MEDIA  | jambu air       |
+| TK. INTAN    | jl.s.hatta      |
+| ONEXINDO     | pauh            |
+| RUDI         | NULL            |
+| CITRA        | NULL            |
++--------------+-----------------+
+9 rows in set (0.004 sec)
+
+=============================================================================================
+
+C. CONCAT()
+.......Digunakan untuk menyambung 2 buah string/ lebih.
+	
+	Struktur:
+	SELECT CONCAT(String1,String2,.....)
+
+	Contoh:
+	SELECT CONCAT('Teknik','Komputer');
+
+SELECT CONCAT('Teknik','Komputer');
++-----------------------------+
+| CONCAT('Teknik','Komputer') |
++-----------------------------+
+| TeknikKomputer              |
++-----------------------------+
+1 row in set (0.004 sec)
+
+]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]
+
+	SELECT CONCAT('Teknik',' ','Komputer');
+
+ SELECT CONCAT('Teknik',' ','Komputer');
++---------------------------------+
+| CONCAT('Teknik',' ','Komputer') |
++---------------------------------+
+| Teknik Komputer                 |
++---------------------------------+
+1 row in set (0.000 sec)
+
+]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]
+
+	SELECT UCASE(CONCAT('Teknik',' ','Komputer'));
+
+SELECT UCASE(CONCAT('Teknik',' ','Komputer'));
++----------------------------------------+
+| UCASE(CONCAT('Teknik',' ','Komputer')) |
++----------------------------------------+
+| TEKNIK KOMPUTER                        |
++----------------------------------------+
+1 row in set (0.000 sec)
+
+]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]
+
+	SELECT LCASE(CONCAT('Teknik',' ','Komputer'));
+
+SELECT LCASE(CONCAT('Teknik',' ','Komputer'));
++----------------------------------------+
+| LCASE(CONCAT('Teknik',' ','Komputer')) |
++----------------------------------------+
+| teknik komputer                        |
++----------------------------------------+
+1 row in set (0.000 sec)
+
+]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]
+
+Tampilkan nama lengkap customer(firstname dan lastname) dari customer yang tinggal diUSA. tampilkan hanya 10 data saja dan urutkan berdasarkan nama lengkap.
+
+
+ select  CONCAT(contactFirstName,' ',contactLastName) AS ContactFullName, country
+    -> FROM customers
+    -> WHERE country like '%USA%'
+    -> ORDER BY ContactFullName limit 10;
+
+select  CONCAT(contactFirstName,' ',contactLastName) AS ContactFullName, country
+    -> FROM customers
+    -> WHERE country like '%USA%'
+    -> ORDER BY ContactFullName limit 10;
++---------------------+---------+
+| ContactFullName     | country |
++---------------------+---------+
+| Allen Nelson        | USA     |
+| Brian Chandler      | USA     |
+| Dan Lewis           | USA     |
+| Dorothy Young       | USA     |
+| Francisca Cervantes | USA     |
+| Jean King           | USA     |
+| Jeff Young          | USA     |
+| Jerry Tseng         | USA     |
+| Julie Brown         | USA     |
+| Julie King          | USA     |
++---------------------+---------+
+10 rows in set (0.001 sec)
+
+
+======================================================================================
+
+D. FORMAT()
+.....digunakan untuk memformat angka. 
+	misalnya : 7526000 -> 7,526,000
+
+	SELECT FORMAT(7526000.34567, 2);
+
+ SELECT FORMAT(7526000.34567, 2);
++--------------------------+
+| FORMAT(7526000.34567, 2) |
++--------------------------+
+| 7,526,000.35             |
++--------------------------+
+1 row in set (0.005 sec)
+
+	SELECT FORMAT(7526000.341212, 4);
+
+SELECT FORMAT(7526000.341212, 4);
++---------------------------+
+| FORMAT(7526000.341212, 4) |
++---------------------------+
+| 7,526,000.3412            |
++---------------------------+
+1 row in set (0.004 sec)
+
+
+
+tampilkan tgl, kdbrg, jml, dan harga, harga ditampilkan dalam bentuk RP.XXX.XXX.XXX dengan pembulatan dua angka dibelakang koma, Contoh Rp.1.250.000,00
+
+	SELECT tgl, kdbrg, jml, CONCAT('Rp.',' ',FORMAT(hrg,2)) Harga FROM ttrans;
+ 
+ SELECT tgl, kdbrg, jml, CONCAT('Rp.',' ',FORMAT(hrg,2)) Harga
+    -> FROM ttrans;
++------------+-------+------+----------------+
+| tgl        | kdbrg | jml  | Harga          |
++------------+-------+------+----------------+
+| 2008-09-01 | B001  |    5 | Rp. 750,000.00 |
+| 2008-09-01 | B002  |    5 | Rp. 175,000.00 |
+| 2008-09-01 | B002  |    5 | Rp. 175,000.00 |
+| 2008-09-01 | B003  |   20 | Rp. 25,000.00  |
+| 2008-09-01 | B002  |   15 | Rp. 175,000.00 |
+| 2008-09-01 | B005  |   10 | Rp. 50,000.00  |
+| 2008-09-02 | B004  |   10 | Rp. 220,000.00 |
+| 2008-09-02 | B001  |   20 | Rp. 750,000.00 |
+| 2008-09-02 | B002  |   20 | Rp. 175,000.00 |
+| 2008-09-03 | B002  |   30 | Rp. 225,000.00 |
+| 2008-09-03 | B005  |   30 | Rp. 50,000.00  |
+| 2008-10-01 | B001  |   10 | Rp. 750,000.00 |
+| 2008-10-10 | B001  |    5 | Rp. 175,000.00 |
+| 2007-01-10 | B001  |    5 | Rp. 750,000.00 |
+| 2007-01-10 | B002  |    1 | Rp. 175,000.00 |
+| 2007-01-10 | B003  |    3 | Rp. 25,000.00  |
+| 2006-02-06 | B001  |   12 | Rp. 750,000.00 |
+| 2005-03-01 | B001  |   10 | Rp. 750,000.00 |
+| 2005-03-01 | B004  |   15 | Rp. 220,000.00 |
+| 2006-05-31 | B001  |   40 | Rp. 750,000.00 |
++------------+-------+------+----------------+
+20 rows in set (0.000 sec)
+
+===============================================================
+
+E. SUBSTRING() atau SUBSTR()
+.........digunakan untuk mengambil sebagian string/ memotong string membutuhkan 2 atau 3 argumen
+
+Argumen 1 ===> String sumber
+Argumen 2 ===> posisi awal pengambilan / pemotongan
+Argumen 3 ===> opsional dan sebagai batasan string yang akan diambil
+
+	Contoh;
+	SELECT SUBSTRING('Teknik Komputer',4);
+
+ SELECT SUBSTRING('Teknik Komputer',4);
++--------------------------------+
+| SUBSTRING('Teknik Komputer',4) |
++--------------------------------+
+| nik Komputer                   |
++--------------------------------+
+1 row in set (0.001 sec)
+
+
+	SELECT SUBSTRING('Teknik Komputer',4,3);
+
+SELECT SUBSTRING('Teknik Komputer',4,3);
++----------------------------------+
+| SUBSTRING('Teknik Komputer',4,3) |
++----------------------------------+
+| nik                              |
++----------------------------------+
+1 row in set (0.008 sec)
+
+
+	SELECT SUBSTRING('Teknik Komputer',4,6);
+
+SELECT SUBSTRING('Teknik Komputer',4,6);
++----------------------------------+
+| SUBSTRING('Teknik Komputer',4,6) |
++----------------------------------+
+| nik Ko                           |
++----------------------------------+
+1 row in set (0.000 sec)
+
+
+Tampilkan nama barang dari karakter ke 5 hingga 10. dari tabel barang.
+
+
+SELECT SUBSTRING(nmbrg,5,10) AS NamaBarang FROM  tbrg;
++------------+
+| NamaBarang |
++------------+
+| uter Penti |
+| book ASUS  |
+| et         |
+| isk Ext WD |
+| disk Kings |
+| tor Samsun |
+| e Wireless |
++------------+
+7 rows in set (0.000 sec)
+
+=====================================================
+
+F. LEFT() dan RIGHT()
+.....digunakan untuk mengambil sebagian string dari posisi kiri (LEFT) dan kanan(RIGHT). membutuhkan 2 argumen
+
+	Contoh
+	SELECT LEFT('Teknik Komputer',5);
+
+ SELECT LEFT('Teknik Komputer',5);
++---------------------------+
+| LEFT('Teknik Komputer',5) |
++---------------------------+
+| Tekni                     |
++---------------------------+
+1 row in set (0.001 sec)
+
+
+	SELECT RIGHT('Teknik Komputer',5);
+
+SELECT RIGHT('Teknik Komputer',5);
++----------------------------+
+| RIGHT('Teknik Komputer',5) |
++----------------------------+
+| puter                      |
++----------------------------+
+1 row in set (0.000 sec)
+
+
+CONTOH1
+Tampilkan nama barang yang 2 karakter pertama adalah 'MO' 
+
+ SELECT nmbrg AS NamaBarang FROM tbrg
+    -> WHERE LEFT(nmbrg,2) = 'Mo';
++-------------------------+
+| NamaBarang              |
++-------------------------+
+| Monitor Samsung 15 Inch |
+| Mouse Wireless Logitech |
++-------------------------+
+2 rows in set (0.001 sec)
+
+SELECT nmbrg AS NamaBarang FROM tbrg
+    -> WHERE nmbrg LIKE 'Mo%';
++-------------------------+
+| NamaBarang              |
++-------------------------+
+| Monitor Samsung 15 Inch |
+| Mouse Wireless Logitech |
++-------------------------+
+2 rows in set (0.000 sec)
+
+
+CONTOH 2:
+tampilkan 10 data pada tabel payments untuk amount yang jumlahnya maksimal adalah 50.000. urutkan berdasarkan amount tertinggi. tampilkan juga field lain dengan ketentuan:
+	customernumber hanya 2 karakter diawal saja
+	chechnumber hanya 4 karakter diakgir saja
+	paymendate hanya nomor bulannya saja yang ditampilkan.
+	format tampilan amount tidak ada angka dibelakang koma
+
+ select LEFT(customerNumber,2), RIGHT(checkNumber,4), SUBSTRING(paymentDate,6,2), FORMAT(amount,0)
+    -> FROM payments
+    -> WHERE amount <= 50000
+    -> ORDER BY amount DESC limit 10;
++------------------------+----------------------+----------------------------+------------------+
+| LEFT(customerNumber,2) | RIGHT(checkNumber,4) | SUBSTRING(paymentDate,6,2) | FORMAT(amount,0) |
++------------------------+----------------------+----------------------------+------------------+
+| 35                     | 1193                 | 01                         | 49,706           |
+| 14                     | 3410                 | 01                         | 49,615           |
+| 14                     | 5280                 | 10                         | 49,539           |
+| 11                     | 4694                 | 02                         | 49,524           |
+| 40                     | 7687                 | 01                         | 49,165           |
+| 39                     | 4275                 | 11                         | 48,928           |
+| 44                     | 2727                 | 09                         | 48,810           |
+| 18                     | 4726                 | 03                         | 48,426           |
+| 46                     | 6846                 | 11                         | 48,356           |
+| 24                     | 4084                 | 09                         | 48,299           |
++------------------------+----------------------+----------------------------+------------------+
+10 rows in set (0.001 sec)
+
+
+=========================================================================================
+
+3. FUNGSI DATE / TIME
+.......digunakan untuk mengolah data bertipe dta/time
+
+JENIS
+A. CURRENT_TIMESTAMP(), LOCALTIME(),LOCALTIMESTAMP(), NOW()
+......untuk menampilkan watu saaat ini (real time) / sesuai dengan waktu dikomputer server.
+
+	Contoh ;
+	SELECT CURRENT_TIMESTAMP();
+	SELECT LOCALTIME();
+	SELECT LOCALTIMESTAMP();
+	SELECT NOW();
+
+SELECT CURRENT_TIMESTAMP();
++---------------------+
+| CURRENT_TIMESTAMP() |
++---------------------+
+| 2021-11-17 09:45:11 |
++---------------------+
+1 row in set (0.000 sec)
+
+SELECT LOCALTIME();
++---------------------+
+| LOCALTIME()         |
++---------------------+
+| 2021-11-17 09:45:22 |
++---------------------+
+1 row in set (0.000 sec)
+
+SELECT LOCALTIMESTAMP();
++---------------------+
+| LOCALTIMESTAMP()    |
++---------------------+
+| 2021-11-17 09:45:28 |
++---------------------+
+1 row in set (0.000 sec)
+
+SELECT NOW();
++---------------------+
+| NOW()               |
++---------------------+
+| 2021-11-17 09:45:34 |
++---------------------+
+1 row in set (0.000 sec)
+
+
+=====================================
+
+B. DATE() dan TIME()
+.........untuk menampilkan bagian tanggal/waktu dari input date/time. dengan argumen berupa nilai tanggal/field dengan tipe date/time.
+
+	CONTOH:
+	SELECT DATE('2020-10-01 10:10:34');
+	SELECT TIME('2020-10-01 10:10:34');
+
+SELECT DATE('2020-10-01 10:10:34');
++-----------------------------+
+| DATE('2020-10-01 10:10:34') |
++-----------------------------+
+| 2020-10-01                  |
++-----------------------------+
+1 row in set (0.004 sec)
+
+SELECT TIME('2020-10-01 10:10:34');
++-----------------------------+
+| TIME('2020-10-01 10:10:34') |
++-----------------------------+
+| 10:10:34                    |
++-----------------------------+
+1 row in set (0.000 sec)
+
+
+CONTOH
+tampilkan tanggal hari ini.
+
+ SELECT DATE(NOW());
++-------------+
+| DATE(NOW()) |
++-------------+
+| 2021-11-17  |
++-------------+
+1 row in set (0.000 sec)
+
+tampilkan waktu hari ini
+
+ SELECT TIME(NOW());
++-------------+
+| TIME(NOW()) |
++-------------+
+| 09:52:22    |
++-------------+
+1 row in set (0.000 sec)
+
+==================================================
+
+C. CURDATE() atau CURRENT_DATE()
+........menampilkan tanggal real/saat ini = date(NOW())
+
+	SELECT CURDATE();
+
+
+==============================
+D. CURTIME() atau CURRENT_TIME()
+.......menampilkan waktu saat ini/real ini = TIME(NOW())
+
+	SELECT CURTIME();
+
+
+E. MONTH() dan YEAR()
+.....menapilkan bulan dan tahun. bisa diikuti oleh fungsi lain dan bisa diikuti oleh nilai tanggal/field yang bertipe date.
+
+contoh
+
+ SELECT YEAR(NOW());
++-------------+
+| YEAR(NOW()) |
++-------------+
+|        2021 |
++-------------+
+1 row in set (0.001 sec)
+
+SELECT MONTH(NOW());
++--------------+
+| MONTH(NOW()) |
++--------------+
+|           11 |
++--------------+
+1 row in set (0.003 sec)
+
+==========================================================
+
+tampilkan ordernumber, orderdate, status untuk order yang terjadi pada bulan september 2003.
+
+MariaDB [classicmodels]> Select orderNumber, orderDate, status FROM orders
+    -> Where MONTH(orderDate) = 9 AND YEAR(orderDate) = 2003;
++-------------+------------+---------+
+| orderNumber | orderDate  | status  |
++-------------+------------+---------+
+|       10146 | 2003-09-03 | Shipped |
+|       10147 | 2003-09-05 | Shipped |
+|       10148 | 2003-09-11 | Shipped |
+|       10149 | 2003-09-12 | Shipped |
+|       10150 | 2003-09-19 | Shipped |
+|       10151 | 2003-09-21 | Shipped |
+|       10152 | 2003-09-25 | Shipped |
+|       10153 | 2003-09-28 | Shipped |
++-------------+------------+---------+
+8 rows in set (0.013 sec)
+
+==========================================================================================
+
+F.MONTHNMAE() dan DAYNAME()
+............menampilkan nama dan bulan nama hari dari sebuah tanggal.
+
+SELECT MONTHNAME(NOW());
+
+tampilkan ordernumber, orderdate, status untuk order yang terjadi pada bulan september 2003.
+MariaDB [classicmodels]> Select orderNumber, orderDate, status FROM orders
+    -> Where MONTHNAME(orderDate) = 'September' AND YEAR(orderDate) = 2003;
++-------------+------------+---------+
+| orderNumber | orderDate  | status  |
++-------------+------------+---------+
+|       10146 | 2003-09-03 | Shipped |
+|       10147 | 2003-09-05 | Shipped |
+|       10148 | 2003-09-11 | Shipped |
+|       10149 | 2003-09-12 | Shipped |
+|       10150 | 2003-09-19 | Shipped |
+|       10151 | 2003-09-21 | Shipped |
+|       10152 | 2003-09-25 | Shipped |
+|       10153 | 2003-09-28 | Shipped |
++-------------+------------+---------+
+8 rows in set (0.001 sec)
+
+===================================================
+G. ADDDATE() atau DATE_ADD()
+.......menampilkan hasil penambahan tanggal dan waktu
+
+	Struktur:
+	ADDDATE(DATE, INTERVAL jumlah_penambahan);
+	DATE_ADD(DATE, INTERVAL jumlah_penambahan);
+
+	NB: jumlah_penambahan => n day, nmont, nyear, n hour, n minute, n second.
+	hour, minute, second => format yang ditambahkan harus lengkap
+
+	CONTOH:
+	SELECT ADDDATE('2021-11-20', INTERVAL 15 DAY);
+
+SELECT ADDDATE('2021-11-20', INTERVAL 15 DAY);
++----------------------------------------+
+| ADDDATE('2021-11-20', INTERVAL 15 DAY) |
++----------------------------------------+
+| 2021-12-05                             |
++----------------------------------------+
+1 row in set (0.004 sec)
+
+==============================================
+
+TAmpilkan 5 bulan dari tanggal sekarang.
+
+SELECT ADDDATE(NOW(), INTERVAL 5 MONTH);
++----------------------------------+
+| ADDDATE(NOW(), INTERVAL 5 MONTH) |
++----------------------------------+
+| 2022-04-17 10:15:55              |
++----------------------------------+
+1 row in set (0.000 sec)
+
+TAmpilkan 2 tahun dari tanggal sekarang.
+
+ SELECT ADDDATE(NOW(), INTERVAL 2 YEAR);
++---------------------------------+
+| ADDDATE(NOW(), INTERVAL 2 YEAR) |
++---------------------------------+
+| 2023-11-17 10:16:43             |
++---------------------------------+
+1 row in set (0.000 sec)
+
+Tanggal berapakah 45 hari setelah hari ini
+SELECT ADDDATE(NOW(), INTERVAL 45 DAY);
++---------------------------------+
+| ADDDATE(NOW(), INTERVAL 45 DAY) |
++---------------------------------+
+| 2022-01-01 10:18:08             |
++---------------------------------+
+1 row in set (0.000 sec)
+
+
+2 jam dari seakarang adalah jam
+ SELECT ADDDATE(NOW(), INTERVAL 2 HOUR);
++---------------------------------+
+| ADDDATE(NOW(), INTERVAL 2 HOUR) |
++---------------------------------+
+| 2021-11-17 12:17:40             |
++---------------------------------+
+1 row in set (0.000 sec)
+
+SOAL 2
+jatuh tempo pembayaran dari tanggal order adalah 1 minggu setelah orderdate. Tampilkan tanggal order, tanggal pembayaran untuk order yang terjadi pada bulan november 2004.
+
+
+
+===========================================================================
+
+H. SUBDATE() atau DATE_SUB()
+....digunakan untuk proses pengurangan tanggal dan waktu
+
+SUBDATE(DATE, INTERVAL jumlah_penambahan);
+DATE_SUB(DATE, INTERVAL jumlah_penambahan);
+
+SELECT SUBDATE(NOW(), INTERVAL 15 DAY);
+SELECT SUBDATE(NOW(), INTERVAL 5 MONTH);
+SELECT SUBDATE(NOW(), INTERVAL 2 YEAR);
+SELECT SUBDATE(NOW(), INTERVAL 54 MINUTE);
+
+SELECT SUBDATE(NOW(), INTERVAL 15 DAY);
++---------------------------------+
+| SUBDATE(NOW(), INTERVAL 15 DAY) |
++---------------------------------+
+| 2021-11-02 10:35:52             |
++---------------------------------+
+1 row in set (0.001 sec)
+
+SELECT SUBDATE(NOW(), INTERVAL 5 MONTH);
++----------------------------------+
+| SUBDATE(NOW(), INTERVAL 5 MONTH) |
++----------------------------------+
+| 2021-06-17 10:36:27              |
++----------------------------------+
+1 row in set (0.000 sec)
+
+SELECT SUBDATE(NOW(), INTERVAL 2 YEAR);
++---------------------------------+
+| SUBDATE(NOW(), INTERVAL 2 YEAR) |
++---------------------------------+
+| 2019-11-17 10:36:32             |
++---------------------------------+
+1 row in set (0.000 sec)
+
+
+SELECT SUBDATE(NOW(), INTERVAL 54 MINUTE);
++------------------------------------+
+| SUBDATE(NOW(), INTERVAL 54 MINUTE) |
++------------------------------------+
+| 2021-11-17 09:42:41                |
++------------------------------------+
+1 row in set (0.000 sec)
+
+
+=========================================================================================
+
+I. DATEDIFF()
+..........digunakan untuk mengjitung selisih 2 buah tanggal.
+Argumen 1 ==>Tanggal akhir
+Argumen 2 ==>Tanggal Awal
+
+SELECT DATEDIFF('2021-12-17', '2021-11-17') AS lama;
++------+
+| lama |
++------+
+|   30 |
++------+
+1 row in set (0.004 sec)
+
+==================================================================================
+
+
+J. DATEFORMAT() jshett hal 143
+....digunakan untuk memformat tampilan tanggal
+CONTOH
+ SELECT DATE_FORMAT('2021-11-15','%d-%M-%Y');
++--------------------------------------+
+| DATE_FORMAT('2021-11-15','%d-%M-%Y') |
++--------------------------------------+
+| 15-November-2021                     |
++--------------------------------------+
+1 row in set (0.001 sec)
+
+
+
+Tugas.
+1. Kerjakan langkah jobsheet bab 16
+2. SOAL2:
+
+dbperkuliahan:
+1. hitunglah usi dosen pada tabel tdosen, tampilkan juga nmaa dan tanggal lahir.
+2. tampilkan nama, tgl_lahir dan hari kelahiran mahasiswa
+
+dbjual:
+3.Tanggal jatuh tempo pembayaran adalah 30 hari setelah transakasi. tampilkan semua data transakasi dan data jatuh tempo pembayaran untuk yang jatuh temponya pada bula februi saja.
+
+Classicmodels:
+4. Tampilkan waktu tunggu yang dibutuhkan dari waktu pengiriman hingga pemesan
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

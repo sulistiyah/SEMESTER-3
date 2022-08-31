@@ -1,0 +1,174 @@
+Basis Data - Database
+----------------------
+   Teori --> target matkul : mhs dapat merancang sebuah basis data
+   Praktek --> target :
+               mengolah data dalam database
+               (rancangan sudah ada --> pengolahan data -->info)
+
+contoh kasus :
+membuat sistem untuk mengelola data jual beli sebuah toko
+   objek yang anda amati dalam proses jual beli
+       barang ---> kodebarang, namabarang, jenis, ukuran, stok
+                      (ini data)
+       pegawai
+       pelanggan
+       penjualan
+
+
+data ??
+    --> kumpulan fakta dari sebuah objek
+
+   data --> proses --> informasi
+
+database --> tempat penyimpan data (bukan fisik)
+            - kumpulan file2 (tabel2)
+
+DBMS = Database management system
+     --> software / aplikasi
+   contoh : mysql
+
+bahasa : SQL (Strucured Query Language) --> PL/SQL
+-------------------------------------------------------
+Struktur dasar bahasa SQL :
+  1. DDL = Data Definition Language
+     --> SQL yang digunakan utk pendefinisian struktur dalam database
+   
+      struktur dalam database :??
+            database, tabel, kolom, user, procedure, function,
+            view, trigger, cursor,....
+
+      contoh :
+           CREATE, ALTER, DROP
+           SHOW, USE, DESC
+       
+  2. DML = Data Manipulation Language
+      --> SQL yang digunakan untuk melakukan perubahan data dalam database
+          contoh :
+              INSERT, UPDATE, DELETE, SELECT
+
+
+  3. DCL = Data Control Language
+      --> SQL yang digunakan untuk pengendalian akses database
+         contoh :
+            GRANT : pemberian hak akses
+            REVOKE : pencabutan hak akses
+================================================================
+Basis data
+     kumpulan file/tabel
+
+  database ---> tabel
+  tabel 
+        kumpulan baris dan kolom
+  
+   tabel / skema relasi
+   database / workspace
+==============================================================
+Langkah masuk MySQL
+--------------------
+   - aktifkan terlebih dahulu module mysql yang ada pda panel XAMPP
+         dengan cara klik tombol start
+   - utk bekerja dalam mysql pastikan posisi command sesuai dengan posisi instalasi mysql
+       C:\xampp\mysql\bin
+
+CARA 1 :
+   - buka command prompt
+   - ganti posisi command prompt 
+       awal : C:\Users\Lenovo>
+      target :   C:\xampp\mysql\bin
+
+   - ganti directory bertahap, perintah CD atau CHDIR
+    C:\Users\Lenovo>cd..
+
+C:\Users>cd..
+
+C:\>cd xampp
+
+C:\xampp>cd mysql
+
+C:\xampp\mysql>cd bin
+
+C:\xampp\mysql\bin>
+
+     -untuk masuk kedalam mysql, perintah dasar
+     
+          mysql -u namauser -p password -h alamathost
+
+        user tertinggi (super administrator) : root
+          password : tidak ada
+          alamat host : localhost
+
+CARA 2 :
+     - buka command prompt
+   - ganti posisi command prompt 
+       awal : C:\Users\Lenovo>
+      target :   C:\xampp\mysql\bin
+
+   - ganti directory bertahap, perintah CD atau CHDIR secara langsung
+  
+       C:\Users\Lenovo>cd C:\xampp\mysql\bin
+
+CARA 3 :
+  langsung klik button shell pada panel XAMPP
+---------------------------------------------------------
+DATA DEFINITION LANGUAGE
+-------------------------
+1. Melihat database yang sudah ada
+       SHOW databases;
+
+2. Masuk kedalam sebuah database
+       USE namadatabase;
+
+    contoh :
+        masuk kedalam database mysql 
+                 USE mysql;
+
+3. Melihat tabel yang ada dalam sebuah database
+        SHOW tables;
+
+4. Melihat struktur sebuah tabel 
+        DESC namatabel;
+
+   contoh : melihat struktur tabel user pada database mysql
+        DESC user;
+   
+      desc time_zone;
+
+5. Melihat isi tabel keseluruhan 
+        SELECT * FROM namatabel;
+
+    * --> semua /all
+
+    Kalau data dalam tabel ada, maka akan tampil berupa tabel
+    Kalau data tidak ada
+          response : empty set
+
+6. Menampilkan hanya beberapa field/kolom dari sebuah tabel
+        SELECT namafield1, namafield2
+        FROM namatabel;
+
+    Contoh : 
+       select host,user, password from user;
+
+
+Tampilkan kolom  host, user,  Password , select_priv, Insert_priv d tabel user
+
+ 7. Membuat database
+
+       CREATE database namadatabase;
+   
+    catatan :
+       - pastikan namadatabase belum ada sebelumnya
+       - penamaan struktur mengikuti aturan penamaan variabel
+   
+    contoh :
+       buat database db_latihan1
+          CREATE database db_latihan1;
+
+8. menghapus database
+    --> ingat dihapus bukan database bawaan 
+
+       DROP DATABASE namadatabase;
+  
+   contoh :
+     Hapus database db_latihan1
+          DROP database db_latihan1;

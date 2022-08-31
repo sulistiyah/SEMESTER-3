@@ -1,0 +1,362 @@
+CONTROL FLOW FUNCTION
+	1.IF
+	2.CASE
+	3.IFNULL
+	4.NULLIF
+
+cONTROL FLOW FUNCTION
+
+A. IF
+	-2 kemungkinanan kondisi
+		IF (kondisi, statejikakondisibenar, statejikakondisisalah)
+	-n kemungkinan
+		IF(kondisis, aksi1(IF(kon2,aksi2,IF(kond3,kond4))))
+
+CONTOH:
+Soal 1.
+Classicmodels
+	Tampilkan 25 namaproduk, jenis produk serta penjelasan dengan ketentuan:
+	Productline classsic cars -- mobil klasik
+	trains -- kereta
+	ships -- kapal
+	planes-- pesawat
+	selebihnya : kendaraan lainnya
+
+SELECT productName AS 'Nama Produk', productLine AS 'Jenis Produk',
+    -> IF(productLine='classic cars','mobil klasik',
+    -> IF(productLine='ships','kapal',
+    -> IF(productLine='trains','kereta',
+    -> IF(productLine='planes','pesawat','kendaraan lainnya')))) AS Penjelasan
+    -> FROM products
+    -> LIMIT 25;
+=======================================
+B. Struktur CASE
+	=> bentuk lain dari IF
+
+Struktur 1;
+	CASE variabel_kondisi/nilai
+	WHEN nilai THEN statement1
+	WHEn nilai2 THEN statement2
+	ELSE
+	   statements_else
+	END
+
+Struktur 2; (lebih global)
+	CASE 
+	WHEN nilai THEN statement1
+	WHEn nilai2 THEN statement2
+	ELSE
+	   statements_else
+	END
+
+CONTOH
+=============Keterangan====================
+	A= 'Bagus Sekali'
+	B= 'Bagus'
+	C= 'Cukup'
+	D= 'Kurang'
+	E= 'Gagal'
+
+================JAWAB==================
+	CASE nilai
+	WHEN 'A' THEN 'Bagus Sekali'
+	................
+	WHEN 'D' THEN 'Kurang'
+	ELSE
+	  'Gagal'
+	END
+
+============Keterangan Suhu===========
+	T < 0 = ES
+	0-100 = Cair
+	>100 = GAS
+
+===================JAWAB==================
+	CASE
+	WHEN suhu<0 THEN ES
+	....................
+	ELSE
+	   GAS
+	END
+
+CONTOH:
+SOAL CASE:
+SOAL 2
+Tampilkan 25 namaproduk, jenis produk serta penjelasan dengan ketentuan:
+	Productline classsic cars -- mobil klasik
+	trains -- kereta
+	ships -- kapal
+	planes-- pesawat
+	selebihnya : kendaraan lainnya
+
+Struktur 1:
+SELECT productName AS ' Nama Produk', productLine AS 'Jenis Produk',
+    -> CASE productLine
+    -> WHEN productLine='classic cars' THEN 'Mobil Klasik'
+    -> WHEN productLine='ships' THEN 'Kapal'
+    -> WHEN productLine='trains' THEN 'Kereta'
+    -> WHEN productLine='planes' THEN 'Pesawat'
+    -> ELSE 'Kendaraan Lainnya'
+    -> END AS 'Penjelasan'
+    -> FROM products
+    -> LIMIT 25;
++------------------------------------------+------------------+--------------+
+| Nama Produk                              | Jenis Produk     | Penjelasan   |
++------------------------------------------+------------------+--------------+
+| 1969 Harley Davidson Ultimate Chopper    | Motorcycles      | Mobil Klasik |
+| 1952 Alpine Renault 1300                 | Classic Cars     | Kapal        |
+| 1996 Moto Guzzi 1100i                    | Motorcycles      | Mobil Klasik |
+| 2003 Harley-Davidson Eagle Drag Bike     | Motorcycles      | Mobil Klasik |
+| 1972 Alfa Romeo GTA                      | Classic Cars     | Kapal        |
+| 1962 LanciaA Delta 16V                   | Classic Cars     | Kapal        |
+| 1968 Ford Mustang                        | Classic Cars     | Kapal        |
+| 2001 Ferrari Enzo                        | Classic Cars     | Kapal        |
+| 1958 Setra Bus                           | Trucks and Buses | Mobil Klasik |
+| 2002 Suzuki XREO                         | Motorcycles      | Mobil Klasik |
+| 1969 Corvair Monza                       | Classic Cars     | Kapal        |
+| 1968 Dodge Charger                       | Classic Cars     | Kapal        |
+| 1969 Ford Falcon                         | Classic Cars     | Kapal        |
+| 1970 Plymouth Hemi Cuda                  | Classic Cars     | Kapal        |
+| 1957 Chevy Pickup                        | Trucks and Buses | Mobil Klasik |
+| 1969 Dodge Charger                       | Classic Cars     | Kapal        |
+| 1940 Ford Pickup Truck                   | Trucks and Buses | Mobil Klasik |
+| 1993 Mazda RX-7                          | Classic Cars     | Kapal        |
+| 1937 Lincoln Berline                     | Vintage Cars     | Mobil Klasik |
+| 1936 Mercedes-Benz 500K Special Roadster | Vintage Cars     | Mobil Klasik |
+| 1965 Aston Martin DB5                    | Classic Cars     | Kapal        |
+| 1980s Black Hawk Helicopter              | Planes           | Mobil Klasik |
+| 1917 Grand Touring Sedan                 | Vintage Cars     | Mobil Klasik |
+| 1948 Porsche 356-A Roadster              | Classic Cars     | Kapal        |
+| 1995 Honda Civic                         | Classic Cars     | Kapal        |
++------------------------------------------+------------------+--------------+
+25 rows in set, 26 warnings (0.001 sec)
+
+Struktur 2:
+SELECT productName AS ' Nama Produk', productLine AS 'Jenis Produk',
+    -> CASE
+    -> WHEN productLine='classic cars' THEN 'Mobil Klasik'
+    -> WHEN productLine='ships' THEN 'Kapal'
+    -> WHEN productLine='trains' THEN 'Kereta'
+    -> WHEN productLine='planes' THEN 'Pesawat'
+    -> ELSE 'Kendaraan Lainnya'
+    -> END AS 'Penjelasan'
+    -> FROM products
+    -> LIMIT 25;
+
++------------------------------------------+------------------+-------------------+
+| Nama Produk                              | Jenis Produk     | Penjelasan        |
++------------------------------------------+------------------+-------------------+
+| 1969 Harley Davidson Ultimate Chopper    | Motorcycles      | Kendaraan Lainnya |
+| 1952 Alpine Renault 1300                 | Classic Cars     | Mobil Klasik      |
+| 1996 Moto Guzzi 1100i                    | Motorcycles      | Kendaraan Lainnya |
+| 2003 Harley-Davidson Eagle Drag Bike     | Motorcycles      | Kendaraan Lainnya |
+| 1972 Alfa Romeo GTA                      | Classic Cars     | Mobil Klasik      |
+| 1962 LanciaA Delta 16V                   | Classic Cars     | Mobil Klasik      |
+| 1968 Ford Mustang                        | Classic Cars     | Mobil Klasik      |
+| 2001 Ferrari Enzo                        | Classic Cars     | Mobil Klasik      |
+| 1958 Setra Bus                           | Trucks and Buses | Kendaraan Lainnya |
+| 2002 Suzuki XREO                         | Motorcycles      | Kendaraan Lainnya |
+| 1969 Corvair Monza                       | Classic Cars     | Mobil Klasik      |
+| 1968 Dodge Charger                       | Classic Cars     | Mobil Klasik      |
+| 1969 Ford Falcon                         | Classic Cars     | Mobil Klasik      |
+| 1970 Plymouth Hemi Cuda                  | Classic Cars     | Mobil Klasik      |
+| 1957 Chevy Pickup                        | Trucks and Buses | Kendaraan Lainnya |
+| 1969 Dodge Charger                       | Classic Cars     | Mobil Klasik      |
+| 1940 Ford Pickup Truck                   | Trucks and Buses | Kendaraan Lainnya |
+| 1993 Mazda RX-7                          | Classic Cars     | Mobil Klasik      |
+| 1937 Lincoln Berline                     | Vintage Cars     | Kendaraan Lainnya |
+| 1936 Mercedes-Benz 500K Special Roadster | Vintage Cars     | Kendaraan Lainnya |
+| 1965 Aston Martin DB5                    | Classic Cars     | Mobil Klasik      |
+| 1980s Black Hawk Helicopter              | Planes           | Pesawat           |
+| 1917 Grand Touring Sedan                 | Vintage Cars     | Kendaraan Lainnya |
+| 1948 Porsche 356-A Roadster              | Classic Cars     | Mobil Klasik      |
+| 1995 Honda Civic                         | Classic Cars     | Mobil Klasik      |
++------------------------------------------+------------------+-------------------+
+25 rows in set, 1 warning (0.001 sec)
+
+SOAL 2
+Tampilkan seluruh data orderdetails dengan yang harga satuan minimal 200 dengan urutan field
+	nomor order(orderNumber), 
+	kode produk(productCode), 
+	banyak order(quantityordered), 
+	ket_order, 
+	harga(priceEach)
+	
+	dimana ket_order diperolah dari quantityordered dengan ketentuan
+		quantityordered <25 : small order
+				25-40 : medium order
+				>40 	; large order
+	urutkan berdasarkan quantityordered tertinggi
+
+
+Struktur 2:
+
+SELECT orderNumber AS 'Nomor Order',productCode AS ' Kode Produk',
+    -> quantityOrdered AS 'Banyak Order',
+    -> CASE
+    -> WHEN quantityOrdered <25 THEN 'Small Order'
+    -> WHEN quantityOrdered <=40 THEN 'Medium Order'
+    -> ELSE 'Large Order'
+    -> END AS 'Ket_order',
+    -> priceEach AS 'Harga'
+    -> FROM orderDetails
+    -> WHERE priceEach >=200
+    -> ORDER by quantityOrdered DESC, priceEach DESC;
+
++-------------+-------------+--------------+--------------+--------+
+| Nomor Order | Kode Produk | Banyak Order | Ket_order    | Harga  |
++-------------+-------------+--------------+--------------+--------+
+|       10424 | S10_1949    |           50 | Large Order  | 201.44 |
+|       10312 | S10_1949    |           48 | Large Order  | 214.30 |
+|       10348 | S12_1108    |           48 | Large Order  | 207.80 |
+|       10196 | S12_1108    |           47 | Large Order  | 203.64 |
+|       10206 | S10_1949    |           47 | Large Order  | 203.59 |
+|       10304 | S10_1949    |           47 | Large Order  | 201.44 |
+|       10194 | S10_1949    |           42 | Large Order  | 203.59 |
+|       10105 | S12_1108    |           41 | Large Order  | 205.72 |
+|       10126 | S10_1949    |           38 | Medium Order | 205.73 |
+|       10291 | S10_1949    |           37 | Medium Order | 210.01 |
+|       10413 | S12_1108    |           36 | Medium Order | 201.57 |
+|       10215 | S10_1949    |           35 | Medium Order | 205.73 |
+|       10174 | S10_1949    |           34 | Medium Order | 207.87 |
+|       10280 | S10_1949    |           34 | Medium Order | 205.73 |
+|       10395 | S12_1108    |           33 | Medium Order | 205.72 |
+|       10228 | S10_1949    |           29 | Medium Order | 214.30 |
+|       10103 | S10_1949    |           26 | Medium Order | 214.30 |
+|       10411 | S10_1949    |           23 | Small Order  | 205.73 |
+|       10163 | S10_1949    |           21 | Small Order  | 212.16 |
+|       10153 | S12_1108    |           20 | Small Order  | 201.57 |
++-------------+-------------+--------------+--------------+--------+
+20 rows in set, 1 warning (0.003 sec)
+
+
+C. IFNULL
+====>> Struktur control kondisi khusus untuk mengatasi nilai NULL
+
+Struktur:
+	IFNULL(statements1, statements2)
+Keterangan:
+	#Struktur akan melakukan pengecekan terhadap statement 1(bisa berupa field atau 	ekspresi)
+	#jika statement 1 nilainya tidak NULL --> maka struktur akan menampilkan nilai statement 1
+	#jika statement1 nilainya NULL --> maka struktur akan menampilkan nilai statement 2
+
+STRUKTUR sama dengan:
+	IF(statement IS NULL, statements2, statement1)
+
+===================================
+inputkan data pelanggan
+	kdlgn		nmlgn
+	P020		Anwar
+	P021		Raffi
+
+INSERT INTO tpelanggan values (kdlgn, nmlgn) VALUES
+('P020','Anwar'),
+('P021','Raffi');
+
+INSERT INTO tpelanggan (kdlgn, nmlgn, kota) VALUES
+('P022','Citra','Padang');
+
+============================================
+SOAL1:
+	Tampilkan data pelanggan terdiri dari  kode, nama, dan alamat. Jika alamat masih kosong, isikan dengan kalimat "Data Belum Ada"
+
+ SELECT kdlgn, nmlgn, IFNULL(almlgn,'Data Belum Ada') AS 'Alamat'
+    -> FROM tpelanggan;
+
++-------+--------------+-----------------+
+| kdlgn | nmlgn        | Alamat          |
++-------+--------------+-----------------+
+| P001  | Galaxy Media | Birugo          |
+| P002  | Gamatechno   | Anduring        |
+| P003  | Citra Mozaic | Jl. Veteran     |
+| P004  | JJ ENT       | Khatib Sulaiman |
+| P005  | Green Media  | Jambu Air       |
+| P006  | Tk. Intan    | Jl.S.Hatta      |
+| P007  | Onexindo     | Pauh            |
+| P010  | Rudi         | Data Belum Ada  |
+| P015  | Citra        | Data Belum Ada  |
+| P020  | Anwar        | Data Belum Ada  |
+| P021  | Raffi        | Data Belum Ada  |
+| P022  | Citra        | Data Belum Ada  |
++-------+--------------+-----------------+
+12 rows in set (0.001 sec)
+
+SOAL2:
+
+Tampilkan data pelanggan yang tidak memiliki kota terdiri dari kode, nama, dan alamat(jika alamat kosong, tampilkan data kota sebagai alamat)
+
+SELECT kdlgn,nmlgn, IFNULL(almlgn,kota) AS Alamat
+    -> FROM tpelanggan
+    -> WHERE kota IS NOT NULL;
+
++-------+--------------+-----------------+
+| kdlgn | nmlgn        | Alamat          |
++-------+--------------+-----------------+
+| P001  | Galaxy Media | Birugo          |
+| P002  | Gamatechno   | Anduring        |
+| P003  | Citra Mozaic | Jl. Veteran     |
+| P004  | JJ ENT       | Khatib Sulaiman |
+| P005  | Green Media  | Jambu Air       |
+| P006  | Tk. Intan    | Jl.S.Hatta      |
+| P007  | Onexindo     | Pauh            |
+| P010  | Rudi         | Solok           |
+| P015  | Citra        | Padang          |
+| P022  | Citra        | Padang          |
++-------+--------------+-----------------+
+10 rows in set (0.001 sec)
+
+
+SOAL 3:
+Tampilkan 20 data customer yang terdiri dari namalengkap(gabungan contactFirstname dan contactLastname), alamat (diambil dari addressline2, jika tidak ada baru addressline1). Urutkan berdasarkan nama lengkap
+NB:fungsi CONCAT
+
+SOAL4:
+Tampilkan Country dan state pada tabel offices. untuk state yang memiliki nilai NULL, ganti dengan nilai country.tampilkan hanya state yang tidak memiliki data
+
+SOAL 5:
+Tampilkan ordernumber, orderdate,requreddate, shippeddate dari tabel order. untuk shippeddate yang nilainya NULL ganti dengan 'belum terkirim'. tampilkan hanya untuk orderdate yang terjadi pada bulan mei 2005 saja.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

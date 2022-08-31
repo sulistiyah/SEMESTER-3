@@ -1,0 +1,271 @@
+DATA MANIPULATION LANGUAGE
+-------------------------
+    INSERT, UPDATE dan DELETE, SELECT
+
+SELECTION
+----------
+  --> perintah untuk menampilkan semua data / beberapa data dari satu atau lebih tabel
+
+1. SELECT dengan ekspresi
+  --> seleksi tidak berkaitan dengan tabel tetapi menggunakan ekspresi sederhana (berasal dari sebuah fungsi)
+
+ contoh :
+   SELECT 2;
+   SELECT 10+2;
+   SELECT 10+3, 10-3, 10*3, 10/3;
+   SELECT 'Jurusan Teknologi Informasi';
+   SELECT SQRT(81)as akar_kuadrat;
+   SELECT POW(5,4) as 'pangkat 5';
+   SELECT 'Teknik Komputer' FROM dual;
+
+dual --> tabel dummy (tabel yang tidak ada maknanya, tapi digunakan seolah-olah seperti tabel)
+
+2. Operator alias --> as
+     --> digunakan untuk pemberian nama tampilan kolom
+
+    SELECT namafield as namafieldbaru
+    FROM namatabel;
+  
+penamaan field baru mengikuti aturan penamaan variabel, kalau ingin menggunakan spasi, nama field baru diapit oleh tanda petik 
+
+Penulisan as --> dihilangkan
+     SELECT 10+3 as tambah;
+bisa disederhanakan 
+      SELECT 10+3 tambah;  
+
+2. QUERY 1 tabel
+  A. Menampilkan isi seluruh tabel (seluruh kolom)
+        SELECT * FROM namatabel
+     COntoh :
+        SELECT * FROM tbrg;
+
+  B. Menampilkan hanya beberapa kolom
+        SELECT namafield1, namafield2
+        FROM namatabel;
+
+     Contoh :
+       Tampilkan nama dan alamat pelanggan
+         SELECT nmlgn, almlgn
+         FROM tpelanggan;
+      atau
+         SELECT nmlgn 'nama pelanggan',
+                almlgn alamat
+         FROM tpelanggan;
+
+   C. Menampilkan data secara terurut
+     Ada 2 proses urut / sort :
+         - ascending/asc
+            --> pengurutan naik (A-Z) atau kecil --besar
+         - descending/desc
+            --> turun (Z-A) atau besar - kecil
+     Struktur :
+        SELECT namafield1,namafield2
+        FROM namatabel
+        ORDER BY namafield ASC/DESC;
+
+ASc redah ke tinggi secara urut
+DESc tinggi ke rendah
+   
+   Pengurutan default --> ascending. Jadi kalau anda ingin menampilkan field terurut ascending, maka tidak perlu dituliskan asc nya.
+     order by nama asc
+cukup ditulis
+      order by nama
+
+  Contoh :
+   1. Tampilkan nama barang dan satuan terurut berdasarkan nama barang
+        SELECT nmbrg nama_barang, satuan
+        FROM tbrg
+        ORDER BY nmbrg;
+
+   2. Tampilkan nama pelanggan, alamat dan kota, terurut secara terbalik berdasarkan nama pelanggan
+
+   D. Menampilkan nilai field dengan membatasi jumlah baris/record yang akan ditampilkan
+ Struktur :
+       SELECT namafield1, namafield2
+       FROM namatabel
+       LIMIT jumlahrecord;
+
+jumlahrecord --> banyak baris (integer)
+Struktur gabungan :
+       SELECT namafield1, namafield2
+       FROM namatabel
+       ORDER BY namafield ASC/DESC
+       LIMIT jumlahrecord;
+
+Contoh tampilkan 5 nama siswa dengan IPK tertinggi (misalkan nama dan IPK berada pada tabel siswa)
+   
+     SELECT nama, IPK
+     FROM siswa
+     ORDER BY IPK desc
+     LIMIT 5;
+
+Contoh : 
+   Tampilkan 4 data barang secara terurut berdasarkan nama
+      SELECT * FROM tbrg
+      ORDER BY nmbrg
+      LIMIT 4;
+
+Bentuk lain dari klausa limit
+    SELECT namafield1,namafield2
+    FROM namatabel
+    LIMIT barissetelah, jumlahrecord;
+
+Contoh :
+ Tampilkan 3 data barang setelah baris kedua
+       SELECT * FROM tbrg
+       LIMIT 2, 3;
+
+  E. Menampilkan data secara unik
+    --> data yang nilainya ganda/sama akan ditampilkan sekali saja
+  Struktur :
+        SELECT DISTINCT namafield
+        FROM namatabel;
+
+  Contoh : 
+    Tampilkan data nilai satuan pada tabel barang
+         SELECT DISTINCT satuan
+         FROM tbrg;
+
+   Tampilkan data kota asal pelanggan
+===================================================
+FOREIGN KEY
+
+   dbjual :
+      - tabel tbrg
+      - tabel tpelanggan
+      - tabel ttrans
+
+FOREIGN KEY  : fieldrelasi (field/kolom yang menghubungkan antar tabel yang saling berelasi)
+
+Contoh antara tabel tbrg dengan ttrans
+    kdbrg adalah primary key (PK) di tabel tbrg
+    kdbrg adalah foreign key (FK) di tabel ttrans
+
+penulisan FK boleh saja berbeda dengan PK, tetapi tipe data dan constraint harus sama
+  jadi kalau kdbrg di tbrg varchar(5), maka di ttrans harus varchar(5) walaupun nama kolom kode_barang
+
+Struktur PK
+  cara 1 :
+     CREATE TABLE namatabel
+       (
+          .....,
+          PRIMARY KEY(namafield)
+       );
+
+   cara 2 :
+      CREATE TABLE namatabel
+        (
+           namafield tipedata not null primary key,
+           ...
+        );
+
+   cara 3 :
+       ALTER TABLE namatabel 
+       ADD Primary key(namafield);
+
+INGAT :
+  PK dalam sebuah tabel cuma ada 1 --> bisa dari 1 kolom atau gabungan beberapa kolom (composite field)
+  FK dalam sebuah tabel bisa lebih dari 1
+   contoh : 
+    tabel ttrans ada 2 FK
+        - kdbrg --> merelasikan dengan tabel tbrg
+        - kdlgn --> merelasikan dengan tabel tpelanggan
+
+Sebuah tabel bisa punya PK dan FK
+---------------------------
+Untuk membuat tabel yang memiliki foreign key
+cara 1 :
+ dideklarasikan sewaktu pembuatan tabel :
+
+    CREATE TABLE namatabel
+     (
+        ........., 
+        ......,
+        FOREIGN KEY(namafield)REFERENCES namatabel(namafield)
+      
+     );
+ 
+contoh :
+    CREATE TABLE ttrans
+     (
+       ....,
+       kode_brg varchar(5),
+       .....,
+       foreign key(kode_brg) references tbrg(kdbrg)
+     );
+
+cara 2 :
+  ALTER TABLE namatabel
+  ADD  FOREIGN KEY(namafield)REFERENCES namatabel(namafield);
+-----------------------------------------
+Buatlah tabel ttrans di dbjual
+  CREATE TABLE ttrans
+    (
+      nonota varchar(5),
+      tgl date,
+       kdlgn varchar(5),
+       kdbrg varchar(5),
+      jml int,
+      hrg bigint(20),
+      foreign key(kdlgn) references tpelanggan(kdlgn),
+      foreign key(kdbrg) references tbrg(kdbrg)
+    );
+
+Isi tabel ttrans sesuai dengan halaman 123 jobsheet
+------------------------------------------------------
+BACKUP dan RESTORE
+
+A. backup / export :
+   filedatabase ----> backupfile.sql
+
+  Cara backup :
+    - Keluar dari root, dengan perintah exit
+    - ketikkan perintah backup yang struktur sbb :
+mysqldump -u root namadatabase > lokasi_dan_namafile.sql
+
+ 
+B. Restore / Import
+    file.sql ----> database yang ada di mysql
+
+   cara restore :
+   Contoh :
+         database penampung : dbjual
+          file : dbpenjualanTK2A.sql
+
+     - pastikan database penampung ada
+        CREATE DATABASE dbjual;
+     
+     - keluar dari root
+            EXIT
+
+     - perintah RESTORE
+mysql -u root namadatabase < lokasi_dan_namafile.sql
+    Jadi :
+  mysql -u root dbjual < E:\dbpenjualanTK2A.sql
+====================================================
+DATABASE :
+ 1. dbjual 
+      - tbrg 
+      - tpelanggan
+      - ttrans (2 FK)
+
+2. dbprkuliahan
+      - mahasiswa
+      - dosen
+      - kuliah
+      - ambil (2 FK yakni no_bp dan kode)
+      - ajar (2 FK yakni nip dan kode)
+
+3. classicmodels
+    - download file sample database
+      use dbperku
+    
+    - extract file hasil download
+          mysqlsampledatabase.sql
+
+   - buat database --> classicmodels
+   - restore/import mysqlsampledatabase.sql -- classicmodels
+
+ mysql -u root classicmodels < E:/LATIHAN/mysqlsampledatabase.sql
+
+   

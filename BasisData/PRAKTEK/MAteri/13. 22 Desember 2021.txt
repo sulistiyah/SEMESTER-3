@@ -1,0 +1,670 @@
+22 Desember 2022
+
+JOIN
+	-INNER JOIN
+	-OUTER JOIN (LEFT JOIN, RIGHT JOIN, FULL/UNION)
+	-SELF JOIN
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+FUNGSI AGGREGATE
+======================
+.....Terkait dengan query 1 tabel maupun multi tabel
+.....Fungsi yang sudah terdefinisi sebelumnya (bawaan dari mysql) yang menampilkan hasil kalkulasi sejumlah nilai menjadi satu keluaran nilai
+
+Ada banyak fungsi aggregate dalam mysql
+	AVG() 
+	MAX()
+	MIN()
+	GROUP_CONCAT()
+	COUNT()
+	SUM()
+	STDEV()
+	VARIANCE()
+	Dan lain-lain
+
+SUM => mencari jumlah data/nilai
+COUNT =>
+AVG=> mencari nilai rata-rata
+MAX=> mencari nilai tertinggi
+MAX=> mencari nilai terendah 
+
+Diketahui sebuah tabel terdapat kolom nilai berisikan data:
+	90  85  60  75  95  55  80
+
+SELECT SUM(nilai); 	=> 90+85+....+80 = x?
+SELECT MAX(nilai); 	=> 95
+SELECT MIN(nilai);	=> 55
+SELECT COUNT(nilai);	=> 7
+SELECT AVG(nilai);   	=> hasil x/7 = ?
+
+
+Format Dasar
+	SELECT fungsiaggregate(namafield) as namafield FROM namatabel;
+
+Contoh:
+	Tampilkan total harga, banyaknya data harga/record, rata-rata harga, harga tertinggi dan harga terentah yang ada di tabel ttrans
+
+
+SELECT MIN(hrg) hargaterendah,MAX(hrg) hargatertinggi,
+SUM(hrg) totalharga,COUNT(hrg) banyakrecord ,
+AVG(hrg) rata_rata
+FROM ttrans;
+
+SELECT MIN(hrg) hargaterendah,MAX(hrg) hargatertinggi,
+SUM(hrg) totalharga,COUNT(*) banyakrecord ,
+AVG(hrg) rata_rata
+FROM ttrans;
+
+SELECT MIN(hrg) hargaterendah,MAX(hrg) hargatertinggi,
+    -> SUM(hrg) totalharga,COUNT(hrg) banyakrecord ,
+    -> AVG(hrg) rata_rata
+    -> FROM ttrans;
++---------------+----------------+------------+--------------+-------------+
+| hargaterendah | hargatertinggi | totalharga | banyakrecord | rata_rata   |
++---------------+----------------+------------+--------------+-------------+
+|         25000 |         750000 |    7115000 |           20 | 355750.0000 |
++---------------+----------------+------------+--------------+-------------+
+1 row in set (0.006 sec)
+
+
+SOAL:
+DBPENJUALAN
+
+1. Tampilkan berapa total harga yang paling kecil pada nonota T001. Tampilkan dengan 2 angka dibelakang koma
+
+SELECT ROUND(MIN(hrg*jml),2) as'Total'
+FROM ttrans
+WHERE nonota='T001';
+
+SELECT ROUND(MIN(hrg*jml),2) as'Total'
+    -> FROM ttrans
+    -> WHERE nonota='T001';
++--------+
+| Total  |
++--------+
+| 500000 |
++--------+
+1 row in set (0.006 sec)
+
+
+2. Tampilkan jumlah rata-rata barang yang terjual dan banyak transaksi yang terjadi di bulan september dengan hasil pembulatan.
+
+SELECT CEIL(AVG(jml)) AS 'Jumlah Rata-Rata', COUNT(*) AS 'Banyak Transaksi'
+FROM ttrans
+WHERE MONTH(tgl)=9;
+
+SELECT CEIL(AVG(jml)) AS 'Jumlah Rata-Rata', COUNT(*) AS 'Banyak Transaksi'
+    -> FROM ttrans
+    -> WHERE MONTH(tgl)=9;
++------------------+------------------+
+| Jumlah Rata-Rata | Banyak Transaksi |
++------------------+------------------+
+|               16 |               11 |
++------------------+------------------+
+1 row in set (0.005 sec)
+
+
+3. Tampilkan berapa jumlah barang yang dibeli oleh pelanggan P001 diluar tahun 2005
+
+
+SELECT SUM(jml) AS'Jumlah', kdlgn
+FROM ttrans
+WHERE kdlgn ='P001' AND YEAR(tgl)='2005';
+
+SELECT SUM(jml) AS'Jumlah', kdlgn
+    -> FROM ttrans
+    -> WHERE kdlgn ='P001' AND YEAR(tgl)='2005';
++--------+-------+
+| Jumlah | kdlgn |
++--------+-------+
+|   NULL | NULL  |
++--------+-------+
+1 row in set (0.007 sec)
+
+
+4. Berapa orang pelanggan yang berasal dari luar kota padang
+
+
+SELECT COUNT(*) AS 'Banyak Pelanggan'
+FROM tpelanggan
+WHERE kota != 'Padang';
+
+
+ SELECT COUNT(*) AS 'Banyak Pelanggan'
+    -> FROM tpelanggan
+    -> WHERE kota != 'Padang';
++------------------+
+| Banyak Pelanggan |
++------------------+
+|                5 |
++------------------+
+1 row in set (0.001 sec)
+
+
+DBPerkuliahan
+1. Berapa orang mahasiswa yang mendapat nilai A
+
+
+SELECT COUNT(nilai) AS 'Banyak Mahasiswa = A', nilai
+FROM t_ambil
+WHERE nilai ='A';
+
+SELECT COUNT(nilai) AS 'Banyak Mahasiswa = A', nilai
+    -> FROM t_ambil
+    -> WHERE nilai='A';
++----------------------+-------+
+| Banyak Mahasiswa = A | nilai |
++----------------------+-------+
+|                    6 | A     |
++----------------------+-------+
+1 row in set (0.001 sec)
+
+
+
+2. Berapa orang dosen yang berusia dibawah 60 tahun? 
+
+
+SELECT COUNT(*) AS 'Dosen Umur <60'
+FROM t_dosen
+WHERE TIMESTAMPDIFF(year,tgl_lahir,now()) < 60;
+
+
+SELECT COUNT(*) AS 'Dosen Umur <60'
+    -> FROM t_dosen
+    -> WHERE TIMESTAMPDIFF(year,tgl_lahir,now()) < 60;
++----------------+
+| Dosen Umur <60 |
++----------------+
+|              3 |
++----------------+
+1 row in set (0.004 sec)
+
+
+Tampilkan nama dosen, rgl, umur
+
+SELECT nama, tgl_lahir, TIMESTAMPDIFF(year,tgl_lahir,now()) AS 'Umur'
+FROM t_dosen;
+
+SELECT nama, tgl_lahir, TIMESTAMPDIFF(year,tgl_lahir,now()) AS 'Umur'
+    -> FROM t_dosen;
++----------------+------------+------+
+| nama           | tgl_lahir  | Umur |
++----------------+------------+------+
+| rinaldi munir  | 1966-04-12 |   55 |
+| sri purwanti   | 1960-07-16 |   61 |
+| inggriani liem | 1952-10-28 |   69 |
+| reza satria    | 1970-11-21 |   51 |
+| rila mandala   | 1964-03-21 |   57 |
++----------------+------------+------+
+5 rows in set (0.001 sec)
+
+
+======================================================================================
+
+SELECT AGGREGATE..GROUP BY
+___________________________
+
+....fungsi yang digunkan untuk mengelompokan data berdasarkan kriteria tertentu dan kelompok field tertentu.
+....biasanya digunakan untuk menampilkan hasil kalkulasi dari masing-masing kelompok nilai
+
+Struktur:
+	SELECT namafield, aggregate(namafield)
+	FROM namatabel
+	WHERE kondisi
+	GROUP BY namafield;
+
+Ingat: 
+Tidak semua tabel bisa menggunakan perintah GROUP BY. Query ini hanya digunakan jika didalam tabel terdapat data berulang yang bisa dikelompokan
+
+
+Contoh:
+Tampilkan jmlah pelanggan yang ada pada masing-masing kota
+
+SELECT kota, COUNT(*) 'Banyak Pelanggan'
+FROM tpelanggan
+WHERE kota IS NOT NULL
+GROUP BY kota;
+
+
+SOAL:
+1. Tampilkan rata-rata jumlah barang yang terjual untuk masing-masing nonota
+
+SELECT CEIL(AVG(jml)) AS 'Jumlah Barang Terjual', nonota
+FROM ttrans
+GROUP BY nonota;
+
+ SELECT CEIL(AVG(jml)) AS 'Jumlah Barang Terjual', nonota
+    -> FROM ttrans
+    -> GROUP BY nonota;
++-----------------------+--------+
+| Jumlah Barang Terjual | nonota |
++-----------------------+--------+
+|                    10 | F001   |
+|                    13 | F002   |
+|                    13 | F010   |
+|                    20 | K001   |
+|                    30 | K002   |
+|                    12 | K003   |
+|                    40 | K005   |
+|                     9 | T001   |
+|                     5 | T004   |
+|                     5 | T011   |
++-----------------------+--------+
+10 rows in set (0.001 sec)
+
+
+
+DPERKULIAHAN
+1. Tampilkan berapa banyak mahasiswa yang mendapatkan setiap nilai 
+
+
+SELECT COUNT(*) AS 'Banyak Mahasiswa', nilai
+FROM t_ambil
+GROUP BY nilai;
+
+ SELECT COUNT(*) AS 'Banyak Mahasiswa', nilai
+    -> FROM t_ambil
+    -> GROUP BY nilai;
++------------------+-------+
+| Banyak Mahasiswa | nilai |
++------------------+-------+
+|                6 | A     |
+|               11 | B     |
+|                7 | C     |
+|                2 | D     |
+|                2 | E     |
++------------------+-------+
+5 rows in set (0.001 sec)
+
+
+Tampilkan rata-rata jumlah barang yang terjual (gunakan pembulatan keatas) yang dikelompokkan berdasarkan nota terurut dari rata-rata tertinggi dan yang ditampilkan hanya yang nilai rata-ratanya diatas 10 saja.
+
+SELECT nonota,CEIL(AVG(jml)) AS 'Jumlah Rata-Rata'
+FROM ttrans
+GROUP by nonota
+HAVING AVG(jml)>10
+Order by nonota DESC;
+
+
+Karena where hanya digunakan untuk menyaring nilai field seblum dikelompokkan. sementara untuk menyaring aggregate nilai => digunkan HAVING dan posisinya setelah pengelompokkan .
+
+Struktur lengkap
+	SELECT
+	FROM
+	WHERE
+	GROUP BY
+	HAVING
+	ORDER BY
+	LIMIT
+
+
+
+Tampilkan rata-rata jumlah barang yang terjual (gunakan pembulatan keatas) yang dikelompokkan berdasarkan nota terurut dari rata-rata tertinggi dan yang ditampilkan hanya yang nilai rata-ratanya diatas 10 saja.
+
+SELECT nonota,CEIL(AVG(jml)) AS 'Jumlah Rata-Rata'
+FROM ttrans
+GROUP by nonota
+HAVING AVG(jml)>10
+Order by nonota DESC;
+
+
+ SELECT nonota,CEIL(AVG(jml)) AS 'Jumlah Rata-Rata'
+    -> FROM ttrans
+    -> GROUP by nonota
+    -> HAVING AVG(jml)>10
+    -> Order by nonota DESC;
++--------+------------------+
+| nonota | Jumlah Rata-Rata |
++--------+------------------+
+| K005   |               40 |
+| K003   |               12 |
+| K002   |               30 |
+| K001   |               20 |
+| F010   |               13 |
+| F002   |               13 |
++--------+------------------+
+6 rows in set (0.004 sec)
+
+
+SELECT nonota,CEIL(AVG(jml)) jml_rata
+FROM ttrans
+GROUP by nonota
+HAVING jml_rata>10
+ORDER BY nonota DESC;
+
+SELECT nonota,CEIL(AVG(jml)) jml_rata
+FROM ttrans
+GROUP by nonota
+HAVING AVG(jml)>10
+ORDER BY nonota DESC;
+
+
+==================================================================================
+SOAL DBPENJUALAN:
+1. Tampilkan banyak transaksi, banyak barang dan total transaksi(jml*brg) yang dilakukan oleh masing-masing pelanggan. Kelompokkan berdasarkan nama pelanggan.
+
+SELECT nmlgn, COUNT(*) Banyak_transaksi,
+SUM(jml) Banyak_barang, 
+SUM(jml*hrg) Total_transaksi
+FROM tpelanggan JOIN ttrans
+USING (kdlgn)
+GROUP BY nmlgn;
+
+SELECT nmlgn, COUNT(*) Banyak_transaksi,
+    -> SUM(jml) Banyak_barang,
+    -> SUM(jml*hrg) Total_transaksi
+    -> FROM tpelanggan JOIN ttrans
+    -> USING (kdlgn)
+    -> GROUP BY nmlgn;
++--------------+------------------+---------------+-----------------+
+| nmlgn        | Banyak_transaksi | Banyak_barang | Total_transaksi |
++--------------+------------------+---------------+-----------------+
+| Citra Mozaic |                7 |            89 |        21950000 |
+| Galaxy Media |                5 |            75 |        36000000 |
+| Gamatechno   |                7 |            95 |        33300000 |
+| JJ ENT       |                1 |            12 |         9000000 |
++--------------+------------------+---------------+-----------------+
+4 rows in set (0.004 sec)
+
+
+2. Tampilkan nama barang, tgl transaksi, total harga(jml*hrg) tertinggi untuk barang-barang yang penjualan tertingginya antara 100.000-5.000.000. Kelompokkan berdasarkan nama barang dan urutkan dari barang dengan total harga tertinggi.
+
+SELECT nmbrg,tgl,MAX(jml*hrg) AS 'Total Harga Tertinggi'
+FROM ttrans JOIN tbrg USING (kdbrg)
+GROUP by nmbrg
+HAVING MAX(jml*hrg) BETWEEN '100000' AND '50000000'
+ORDER by 'Total Harga Tertinggi';
+
+SELECT nmbrg,tgl,MAX(jml*hrg) AS 'Total Harga Tertinggi'
+    -> FROM ttrans JOIN tbrg USING (kdbrg)
+    -> GROUP by nmbrg
+    -> HAVING MAX(jml*hrg) BETWEEN '100000' AND '50000000'
+    -> ORDER by 'Total Harga Tertinggi';
++-----------------------+------------+-----------------------+
+| nmbrg                 | tgl        | Total Harga Tertinggi |
++-----------------------+------------+-----------------------+
+| Komputer Pentium 4    | 2008-09-01 |              30000000 |
+| Notebook ASUS 12 Inch | 2008-09-01 |               6750000 |
+| Disket                | 2008-09-01 |                500000 |
+| Hardisk Ext WD 500GB  | 2008-09-02 |               3300000 |
+| Flasdisk Kingston 8GB | 2008-09-01 |               1500000 |
++-----------------------+------------+-----------------------+
+5 rows in set (0.009 sec)
+
+
+
+
+SOAL CLASSICMODELS
+1. Tampilkan berapa jumlah product yang diorder(quantityordered) dikelompokkan berdasarkan ordernumber, untuk jumlah orderanya melebihi 10
+
+SELECT ordernumber, SUM(quantityordered) AS 'Jumlah Produk'
+FROM orderdetails
+GROUP BY ordernumber
+HAVING SUM(quantityordered) >10;
+
+ SELECT ordernumber, SUM(quantityordered) AS 'Jumlah Produk'
+    -> FROM orderdetails
+    -> GROUP BY ordernumber
+    -> HAVING SUM(quantityordered) >10;
++-------------+---------------+
+| ordernumber | Jumlah Produk |
++-------------+---------------+
+|       10100 |           151 |
+|       10101 |           142 |
+|       10102 |            80 |
+|       10103 |           541 |
+|       10104 |           443 |
+|       10105 |           545 |
+|       10106 |           675 |
+|       10107 |           229 |
+|       10108 |           561 |
+|       10109 |           212 |
+|       10110 |           570 |
+|       10420 |           532 |
+|       10421 |            75 |
+|       10422 |            76 |
+|       10423 |           111 |
+|       10424 |           269 |
+|       10425 |           427 |
++-------------+---------------+
+326 rows in set (0.007 sec)
+
+
+
+2. Tampilkan nama customer dan berapa kali masing-masing customer tersebut melakukan order dan tampilkan juga rata-rata waktu yang dibutuhkan requireDate ke shippedDate (bisa pakai DATEDIFF). Lakukan pembulatan keatas
+
+SELECT customerName, COUNT(*) AS 'Order',
+CEIL(AVG(DATEDIFF(requiredDate, shippedDate))) AS 'Waktu'
+FROM customers JOIN orders USING (customerNumber)
+GROUP BY customerName;
+
+ SELECT customerName, COUNT(*) AS 'Order',
+    -> CEIL(AVG(DATEDIFF(requiredDate, shippedDate))) AS 'Waktu'
+    -> FROM customers JOIN orders USING (customerNumber)
+    -> GROUP BY customerName;
++------------------------------------+-------+-------+
+| customerName                       | Order | Waktu |
++------------------------------------+-------+-------+
+| Alpha Cognac                       |     3 |     8 |
+| Amica Models & Co.                 |     2 |     6 |
+| Anna's Decorations, Ltd            |     4 |     6 |
+| Atelier graphique                  |     3 |     6 |
+| Australian Collectables, Ltd       |     3 |     4 |
+| Australian Collectors, Co.         |     5 |     5 |
+| Australian Gift Network, Co        |     3 |     5 |
+| Auto Associ├⌐s & Cie.               |     2 |     5 |
+| Auto Canal+ Petit                  |     3 |     5 |
+| Auto-Moto Classics Inc.            |     3 |     3 |
+| AV Stores, Co.                     |     3 |     5 |
+| Baane Mini Imports                 |     4 |     5 |
+| Bavarian Collectables Imports, Co. |     1 |     6 |
+| Blauer See Auto, Co.               |     4 |     5 |
+| Boards & Toys Co.                  |     2 |     5 |
+| CAF Imports                        |     2 |     3 |
+| Cambridge Collectables Co.         |     2 |     6 |
+| Canadian Gift Exchange Network     |     2 |     4 |
+| Classic Gift Ideas, Inc            |     2 |     5 |
+| Classic Legends Inc.               |     3 |     4 |
+| Clover Collections, Co.            |     2 |     2 |
+| Collectable Mini Designs Co.       |     2 |     6 |
+| Collectables For Less Inc.         |     3 |     5 |
+| Corporate Gift Ideas Co.           |     4 |     6 |
+| Corrida Auto Replicas, Ltd         |     3 |     5 |
+| Cruz & Sons Co.                    |     3 |     4 |
+| Daedalus Designs Imports           |     2 |     5 |
+| Danish Wholesale Imports           |     5 |     7 |
+| Diecast Classics Inc.              |     4 |     4 |
+| Diecast Collectables               |     2 |     6 |
+| Double Decker Gift Stores, Ltd     |     2 |     2 |
+| Down Under Souveniers, Inc         |     5 |     6 |
+| Dragon Souveniers, Ltd.            |     5 |    -6 |
+| Enaco Distributors                 |     3 |     4 |
+| Euro+ Shopping Channel             |    26 |     5 |
+| Extreme Desk Decorations, Ltd      |     3 |     4 |
+| Frau da Collezione                 |     2 |     3 |
+| FunGiftIdeas.com                   |     3 |     4 |
+| Gift Depot Inc.                    |     3 |     4 |
+| Gift Ideas Corp.                   |     3 |     6 |
+| Gifts4AllAges.com                  |     3 |     4 |
+| giftsbymail.co.uk                  |     2 |     4 |
+| GiftsForHim.com                    |     3 |     7 |
+| Handji Gifts& Co                   |     4 |     8 |
+| Heintze Collectables               |     2 |     7 |
+| Herkku Gifts                       |     3 |     5 |
+| Iberia Gift Imports, Corp.         |     2 |     4 |
+| Kelly's Gift Shop                  |     4 |     5 |
+| King Kong Collectables, Co.        |     2 |     6 |
+| L'ordine Souveniers                |     3 |     3 |
+| La Corne D'abondance, Co.          |     3 |     4 |
+| La Rochelle Gifts                  |     4 |     6 |
+| Land of Toys Inc.                  |     4 |     7 |
+| Lyon Souveniers                    |     3 |     3 |
+| Marseille Mini Autos               |     3 |     5 |
+| Marta's Replicas Co.               |     2 |     6 |
+| Men 'R' US Retailers, Ltd.         |     2 |     2 |
+| Microscale Inc.                    |     2 |     4 |
+| Mini Auto Werke                    |     3 |     6 |
+| Mini Caravy                        |     3 |     3 |
+| Mini Classics                      |     2 |     4 |
+| Mini Creations Ltd.                |     3 |     5 |
+| Mini Gifts Distributors Ltd.       |    17 |     6 |
+| Mini Wheels Co.                    |     3 |     6 |
+| Motor Mint Distributors Inc.       |     3 |     4 |
+| Muscle Machine Inc                 |     4 |     6 |
+| Norway Gifts By Mail, Co.          |     2 |     5 |
+| Online Diecast Creations Co.       |     3 |     3 |
+| Online Mini Collectables           |     2 |     3 |
+| Osaka Souveniers Co.               |     2 |     1 |
+| Oulu Toy Supplies, Inc.            |     3 |     4 |
+| Petit Auto                         |     3 |     7 |
+| Qu├⌐bec Home Shopping Network       |     3 |     4 |
+| Reims Collectables                 |     5 |     5 |
+| Rovelli Gifts                      |     3 |     4 |
+| Royal Canadian Collectables, Ltd.  |     2 |     7 |
+| Royale Belge                       |     4 |     7 |
+| Salzburg Collectables              |     4 |     5 |
+| Saveley & Henriot, Co.             |     3 |     6 |
+| Scandinavian Gift Ideas            |     3 |     2 |
+| Signal Collectibles Ltd.           |     2 |     3 |
+| Signal Gift Stores                 |     3 |     6 |
+| Souveniers And Things Co.          |     4 |     3 |
+| Stylish Desk Decors, Co.           |     3 |     5 |
+| Suominen Souveniers                |     3 |     4 |
+| Super Scale Inc.                   |     2 |     3 |
+| Technics Stores Inc.               |     4 |     4 |
+| Tekni Collectables Inc.            |     3 |     1 |
+| The Sharp Gifts Warehouse          |     4 |     7 |
+| Tokyo Collectables, Ltd            |     4 |     3 |
+| Toms Spezialit├ñten, Ltd            |     2 |     6 |
+| Toys of Finland, Co.               |     3 |     8 |
+| Toys4GrownUps.com                  |     3 |     3 |
+| UK Collectables, Ltd.              |     3 |     8 |
+| Vida Sport, Ltd                    |     2 |     6 |
+| Vitachrome Inc.                    |     3 |     3 |
+| Volvo Model Replicas, Co           |     4 |     6 |
+| West Coast Collectables Co.        |     2 |     6 |
++------------------------------------+-------+-------+
+98 rows in set (0.021 sec)
+
+
+3. Tampilkan berapa banyak karyawan yang berkerja di masing-masing office untuk office yang berada di kota Boston, Paris, dan Tokyo
+
+
+
+ SELECT COUNT(*) AS 'Banyak Karyawan'
+    -> FROM offices JOIN employees USING(officeCode)
+    -> WHERE city IN ('boston', 'paris', 'tokyo');
++-----------------+
+| Banyak Karyawan |
++-----------------+
+|               9 |
++-----------------+
+1 row in set (0.001 sec)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

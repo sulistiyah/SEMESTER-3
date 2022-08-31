@@ -1,0 +1,68 @@
+Kerjakan semua soal ini (tampilkan ss nya)
+
+A. DBPERKULIAHAN
+ 1. Tampilkan semua data pengajaran yang dilakukan pada hari senin
+
+2. Tampilkan no bp mahasiswa yang mendapatkan nilai A. Tampilkan 3 data saja, urutkan berdasarkan kode mata kuliah
+
+3. Tampilkan kode kuliah, nama mata kuliah yang jumlah SKS nya minimal 2. Urutkan berdasarkan jumlah SKS tertinggi
+
+4. Tampilkan NIP dan lokal dosen yang mengajar selain hari Rabu
+
+B.CLASSICMODELS
+1. Tampilkan 10 data productname, productline, buyprice untuk seluruh produk berjenis(product line) classic cars. Urutkan berdasarkan harga pembelian tertinggi
+
+2. Tampilkan customernumber, tanggal pembayaran dan jumlah/amount dari tabel payments yang dilakukan oleh customernumber 103. urutkan berdasarkan jumlah pembayaran tertinggi
+
+3. tampilkan 10 data detailorder dengan total tertinggi. Total diperoleh dari quantityordered *priceeach
+
+4. Siapa saja yang memberikan laporan kepada manajer dengan kode 1143? Tampilkan firstname dan lastname, urutkan berdasarkan lastname
+
+5. Tampilkan alamat kantor yang berada di daerah territory Jepang
+
+6. Tampilkan tanggal order, tanggal disetujui(requiredate) dan tanggal pengiriman yang memiliki statusnya telah dikirim (shipped), tampilkan 10 data saja dan urutkan berdasarkan tanggal pengiriman
+
+7. MSRP  pada tabel products merupakan singkatan Manufacturer Suggested Retail Price, yaitu harga minimum penjualan yang dianjurkan oleh perusahaan. Tampilkan nama produk, harga pembelian, dan harga MSRP untuk produk dengan jenis ships. Urutkan berdasarkan MSRP. 
+
+8. Tampilkan riwayat order untuk customer dengan nomor 486
+
+9. Tampilkan 20 data nama produk, jumlah stok tersedia dari tabel produk. Tampilkan berdasarkan stok yang paling banyak yang stoknya diatas 5000
+
+10. Tampilkan city  dari tabel office yang statenya selain NY secara unik.urutkan
+===================================================
+DB PERKULIAHAN
+1. Tampilkan mata kuliah yang diajarkan di semester 1 yang sksnya 2
+
+2. Tampilkan no bp mahasiswa yang mendapatkan nilai A pada kode kuliah TI111
+
+3. Nilai apa saja yang didapatkan oleh mahasiswa dengan no bp 13501001 dan 13501004
+
+4. Tampilkan siapa saja mahasiswa yang mendapatkan nilai A dan B pada kodekuliah Ti111
+
+5. Tampilkan data siapa saja yang mendapatkan nilai A pada kuliah Ti111 dan Ti123
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    

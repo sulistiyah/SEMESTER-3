@@ -1,0 +1,303 @@
+
+Query 1 tabel
+--> merikues record yang berasal dari 1 tabel.
+
+Struktur :
+
+SELECT namafield1, namafield2, ...
+FROM nama tabel
+[WHERE kondisi]
+ORDER BY namafield ASC/DESC
+LIMIT banyakrecord;
+
+Macam-macam operator kondisi :
+------------------------------
+1. Operator Perbandingan :
+   < > <= >= = <>/!=
+
+2. Operator Logika
+   AND &&
+   OR ||
+   NOT !
+-------------------------------
+DB PERKULIAHAN :
+
+1. Tampilkan mata kuliah yang diajarkan di semester 1 yang sksnya 2
+   kondisi 1 --> semester = 1
+   kondisi 2 --> sks = 2
+
+   SELECT * FROM t_kuliah
+   WHERE semester = 1 AND sks = 2;        
+
+2. Tampilkan no bp mahasiswa yang mendapatkan nilai A pada kode kuliah TI111
+   kondisi 1 --> nilai = A
+   kondisi 2 --> kode = TI111
+
+   SELECT no_bp FROM t_ambil
+   WHERE nilai = 'A' && kode = 'TI111';  
+ 
+3. Nilai apa saja yang didapatkan oleh mahasiswa dengan 
+   no bp 13501001 dan 13501004
+   kondisi 1 --> no_bp = 13501001
+   kondisi 2 --> no_bp = 13501004
+
+   SELECT nilai FROM t_ambil
+   WHERE no_bp = '13501001' || no_bp = '13501004';
+    
+
+4. Tampilkan siapa saja mahasiswa yang mendapatkan 
+   nilai A dan B pada kodekuliah Ti111
+   kondisi 1 --> nilai A dan B
+   kondisi 2 --> kode TI111
+
+   SELECT * FROM t_ambil
+   WHERE kode = 'TI111' AND nilai = 'A' OR nilai = 'B';
+     
+
+5. Tampilkan data siapa saja yang mendapatkan nilai A pada kuliah Ti111 dan Ti123
+   kondisi 1 --> nilai = A
+   kondisi 2 --> kode TI111 dan TI123
+   
+   SELECT * FROM t_ambil
+   WHERE nilai = 'A' AND (kode = 'TI111' OR kode = 'TI123');
+-------------------------------------------------------------------
+
+3. Operator IN dan NOT IN
+--> untuk menampilkan data yang kriterianya ada pada salah satu nilai
+didalam IN / NOT IN
+
+struktur :
+SELECT namafield1, namafield2, .....
+FROM namatabel
+WHERE namafield IN/NOT IN (nilai1, nilai2, ....);
+
+Soal :
+1. Tampilkan nama barang dengan kode B001, B002 dan B005
+
+SELECT * FROM tbrg
+WHERE kode = 'B001' OR kode = 'B002' OR kode = 'B005';
+
+SELECT * FROM tbrg
+WHERE kode IN('B001', 'B002','B005');
+
+2. Tampilkan data mahasiswa yang tidak mendapatkan nilai A atau B.
+
+SELECT * FROM nilai
+WHERE nilai NOT IN ('A','B');
+
+3. Tampilkan data mahasiswa yang mendapatkan nilai A dan B 
+pada kode kuliah TI111 dan TI123
+-------------------------------------------------------------
+
+4. Operator LIKE dan NOT LIKE
+---> menampilkan data dengan nilai yang sesuai kriteria tertentu 
+untuk data dengan tipe selain numerik.
+
+struktur :
+
+SELECT namafield2, namafield2, ....
+FROM namatabel
+WHERE namafield LIKE/NOT LIKE '....';
+
+Kriteria --> berupa karakter
+
+ketentuan:
+_ --> mewakili 1 karakter
+% --> mewakili sembarang karakter (0 - dst)
+
+Contoh :
+
+A_ --> 2 karaker, yang diawali dengan huruf A : Ab, Ac, Ad, 
+
+A% --> diawali dengan huruf A, dengan jumlah karakter tak hingga
+       A, Aku, Angga, Ali Syahbana.
+
+%komputer% --> akan mencari data yang mengandung kata-kata 
+               'komputer'.
+
+A_u --> Abu, Adu, Aku
+
+R%o --> Ridho, Rimo, Redho
+
+Contoh :
+1. Tampilkan nama mahasiswa yang diawali dengan huruf A
+   SELECT nama FROM t_mahasiswa
+   WHERE nama LIKE 'A%';
+
+2. Tampilkan nama dosen yang tidak berakhiran a.
+
+3. Pada database classicmodels tampilkan employeenumber, lastname
+dan first name untuk employees dengan job title yang ada kata
+'sales man'
+
+4. Tampilkan identitas mahasiswa yang namanya diawali huruf A 
+tetapi selain Albinanto.
+
+5. Tampilkan nama dan nobp mahasiswa yang karakter ke 3 dan 4 nobp
+adalah 11.
+
+SELECT nama, no_bp from t_mahasiswa
+WHERE no_bp LIKE '__11%';
+------------------------------------------------------------------------
+
+5. Operator BETWEEN dan NOT BETWEEN
+--> menampilkan kondisi yang memiliki nilai yang ada dalam range tertentu.
+
+Struktur :
+
+SELECT namafield1, namafield2, ....
+FROM namatabel
+WHERE namafield BETWEEN / NOT BETWEEN nilai1 AND nilai2;
+
+Catatan :
+- ini hanya untuk field yang memiliki range tertentu
+- jika karakter, tetap diapit oleh tanda kutip ('...')
+
+Contoh :
+1. Tampilkan data mahasiswa yang lahir di tahun 1983.
+--> 1983 : 1 Januari 1983 sampai 31 Desember 1983
+
+SELECT * FROM t_mahasiswa
+WHERE tgl_lahir BETWEEN '1983-01-01' AND '1983-12-31';
+
+atau :
+
+SELECT * FROM t_mahasiswa
+WHERE tgl_lahir BETWEEN '19830101' AND '19831231';
+
+
+2. Tampilkan data transaksi yang terjadi diluar tahun 2008,
+urutkan berdasarkan tanggal paling akhir.
+
+
+TUGAS LAPORAN:
+Silahkan dikerjakan soal-soal berikut dan jadikan lampiran dalam laporannya:
+
+Soal dbjual
+===========
+1. Tampilkan data transaksi yang terjadi selain Bulan September 2008, tetapi yang jumlah penjualannya diatas 10 buah. Urutkan berdasarkan harga tertinggi
+      
+Soal dbperkuliahan :
+=====================
+1. Siapa saja dosen yang lahir pada tahun 1960-an?? Tampilkan identitas semua dosen
+
+2. Siapa saja mahasiswa yang tinggal di asrama yang namanya tidak berawalan G
+
+3. Tampilkan mahasiswa yang lahir tahun 1984 dan selain yang memiliki nomor bp 13501001 dan 13501003
+
+
+soal classicmodels:
+===================
+1. Tampilkan officecode, city, phone dan country yang hanya di USA dan France saja
+
+2. Tampilkan customername,country dan state untuk seluruh customer yang tinggal di state CA country USA
+
+3. Tampilkan seluruh order yang terdiri dari ordernumber,orderdate, requireddate pada tabel orders untuk seluruh order yang terjadi pada tahun 2004 dan statusnya bukan shipped
+
+4. Tampilkan nama produk, stok, harga pembelian (buyprice) pada tabel produk untuk produk dengan stok diatas 5000 dan harga pembelian antara 60 - 90
+
+5. Tampilkan nama produk, harga produk dan kode produk untuk produk dengan harga pembelian 50-80 untuk barang yang memiliki nama ford
+
+6. Tampilkan data order yang terjadi pada Bulan Januari tahun 2003 dan barangnya dikirim pada bulan Februari 2003
+
+7. Tampilkan customername, state, country, creditlimit untuk customer yang limitkreditnya diatas 100000 tetapi tidak dari USA
+
+8. Tampilkan 10 data orders berupa ordernumber, orderdate dan status untuk tanggal order yang terjadi diluar tahun 2003 dan statusnya bukan shipped. Urutkan berdasarkan tgl order.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

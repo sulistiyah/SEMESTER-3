@@ -1,0 +1,611 @@
+08 Desember 2021
+
+CONTROL FLOW FUNCTION
+	1.IF
+	2.CASE
+	3.IFNULL
+	4.NULLIF
+
+IFNULL(statement1,staement2)
+
+statement =>> field/nilai/ekspresi
+	      yang diuji adalah satatement1(apakah nilai NULL atau tidak)
+statement1 NULL ==>>ditampilkan statement2
+statement1 tidak NULL ==>> ditampilkan statemet1
+
+CONTOH:
+Tampilkan 10 data customer yang terdiri dari namalengkap(gabungan 
+contactFirstname dan contactLastname), alamat (diambil dari addressline2, jika 
+tidak ada baru addressline1). alamat tampilkan berupa gabungan alamat dan kota.
+
+SELECT CONCAT(contactFirstName,' ',contactLastName) AS 'Name',
+    -> CONCAT(IFNULL(addressline2,addressline1),',',city) AS 'Address'
+    -> FROM customers
+    -> LIMIT 10;
++--------------------------+-----------------------------------------+
+| Name                     | Address                                 |
++--------------------------+-----------------------------------------+
+| Carine  Schmitt          | 54, rue Royale,Nantes                   |
+| Jean King                | 8489 Strong St.,Las Vegas               |
+| Peter Ferguson           | Level 3,Melbourne                       |
+| Janine  Labrune          | 67, rue des Cinquante Otages,Nantes     |
+| Jonas  Bergulfsen        | Erling Skakkes gate 78,Stavern          |
+| Susan Nelson             | 5677 Strong St.,San Rafael              |
+| Zbyszek  Piestrzeniewicz | ul. Filtrowa 68,Warszawa                |
+| Roland Keitel            | Lyonerstr. 34,Frankfurt                 |
+| Julie Murphy             | 5557 North Pendale Street,San Francisco |
+| Kwai Lee                 | 897 Long Airport Avenue,NYC             |
++--------------------------+-----------------------------------------+
+10 rows in set (0.034 sec)
+
+
+================================================================================
+
+4.NULLIF
+==>>NULLIF merupakan fungsi control yang juga menerima 2 statement
+	
+	NULLIF(statement1, statement2)
+
+-untuk fungsi NULLIF yang diuji adalah kedua statement
+-jika statement1 nilainya sama dengan statement2, maka akan ditampilkan nilai NULL
+-jika terdapat perbedaan antara kedua statement, maka akan dikembalikan nilai statement1
+
+
+PERCOBAAN:
+	SELECT NULLIF(1,1)
+	SELECT NULLIF(1,0)
+	SELECT NULLIF(0,1)
+	SELECT NULLIF('TI','TI')
+	
+ SELECT NULLIF(1,1);
++-------------+
+| NULLIF(1,1) |
++-------------+
+|        NULL |
++-------------+
+
+
+
+ SELECT NULLIF(1,0);
++-------------+
+| NULLIF(1,0) |
++-------------+
+|           1 |
++-------------+
+
+
+
+SELECT NULLIF(0,1);
++-------------+
+| NULLIF(0,1) |
++-------------+
+|           0 |
++-------------+
+
+
+ SELECT NULLIF('TI','TI');
++-------------------+
+| NULLIF('TI','TI') |
++-------------------+
+| NULL              |
++-------------------+
+
+
+
+
+
+CONTOH:
+
+di dbjual tambahkan data
+ kdlgn=P030	almlgn=Padang	kota=Padang
+
+ insert into tpelanggan value (kdlgn, almlgn, kota)
+    -> ('P030','Padang','Padang');
+
+Cobakan query ini :
+SELECT nmlgn, almlgn, kota, NULLIF(almlgn,kota) AS 'Keterangan'
+FROM tpelanggan;
+.......................
+SELECT nmlgn, almlgn, kota, NULLIF(almlgn,kota) AS 'Keterangan'
+    -> FROM tpelanggan;
++--------------+-----------------+----------------+-----------------+
+| nmlgn        | almlgn          | kota           | Keterangan      |
++--------------+-----------------+----------------+-----------------+
+| Galaxy Media | Birugo          | Bukittinggi    | Birugo          |
+| Gamatechno   | Anduring        | Padang         | Anduring        |
+| Citra Mozaic | Jl. Veteran     | Padang Panjang | Jl. Veteran     |
+| JJ ENT       | Khatib Sulaiman | Padang         | Khatib Sulaiman |
+| Green Media  | Jambu Air       | Bukittinggi    | Jambu Air       |
+| Tk. Intan    | Jl.S.Hatta      | Bukittinggi    | Jl.S.Hatta      |
+| Onexindo     | Pauh            | Padang         | Pauh            |
+| Rudi         | NULL            | Solok          | NULL            |
+| Citra        | NULL            | Padang         | NULL            |
+| Anwar        | NULL            | NULL           | NULL            |
+| Raffi        | NULL            | NULL           | NULL            |
+| Citra        | NULL            | Padang         | NULL            |
+| NULL         | Padang          | Padang         | NULL            |
++--------------+-----------------+----------------+-----------------+
+13 rows in set (0.001 sec)
+
+
+Penggabungan IFNULL  dengan NULLIF
+CONTOH:
+Tampilkan kdlgn,nmlgn,almlgn,kota, dan keterangan, dimana jika nama nilainya kosong beritahu untuk mengisi nama dan beritahu jika alamat dan kota nilainya sama.
+
+SELECT kdlgn, IFNULL(nmlgn,'Nama Masih Kosong') AS 'Nama', almlgn, kota,
+IFNULL(NULLIF(almlgn,kota),'Alamat sama dengan Kota') AS 'Keterangan'
+FROM tpelanggan;
+
++-------+-------------------+-----------------+----------------+-------------------------+
+| kdlgn | Nama              | almlgn          | kota           | Keterangan              |
++-------+-------------------+-----------------+----------------+-------------------------+
+| P001  | Galaxy Media      | Birugo          | Bukittinggi    | Birugo                  |
+| P002  | Gamatechno        | Anduring        | Padang         | Anduring                |
+| P003  | Citra Mozaic      | Jl. Veteran     | Padang Panjang | Jl. Veteran             |
+| P004  | JJ ENT            | Khatib Sulaiman | Padang         | Khatib Sulaiman         |
+| P005  | Green Media       | Jambu Air       | Bukittinggi    | Jambu Air               |
+| P006  | Tk. Intan         | Jl.S.Hatta      | Bukittinggi    | Jl.S.Hatta              |
+| P007  | Onexindo          | Pauh            | Padang         | Pauh                    |
+| P010  | Rudi              | NULL            | Solok          | Alamat sama dengan Kota |
+| P015  | Citra             | NULL            | Padang         | Alamat sama dengan Kota |
+| P020  | Anwar             | NULL            | NULL           | Alamat sama dengan Kota |
+| P021  | Raffi             | NULL            | NULL           | Alamat sama dengan Kota |
+| P022  | Citra             | NULL            | Padang         | Alamat sama dengan Kota |
+| P030  | Nama Masih Kosong | Padang          | Padang         | Alamat sama dengan Kota |
++-------+-------------------+-----------------+----------------+-------------------------+
+13 rows in set (0.001 sec)
+
+=====================================================================================
+
+JOIN TABEL
+cara untuk menghubungkan tabel
+
+1.INNER JOIN
+	 
+	Struktur 1:
+	SELECT tabel1.filed1,tabel2.field2,.......
+	FROM tabel1,tabel2
+	WHERE tabel1.fieldRealasi=tabel2.fieldRelasi;
+
+
+CONTOH:
+Tampilkan tgl,namabarang,jumlah,harga dan total(jml*hrg)
+	tgl,jml,hrg >>ttrans
+	nmbrg>>tbrg
+ttrans dengan tbrg terhubung dengan kdbrg
+
+CARA1:
+	SELECT ttrans.tgl,tbrg.nmbrg,ttrans.jml,ttrans.hrg,
+	ttrans.hrg*ttrans.jml AS "Total"
+	FROM ttrans,tbrg
+	WHERE ttrans.kdbrg=tbrg.kdbrg;
+
++------------+-----------------------+------+--------+----------+
+| tgl        | nmbrg                 | jml  | hrg    | Total    |
++------------+-----------------------+------+--------+----------+
+| 2008-09-01 | Komputer Pentium 4    |    5 | 750000 |  3750000 |
+| 2008-09-02 | Komputer Pentium 4    |   20 | 750000 | 15000000 |
+| 2008-10-01 | Komputer Pentium 4    |   10 | 750000 |  7500000 |
+| 2008-10-10 | Komputer Pentium 4    |    5 | 175000 |   875000 |
+| 2007-01-10 | Komputer Pentium 4    |    5 | 750000 |  3750000 |
+| 2006-02-06 | Komputer Pentium 4    |   12 | 750000 |  9000000 |
+| 2005-03-01 | Komputer Pentium 4    |   10 | 750000 |  7500000 |
+| 2006-05-31 | Komputer Pentium 4    |   40 | 750000 | 30000000 |
+| 2008-09-01 | Notebook ASUS 12 Inch |    5 | 175000 |   875000 |
+| 2008-09-01 | Notebook ASUS 12 Inch |    5 | 175000 |   875000 |
+| 2008-09-01 | Notebook ASUS 12 Inch |   15 | 175000 |  2625000 |
+| 2008-09-02 | Notebook ASUS 12 Inch |   20 | 175000 |  3500000 |
+| 2008-09-03 | Notebook ASUS 12 Inch |   30 | 225000 |  6750000 |
+| 2007-01-10 | Notebook ASUS 12 Inch |    1 | 175000 |   175000 |
+| 2008-09-01 | Disket                |   20 |  25000 |   500000 |
+| 2007-01-10 | Disket                |    3 |  25000 |    75000 |
+| 2008-09-02 | Hardisk Ext WD 500GB  |   10 | 220000 |  2200000 |
+| 2005-03-01 | Hardisk Ext WD 500GB  |   15 | 220000 |  3300000 |
+| 2008-09-01 | Flasdisk Kingston 8GB |   10 |  50000 |   500000 |
+| 2008-09-03 | Flasdisk Kingston 8GB |   30 |  50000 |  1500000 |
++------------+-----------------------+------+--------+----------+
+20 rows in set (0.006 sec)
+>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+CARA 2:(lebih Sederhana):
+	SELECT tgl,nmbrg,jml,hrg,hrg*jml AS "Total"
+	FROM ttrans,tbrg
+	WHERE ttrans.kdbrg=tbrg.kdbrg;
+
++------------+-----------------------+------+--------+----------+
+| tgl        | nmbrg                 | jml  | hrg    | Total    |
++------------+-----------------------+------+--------+----------+
+| 2008-09-01 | Komputer Pentium 4    |    5 | 750000 |  3750000 |
+| 2008-09-02 | Komputer Pentium 4    |   20 | 750000 | 15000000 |
+| 2008-10-01 | Komputer Pentium 4    |   10 | 750000 |  7500000 |
+| 2008-10-10 | Komputer Pentium 4    |    5 | 175000 |   875000 |
+| 2007-01-10 | Komputer Pentium 4    |    5 | 750000 |  3750000 |
+| 2006-02-06 | Komputer Pentium 4    |   12 | 750000 |  9000000 |
+| 2005-03-01 | Komputer Pentium 4    |   10 | 750000 |  7500000 |
+| 2006-05-31 | Komputer Pentium 4    |   40 | 750000 | 30000000 |
+| 2008-09-01 | Notebook ASUS 12 Inch |    5 | 175000 |   875000 |
+| 2008-09-01 | Notebook ASUS 12 Inch |    5 | 175000 |   875000 |
+| 2008-09-01 | Notebook ASUS 12 Inch |   15 | 175000 |  2625000 |
+| 2008-09-02 | Notebook ASUS 12 Inch |   20 | 175000 |  3500000 |
+| 2008-09-03 | Notebook ASUS 12 Inch |   30 | 225000 |  6750000 |
+| 2007-01-10 | Notebook ASUS 12 Inch |    1 | 175000 |   175000 |
+| 2008-09-01 | Disket                |   20 |  25000 |   500000 |
+| 2007-01-10 | Disket                |    3 |  25000 |    75000 |
+| 2008-09-02 | Hardisk Ext WD 500GB  |   10 | 220000 |  2200000 |
+| 2005-03-01 | Hardisk Ext WD 500GB  |   15 | 220000 |  3300000 |
+| 2008-09-01 | Flasdisk Kingston 8GB |   10 |  50000 |   500000 |
+| 2008-09-03 | Flasdisk Kingston 8GB |   30 |  50000 |  1500000 |
++------------+-----------------------+------+--------+----------+
+20 rows in set (0.001 sec)
+
+
+Tampilkan tgl,kdbrg,kdlgn,jumlah,harga
+	tgl,jml,hrg >>ttrans
+	nmbrg>>tbrg
+ttrans dengan tbrg terhubung dengan kdbrg
+
+	SELECT tgl,tbrg.kdbrg,nmbrg,kdlgn,jml,hrg
+	FROM ttrans,tbrg
+	WHERE ttrans.kdbrg=tbrg.kdbrg;
+
+SELECT tgl,tbrg.kdbrg,nmbrg,kdlgn,jml,hrg
+    -> FROM ttrans,tbrg
+    -> WHERE ttrans.kdbrg=tbrg.kdbrg;
++------------+-------+-----------------------+-------+------+--------+
+| tgl        | kdbrg | nmbrg                 | kdlgn | jml  | hrg    |
++------------+-------+-----------------------+-------+------+--------+
+| 2008-09-01 | B001  | Komputer Pentium 4    | P001  |    5 | 750000 |
+| 2008-09-02 | B001  | Komputer Pentium 4    | P002  |   20 | 750000 |
+| 2008-10-01 | B001  | Komputer Pentium 4    | P003  |   10 | 750000 |
+| 2008-10-10 | B001  | Komputer Pentium 4    | P002  |    5 | 175000 |
+| 2007-01-10 | B001  | Komputer Pentium 4    | P003  |    5 | 750000 |
+| 2006-02-06 | B001  | Komputer Pentium 4    | P004  |   12 | 750000 |
+| 2005-03-01 | B001  | Komputer Pentium 4    | P002  |   10 | 750000 |
+| 2006-05-31 | B001  | Komputer Pentium 4    | P001  |   40 | 750000 |
+| 2008-09-01 | B002  | Notebook ASUS 12 Inch | P001  |    5 | 175000 |
+| 2008-09-01 | B002  | Notebook ASUS 12 Inch | P001  |    5 | 175000 |
+| 2008-09-01 | B002  | Notebook ASUS 12 Inch | P002  |   15 | 175000 |
+| 2008-09-02 | B002  | Notebook ASUS 12 Inch | P002  |   20 | 175000 |
+| 2008-09-03 | B002  | Notebook ASUS 12 Inch | P003  |   30 | 225000 |
+| 2007-01-10 | B002  | Notebook ASUS 12 Inch | P003  |    1 | 175000 |
+| 2008-09-01 | B003  | Disket                | P001  |   20 |  25000 |
+| 2007-01-10 | B003  | Disket                | P003  |    3 |  25000 |
+| 2008-09-02 | B004  | Hardisk Ext WD 500GB  | P003  |   10 | 220000 |
+| 2005-03-01 | B004  | Hardisk Ext WD 500GB  | P002  |   15 | 220000 |
+| 2008-09-01 | B005  | Flasdisk Kingston 8GB | P002  |   10 |  50000 |
+| 2008-09-03 | B005  | Flasdisk Kingston 8GB | P003  |   30 |  50000 |
++------------+-------+-----------------------+-------+------+--------+
+20 rows in set (0.001 sec)
+
+Bagaimana kalau proses JOIN lebih dari 2 tabel?
+CONTOH 2:
+  Tampilkan tgl,namapelanggan,namabarang,jml,harga,total. hanya 5 data total tertinggi.
+	tgl,jml,hrg=>ttrans
+	nmlgn=>tpelanggan
+	nmbrg=>tbrg
+
+SELECT tgl,nmlgn,nmbrg,jml,hrg, jml*hrg AS 'Total'
+FROM tbrg,ttrans,tpelanggan
+WHERE tbrg.kdbrg = ttrans.kdbrg AND ttrans.kdlgn = tpelanggan.kdlgn
+ORDER BY Total DESC
+LIMIT 5;
++------------+--------------+--------------------+------+--------+----------+
+| tgl        | nmlgn        | nmbrg              | jml  | hrg    | Total    |
++------------+--------------+--------------------+------+--------+----------+
+| 2006-05-31 | Galaxy Media | Komputer Pentium 4 |   40 | 750000 | 30000000 |
+| 2008-09-02 | Gamatechno   | Komputer Pentium 4 |   20 | 750000 | 15000000 |
+| 2006-02-06 | JJ ENT       | Komputer Pentium 4 |   12 | 750000 |  9000000 |
+| 2005-03-01 | Gamatechno   | Komputer Pentium 4 |   10 | 750000 |  7500000 |
+| 2008-10-01 | Citra Mozaic | Komputer Pentium 4 |   10 | 750000 |  7500000 |
++------------+--------------+--------------------+------+--------+----------+
+5 rows in set (0.001 sec)
+
+
+Tampilkan NamaBarang dan Namapelanggan
+
+SELECT nmbrg AS 'Nama Barang', nmlgn AS 'Nama Pelanggan'
+FROM tbrg,ttrans,tpelanggan
+WHERE tbrg.kdbrg = ttrans.kdbrg AND ttrans.kdlgn = tpelanggan.kdlgn;
++-----------------------+----------------+
+| Nama Barang           | Nama Pelanggan |
++-----------------------+----------------+
+| Komputer Pentium 4    | Galaxy Media   |
+| Komputer Pentium 4    | Gamatechno     |
+| Komputer Pentium 4    | Citra Mozaic   |
+| Komputer Pentium 4    | Gamatechno     |
+| Komputer Pentium 4    | Citra Mozaic   |
+| Komputer Pentium 4    | JJ ENT         |
+| Komputer Pentium 4    | Gamatechno     |
+| Komputer Pentium 4    | Galaxy Media   |
+| Notebook ASUS 12 Inch | Galaxy Media   |
+| Notebook ASUS 12 Inch | Galaxy Media   |
+| Notebook ASUS 12 Inch | Gamatechno     |
+| Notebook ASUS 12 Inch | Gamatechno     |
+| Notebook ASUS 12 Inch | Citra Mozaic   |
+| Notebook ASUS 12 Inch | Citra Mozaic   |
+| Disket                | Galaxy Media   |
+| Disket                | Citra Mozaic   |
+| Hardisk Ext WD 500GB  | Citra Mozaic   |
+| Hardisk Ext WD 500GB  | Gamatechno     |
+| Flasdisk Kingston 8GB | Gamatechno     |
+| Flasdisk Kingston 8GB | Citra Mozaic   |
++-----------------------+----------------+
+20 rows in set (0.001 sec)
+
+=============================================================================
+
+STRUKTUR 2:
+	SELECT field1,field2
+	FROM tabel1 INNER JOIN tabel2
+	ON tabel1.fieldRelasi = tabel2.fielrelasi
+
+CONTOH
+Tampilkan tgl,namabarang,jumlah,harga dan total(jml*hrg)
+
+	SELECT tgl, nmbrg, jml, hrg, jml*hrg AS 'Total'
+	FROM tbrg INNER JOIN ttrans
+	ON tbrg.kdbrg = ttrans.kdbrg;
+
+SELECT tgl, nmbrg, jml, hrg, jml*hrg AS 'Total'
+    -> FROM tbrg INNER JOIN ttrans
+    -> ON tbrg.kdbrg = ttrans.kdbrg;
++------------+-----------------------+------+--------+----------+
+| tgl        | nmbrg                 | jml  | hrg    | Total    |
++------------+-----------------------+------+--------+----------+
+| 2008-09-01 | Komputer Pentium 4    |    5 | 750000 |  3750000 |
+| 2008-09-02 | Komputer Pentium 4    |   20 | 750000 | 15000000 |
+| 2008-10-01 | Komputer Pentium 4    |   10 | 750000 |  7500000 |
+| 2008-10-10 | Komputer Pentium 4    |    5 | 175000 |   875000 |
+| 2007-01-10 | Komputer Pentium 4    |    5 | 750000 |  3750000 |
+| 2006-02-06 | Komputer Pentium 4    |   12 | 750000 |  9000000 |
+| 2005-03-01 | Komputer Pentium 4    |   10 | 750000 |  7500000 |
+| 2006-05-31 | Komputer Pentium 4    |   40 | 750000 | 30000000 |
+| 2008-09-01 | Notebook ASUS 12 Inch |    5 | 175000 |   875000 |
+| 2008-09-01 | Notebook ASUS 12 Inch |    5 | 175000 |   875000 |
+| 2008-09-01 | Notebook ASUS 12 Inch |   15 | 175000 |  2625000 |
+| 2008-09-02 | Notebook ASUS 12 Inch |   20 | 175000 |  3500000 |
+| 2008-09-03 | Notebook ASUS 12 Inch |   30 | 225000 |  6750000 |
+| 2007-01-10 | Notebook ASUS 12 Inch |    1 | 175000 |   175000 |
+| 2008-09-01 | Disket                |   20 |  25000 |   500000 |
+| 2007-01-10 | Disket                |    3 |  25000 |    75000 |
+| 2008-09-02 | Hardisk Ext WD 500GB  |   10 | 220000 |  2200000 |
+| 2005-03-01 | Hardisk Ext WD 500GB  |   15 | 220000 |  3300000 |
+| 2008-09-01 | Flasdisk Kingston 8GB |   10 |  50000 |   500000 |
+| 2008-09-03 | Flasdisk Kingston 8GB |   30 |  50000 |  1500000 |
++------------+-----------------------+------+--------+----------+
+20 rows in set (0.001 sec)
+
+
+CONTOH 2:
+Tampilkan tgl,namapelanggan,namabarang,jml,harga,total. hanya 5 data total tertinggi untuk pelanggan selain kode P001
+
+CARA1:
+	
+SELECT tgl,nmlgn,nmbrg,jml,hrg, jml*hrg AS 'Total'
+FROM tbrg JOIN ttrans JOIN tpelanggan
+ON tbrg.kdbrg = ttrans.kdbrg AND ttrans.kdlgn = tpelanggan.kdlgn
+WHERE tpelanggan.kdlgn <> 'P001'
+ORDER BY Total DESC
+LIMIT 5;
+
+CARA 2:
+	
+SELECT tgl,nmlgn,nmbrg,jml,hrg, jml*hrg AS 'Total'
+FROM tbrg JOIN ttrans ON tbrg.kdbrg = ttrans.kdbrg
+JOIN tpelanggan ON ttrans.kdlgn = tpelanggan.kdlgn
+WHERE tpelanggan.kdlgn <> 'P001'
+ORDER BY Total DESC
+LIMIT 5;
+
+CARA1:
+
+ SELECT tgl,nmlgn,nmbrg,jml,hrg, jml*hrg AS 'Total'
+    -> FROM tbrg JOIN ttrans JOIN tpelanggan
+    -> ON tbrg.kdbrg = ttrans.kdbrg AND ttrans.kdlgn = tpelanggan.kdlgn
+    -> WHERE tpelanggan.kdlgn <> 'P001'
+    -> ORDER BY Total DESC
+    -> LIMIT 5;
++------------+--------------+-----------------------+------+--------+----------+
+| tgl        | nmlgn        | nmbrg                 | jml  | hrg    | Total    |
++------------+--------------+-----------------------+------+--------+----------+
+| 2008-09-02 | Gamatechno   | Komputer Pentium 4    |   20 | 750000 | 15000000 |
+| 2006-02-06 | JJ ENT       | Komputer Pentium 4    |   12 | 750000 |  9000000 |
+| 2008-10-01 | Citra Mozaic | Komputer Pentium 4    |   10 | 750000 |  7500000 |
+| 2005-03-01 | Gamatechno   | Komputer Pentium 4    |   10 | 750000 |  7500000 |
+| 2008-09-03 | Citra Mozaic | Notebook ASUS 12 Inch |   30 | 225000 |  6750000 |
++------------+--------------+-----------------------+------+--------+----------+
+5 rows in set (0.001 sec)
+
+
+CARA 2:
+SELECT tgl,nmlgn,nmbrg,jml,hrg, jml*hrg AS 'Total'
+    -> FROM tbrg JOIN ttrans ON tbrg.kdbrg = ttrans.kdbrg
+    -> JOIN tpelanggan ON ttrans.kdlgn = tpelanggan.kdlgn
+    -> WHERE tpelanggan.kdlgn <> 'P001'
+    -> ORDER BY Total DESC
+    -> LIMIT 5;
++------------+--------------+-----------------------+------+--------+----------+
+| tgl        | nmlgn        | nmbrg                 | jml  | hrg    | Total    |
++------------+--------------+-----------------------+------+--------+----------+
+| 2008-09-02 | Gamatechno   | Komputer Pentium 4    |   20 | 750000 | 15000000 |
+| 2006-02-06 | JJ ENT       | Komputer Pentium 4    |   12 | 750000 |  9000000 |
+| 2008-10-01 | Citra Mozaic | Komputer Pentium 4    |   10 | 750000 |  7500000 |
+| 2005-03-01 | Gamatechno   | Komputer Pentium 4    |   10 | 750000 |  7500000 |
+| 2008-09-03 | Citra Mozaic | Notebook ASUS 12 Inch |   30 | 225000 |  6750000 |
++------------+--------------+-----------------------+------+--------+----------+
+5 rows in set (0.001 sec)
+
+============================================================================
+
+
+
+SOAL DBPENJUALAN:
+1.Tampilkan kode barang, nama barang, satuan, jumlah dan harga barang utuk barang yang memiliki satuan unit.
+
+	Struktur 1:
+
+SELECT tbrg.kdbrg, nmbrg, satuan, jml, hrg
+FROM tbrg,ttrans
+WHERE tbrg.kdbrg = ttrans.kdbrg AND satuan = 'Unit';
++-------+-----------------------+--------+------+--------+
+| kdbrg | nmbrg                 | satuan | jml  | hrg    |
++-------+-----------------------+--------+------+--------+
+| B001  | Komputer Pentium 4    | Unit   |    5 | 750000 |
+| B001  | Komputer Pentium 4    | Unit   |   20 | 750000 |
+| B001  | Komputer Pentium 4    | Unit   |   10 | 750000 |
+| B001  | Komputer Pentium 4    | Unit   |    5 | 175000 |
+| B001  | Komputer Pentium 4    | Unit   |    5 | 750000 |
+| B001  | Komputer Pentium 4    | Unit   |   12 | 750000 |
+| B001  | Komputer Pentium 4    | Unit   |   10 | 750000 |
+| B001  | Komputer Pentium 4    | Unit   |   40 | 750000 |
+| B002  | Notebook ASUS 12 Inch | Unit   |    5 | 175000 |
+| B002  | Notebook ASUS 12 Inch | Unit   |    5 | 175000 |
+| B002  | Notebook ASUS 12 Inch | Unit   |   15 | 175000 |
+| B002  | Notebook ASUS 12 Inch | Unit   |   20 | 175000 |
+| B002  | Notebook ASUS 12 Inch | Unit   |   30 | 225000 |
+| B002  | Notebook ASUS 12 Inch | Unit   |    1 | 175000 |
++-------+-----------------------+--------+------+--------+
+14 rows in set (0.001 sec)
+
+	Struktur 2:
+
+SELECT tbrg.kdbrg, nmbrg, satuan, jml, hrg
+FROM tbrg JOIN ttrans ON tbrg.kdbrg = ttrans.kdbrg
+WHERE satuan ='Unit';
++-------+-----------------------+--------+------+--------+
+| kdbrg | nmbrg                 | satuan | jml  | hrg    |
++-------+-----------------------+--------+------+--------+
+| B001  | Komputer Pentium 4    | Unit   |    5 | 750000 |
+| B001  | Komputer Pentium 4    | Unit   |   20 | 750000 |
+| B001  | Komputer Pentium 4    | Unit   |   10 | 750000 |
+| B001  | Komputer Pentium 4    | Unit   |    5 | 175000 |
+| B001  | Komputer Pentium 4    | Unit   |    5 | 750000 |
+| B001  | Komputer Pentium 4    | Unit   |   12 | 750000 |
+| B001  | Komputer Pentium 4    | Unit   |   10 | 750000 |
+| B001  | Komputer Pentium 4    | Unit   |   40 | 750000 |
+| B002  | Notebook ASUS 12 Inch | Unit   |    5 | 175000 |
+| B002  | Notebook ASUS 12 Inch | Unit   |    5 | 175000 |
+| B002  | Notebook ASUS 12 Inch | Unit   |   15 | 175000 |
+| B002  | Notebook ASUS 12 Inch | Unit   |   20 | 175000 |
+| B002  | Notebook ASUS 12 Inch | Unit   |   30 | 225000 |
+| B002  | Notebook ASUS 12 Inch | Unit   |    1 | 175000 |
++-------+-----------------------+--------+------+--------+
+14 rows in set (0.001 sec)
+
+2.Tampilkan nama pelanggan, alamat, jumlah, dan harga barang untuk barang yang dibeli pada tahun 2007.
+
+SELECT nmlgn, almlgn, ttrans.tgl, ttrans.jml, hrg
+FROM ttrans JOIN tpelanggan ON ttrans.kdlgn = tpelanggan.kdlgn
+WHERE tgl BETWEEN 20070101 AND 20071231;
++--------------+-------------+------------+------+--------+
+| nmlgn        | almlgn      | tgl        | jml  | hrg    |
++--------------+-------------+------------+------+--------+
+| Citra Mozaic | Jl. Veteran | 2007-01-10 |    5 | 750000 |
+| Citra Mozaic | Jl. Veteran | 2007-01-10 |    1 | 175000 |
+| Citra Mozaic | Jl. Veteran | 2007-01-10 |    3 |  25000 |
++--------------+-------------+------------+------+--------+
+3 rows in set (0.001 sec)
+
+3.Tampilkan nama barang yang dibeli oleh pelanggan yang bernama gamatecno
+
+SELECT nmbrg, nmlgn
+FROM tbrg JOIN ttrans ON tbrg.kdbrg = ttrans.kdbrg 
+JOIN tpelanggan ON ttrans.kdlgn = tpelanggan.kdlgn
+WHERE tpelanggan.nmlgn ='Gamatechno';
+
++-----------------------+------------+
+| nmbrg                 | nmlgn      |
++-----------------------+------------+
+| Komputer Pentium 4    | Gamatechno |
+| Komputer Pentium 4    | Gamatechno |
+| Komputer Pentium 4    | Gamatechno |
+| Notebook ASUS 12 Inch | Gamatechno |
+| Notebook ASUS 12 Inch | Gamatechno |
+| Hardisk Ext WD 500GB  | Gamatechno |
+| Flasdisk Kingston 8GB | Gamatechno |
++-----------------------+------------+
+7 rows in set (0.002 sec)
+
+ SELECT DISTINCT nmbrg, nmlgn
+    -> FROM tbrg JOIN ttrans ON tbrg.kdbrg = ttrans.kdbrg
+    -> JOIN tpelanggan ON ttrans.kdlgn = tpelanggan.kdlgn
+    -> WHERE tpelanggan.nmlgn ='Gamatechno';
++-----------------------+------------+
+| nmbrg                 | nmlgn      |
++-----------------------+------------+
+| Komputer Pentium 4    | Gamatechno |
+| Notebook ASUS 12 Inch | Gamatechno |
+| Hardisk Ext WD 500GB  | Gamatechno |
+| Flasdisk Kingston 8GB | Gamatechno |
++-----------------------+------------+
+4 rows in set (0.001 sec)
+
+
+4.Siapa saja pelanggan yang membeli flashdisk ditahun 2008?
+
+
+
+SOAL DBPERKULIAHAN:
+1.Tampilkan nama mahasiswa, nilai matakuliah
+
+2.Tampilkan siapa saja mahasiswa yang mengambil mata kuliah basis data 
+
+3.Tampilkan nama mahasiswa, mata_kuliah, nama dosen.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

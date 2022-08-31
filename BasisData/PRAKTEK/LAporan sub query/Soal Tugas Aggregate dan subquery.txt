@@ -1,0 +1,38 @@
+SOAL AGGREGATE
+1. tampilkan berapa omset setiap tahun. Omset adalah jumlah total penjualan.
+
+2. Jika barang yang dibeli jumlah totalnya lebih dari 50 maka akan mendapatkan diskon penjualan sebesar 10% dari total harga. Jika dibawahnya tidak mendapatkan diskon.
+tampilkan tgl, jumlah total barang dan besarnya diskon, kelompokkan berdasarkan tanggal transaksi
+
+3. Pelanggan yang membeli barang dengan jumlah total lebih dari 30 pcs akan mendapatkan hadiah panci, jika dibawah itu mendapatkan hadiah sandal jepit. Tampilkan kdlgn, jumlah barang yang dibeli dan hadiah apa yang didapatkan pelanggan tersebut.
+
+DBPERKULIAHAN
+4. Jika :
+Nilai A = 85
+      B = 75
+      C = 65
+      D = 55
+      E = 45
+
+Maka hitunglah rata rata nilai yang didapatkan oleh masing-masing mahasiswa
+
+5.  Tampilkan IPK yang diperoleh masing2 mahasiswa.. Urutkan dari IPK tertinggi.
+
+6. Jika nonota
+berawalan 
+T --> Tunai
+F --> Bayar Besok
+K --> Kredit,
+
+tampilkan berapa orang pelanggan yang membayar tunai, bayar besok dan kredit ?
+===================================================
+
+SUB QUERY
+
+1. Siapakah nama customer yang melakukan pembayaran pada tahun 2004 dan nilainya diatas pembayaran rata-rata? Tampilkan nama customer, paymentdate dan amount
+
+2. Tampilkan tanggal order, nama customers, nama produk yang dibeli, country dan status untuk produk yang namanya ford dan customers yang tinggal di negara yang sama dengan customernumber 282 dan 496 dan statusnya selain 'shipped'. Urutkan berdasarkan tanggal order terkini.
+
+3.Tampilkan nama lengkap employee, manager untuk employee yang memiliki manager yang sama dengan Mary Patterson(2 rows)
+
+4. Tampilkan nama customer yang membeli product yang sama dengan customer yang bernama Toys, tampilkan 20 data saja secara unik dan terurut berdasarkan nama.
