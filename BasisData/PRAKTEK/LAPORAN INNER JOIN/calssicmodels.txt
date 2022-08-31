@@ -1,0 +1,146 @@
+CLASSICMODELS
+
+no 1
+
+SELECT CONCAT(firstName,' ',lastName) AS 'FullName', employees.jobtitle, country,
+CASE state
+WHEN 'CA' THEN 'California'
+WHEN 'NY' THEN 'New York'
+WHEN 'MA' THEN 'Massachusetts'
+ELSE 'Other'
+END AS 'State'
+FROM employees INNER JOIN offices USING(officeCode)
+WHERE country LIKE '%USA%';
+
+
+
+no 2
+
+SELECT customerName, orderDate, shippedDate,CONCAT(TIMESTAMPDIFF(DAY, orderDate, shippedDate), 'Hari') AS 'Waktu Tunggu'
+FROM customers INNER JOIN orders USING(customerNumber)
+WHERE orderDate BETWEEN '20040101' AND '20040831'
+AND TIMESTAMPDIFF(DAY, orderDate, shippedDate) > 5
+ORDER BY 'Waktu Tunggu' ASC;
+
+
+
+no 3
+
+SELECT UPPER(CONCAT(contactFirstName,' ',contactLastName)) AS 'FullName',
+CONCAT (addressLine1,'STATE',state) AS 'Address', creditLimit, productName
+FROM customers JOIN orders USING(customerNumber)
+JOIN orderDetails USING(orderNumber) JOIN products USING(productCode)
+WHERE state IN ('MA','My','NV','CA','NJ') AND creditLimit BETWEEN '50000' AND '100000'
+AND productName LIKE '%harley%'
+ORDER BY creditLimit DESC;
+
+
+
+
+no 4
+
+SELECT customerName, CONCAT(contactFirstName,' ',contactLastName) AS 'ContactFullName', productName
+FROM customers JOIN orders USING(customerNumber)
+JOIN orderDetails USING(orderNumber) JOIN products USING(productCode)
+WHERE productName LIKE '%harley%';
+
+
+
+
+no 5
+
+SELECT CONCAT(firstName,' ',lastName) AS 'FullName', city,
+IFNULL (state, country) AS state
+FROM employees JOIN offices USING(officeCode);
+
+
+no 6
+
+SELECT CONCAT(firstName,' ',lastName) AS 'EmployeeName', productName, customerName
+FROM employees, customers, orders, orderDetails, products
+WHERE employees.employeeNumber = customers.salesRepEmployeeNumber AND customers.customerNumber = orders.customerNumber AND
+orders.orderNumber = orderDetails.orderNumber AND orderDetails.productCode = products.productCode AND
+firstName LIKE '%Leslie%' AND lastName LIKE '%Thompson%' AND YEAR(shippedDate)='2003';
+
+
+
+
+
+no 7
+
+SELECT customerNumber, checkNumber, date_format(paymentDate, '%d-%m-%Y') AS 'PaymentDate', amount, customerName
+FROM payments JOIN customers USING(customerNumber)
+WHERE customerNumber = '124' AND YEAR(paymentDate) = '2004' AND amount > 50000;
+
+
+
+
+no 8
+
+SELECT priceEach, buyPrice, (priceEach-buyPrice) AS 'Profit',
+(priceEach-buyPrice) * quantityOrdered AS 'Keuntungan',
+status, (priceEach*quantityOrdered) - (buyPrice*quantityOrdered) AS 'Loss'
+FROM orderDetails JOIN products USING(productCode) JOIN orders USING(orderNumber)
+WHERE comments LIKE '%cancel%';
+
+
+
+
+no 9
+
+SELECT UPPER(productName) AS 'ProductName', orderDate, quantityOrdered,
+priceEach, FORMAT(quantityOrdered*priceEach,2) AS 'Total', productLine
+FROM orders JOIN orderDetails USING(orderNumber)
+JOIN products USING(productCode)
+WHERE orderDate BETWEEN '20030101' AND '20030630'
+AND quantityOrdered BETWEEN '50' AND '100'
+AND productLine = 'Classic Cars'
+ORDER BY 'Total' DESC
+LIMIT 10;
+
+
+
+
+no 10
+
+SELECT CONCAT(firstName,' ',lastName) AS 'FullName', customerName,
+IFNULL(addressLine2,addressLine1) AS 'Address', country, creditLimit
+FROM employees, customers
+WHERE employees.employeeNumber = customers.salesRepEmployeeNumber
+AND country = 'USA' AND creditLimit BETWEEN '50000' AND '75000'
+ORDER BY creditLimit DESC
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
